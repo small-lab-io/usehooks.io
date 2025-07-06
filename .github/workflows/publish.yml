@@ -9,24 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
-          
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          
+
       - name: Install dependencies
         run: pnpm install
-        
+
       - name: Build CLI
         run: pnpm build --filter=usehooks-cli
-        
+
       - name: Publish to npm
         run: |
           cd packages/usehooks-cli
