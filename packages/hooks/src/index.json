@@ -1,0 +1,34 @@
+[
+  {
+    "name": "use-counter",
+    "description": "A hook for managing counter state with increment, decrement, and reset",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "use-counter.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-local-storage",
+    "description": "A hook for managing localStorage with React state",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "use-local-storage.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic localStorage usage"
+      }
+    ]
+  }
+]

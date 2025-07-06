@@ -112,6 +112,9 @@ importers:
       '@types/react':
         specifier: ^19.1.8
         version: 19.1.8
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.3.0
       typescript:
         specifier: ^5.7.3
         version: 5.8.3
