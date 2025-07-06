@@ -29,16 +29,11 @@ export interface Hook extends HookMeta {
   }[];
 }
 
-// Path to the hooks package
-const HOOKS_PACKAGE_PATH = path.resolve(__dirname, "../../../hooks/src");
-
-// Remote registry URL (you can host this on GitHub, your website, etc.)
 const HOOKS_REGISTRY_URL =
-  "https://github.com/small-lab-io/usehooks.io/tree/main/packages/hooks/src";
+  "https://raw.githubusercontent.com/small-lab-io/usehooks.io/main/packages/hooks/src";
 
 export async function getHook(name: string): Promise<Hook | null> {
   try {
-    // Fetch metadata from remote
     const metaUrl = `${HOOKS_REGISTRY_URL}/${name}/meta.json`;
     const metaResponse = await fetch(metaUrl);
 
