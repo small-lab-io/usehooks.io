@@ -23,6 +23,12 @@ npx usehooks-cli@latest init
 After initializing your project with `npx usehooks-cli@latest init`, you can start adding hooks to your components:
 
 ```bash
+npx usehooks-cli@latest add [component]
+```
+
+### Example
+
+```bash
 npx usehooks-cli@latest add use-counter
 ```
 
@@ -36,4 +42,6 @@ usehooks CLI comes with a curated collection of production-ready hooks. To view 
 npx usehooks-cli@latest list
 ```
 
-## Contributing
+## License
+
+usehooks CLI is open-source software licensed under the MIT License.
