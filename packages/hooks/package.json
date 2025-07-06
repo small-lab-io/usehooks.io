@@ -1,0 +1,21 @@
+{
+  "name": "@workspace/hooks",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./use-local-storage": "./src/use-local-storage/index.ts",
+    "./use-counter": "./src/use-counter/index.ts",
+    "./use-toggle": "./src/use-toggle/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --max-warnings 0"
+  },
+  "dependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "typescript": "^5.7.3"
+  }
+}

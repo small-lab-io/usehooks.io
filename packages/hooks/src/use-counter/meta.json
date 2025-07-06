@@ -1,0 +1,13 @@
+{
+  "name": "use-counter",
+  "description": "A hook for managing counter state with increment, decrement, and reset",
+  "category": "state",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "use-counter.ts",
+      "type": "hook"
+    }
+  ]
+}
