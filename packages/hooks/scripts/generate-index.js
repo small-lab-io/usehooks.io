@@ -1,4 +1,4 @@
-import fs from 'fs-extra';
+import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -14,13 +14,21 @@ async function generateIndex() {
     const hookPath = path.join(hooksDir, entry);
     const metaPath = path.join(hookPath, 'meta.json');
     
-    if (await fs.pathExists(metaPath)) {
-      const meta = await fs.readJSON(metaPath);
+    try {
+      await fs.access(metaPath);
+      const metaContent = await fs.readFile(metaPath, 'utf8');
+      const meta = JSON.parse(metaContent);
       hooks.push(meta);
+    } catch (error) {
+      // Skip if meta.json doesn't exist
+      continue;
     }
   }
   
-  await fs.writeJSON(path.join(hooksDir, 'index.json'), hooks, { spaces: 2 });
+  await fs.writeFile(
+    path.join(hooksDir, 'index.json'), 
+    JSON.stringify(hooks, null, 2)
+  );
   console.log(`Generated index.json with ${hooks.length} hooks`);
 }
 

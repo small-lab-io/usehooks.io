@@ -76,14 +76,17 @@ export async function addCommand(hooks: string[], options: AddOptions) {
       const hookFiles = hook.files.filter((file) => file.type === "hook");
 
       for (const file of hookFiles) {
-        const filePath = path.join(targetDir, file.name);
+        // Use hook name instead of file.name for the output filename
+        const fileExtension = path.extname(file.name); // Get extension from original file (.ts, .js, etc.)
+        const outputFileName = `${hookName}${fileExtension}`; // e.g., "use-counter.ts"
+        const filePath = path.join(targetDir, outputFileName);
         const fileExists = await fs.pathExists(filePath);
 
         if (fileExists && !options.overwrite && !options.yes) {
           const { overwrite } = await prompts({
             type: "confirm",
             name: "overwrite",
-            message: `File ${file.name} already exists. Overwrite?`,
+            message: `File ${outputFileName} already exists. Overwrite?`,
             initial: false,
           });
 

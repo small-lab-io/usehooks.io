@@ -7,7 +7,7 @@
     "devDependencies": [],
     "files": [
       {
-        "name": "use-counter.ts",
+        "name": "index.ts",
         "type": "hook"
       }
     ]
@@ -20,7 +20,7 @@
     "devDependencies": [],
     "files": [
       {
-        "name": "use-local-storage.ts",
+        "name": "index.ts",
         "type": "hook"
       }
     ],
