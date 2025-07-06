@@ -6,7 +6,7 @@
   "devDependencies": [],
   "files": [
     {
-      "name": "use-counter.ts",
+      "name": "index.ts",
       "type": "hook"
     }
   ]
