@@ -20,7 +20,9 @@ export async function addCommand(hooks: string[], options: AddOptions) {
   const config = await getConfig(cwd);
   if (!config) {
     console.log(
-      chalk.red("Configuration not found. Please run `usehooks init` first.")
+      chalk.red(
+        "Configuration not found. Please run `usehooks-cli init` first."
+      )
     );
     process.exit(1);
   }

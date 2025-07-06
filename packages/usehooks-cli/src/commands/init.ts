@@ -53,6 +53,8 @@ export async function initCommand() {
   );
   console.log(chalk.gray(`Hooks directory created at ${hooksDir}`));
   console.log(
-    chalk.blue("\nYou can now add hooks using: usehooks add [hook-name]")
+    chalk.blue(
+      "\nYou can now add hooks using: npx usehooks-cli@latest add [hook-name]"
+    )
   );
 }

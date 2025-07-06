@@ -9,7 +9,8 @@
     "./use-toggle": "./src/use-toggle/index.ts"
   },
   "scripts": {
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "build:index": "node scripts/generate-index.js"
   },
   "dependencies": {
     "react": "^19.0.0"

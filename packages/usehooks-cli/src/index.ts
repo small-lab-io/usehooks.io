@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { Command } from "commander";
 import { addCommand } from "./commands/add.js";
 import { initCommand } from "./commands/init.js";

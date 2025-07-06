@@ -1,6 +1,6 @@
 {
   "name": "usehooks-cli",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "A CLI for adding React hooks to your project",
   "type": "module",
   "private": false,
@@ -8,10 +8,11 @@
     "access": "public"
   },
   "bin": {
-    "usehooks": "./dist/index.js"
+    "usehooks": "./bin/usehooks.js"
   },
   "files": [
     "dist",
+    "bin",
     "README.md"
   ],
   "keywords": [
