@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GH_PAT }} # Use PAT here too
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -42,5 +43,5 @@ jobs:
         with:
           publish: pnpm release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
