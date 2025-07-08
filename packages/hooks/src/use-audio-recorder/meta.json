@@ -1,0 +1,13 @@
+{
+  "name": "use-audio-recorder",
+  "description": "A comprehensive hook for audio recording with real-time analysis using getUserMedia, MediaRecorder, and Web Audio APIs",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

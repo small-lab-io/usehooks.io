@@ -1,0 +1,19 @@
+{
+  "name": "use-web-share",
+  "description": "A hook for sharing content using the Web Share API to access native sharing mechanisms",
+  "category": "browser",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "type": "example"
+    }
+  ]
+}

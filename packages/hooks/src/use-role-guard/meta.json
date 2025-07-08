@@ -1,0 +1,17 @@
+{
+  "name": "use-role-guard",
+  "description": "A hook for role-based access control that redirects or hides content based on user roles",
+  "category": "auth",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    },
+    {
+      "name": "basic-usage.tsx",
+      "type": "example"
+    }
+  ]
+}

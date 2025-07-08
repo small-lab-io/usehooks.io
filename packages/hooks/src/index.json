@@ -13,6 +13,25 @@
     ]
   },
   {
+    "name": "use-debounce",
+    "description": "A hook for debouncing values to delay updates until after a specified delay period",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "example.tsx",
+        "description": "Basic debounce usage"
+      }
+    ]
+  },
+  {
     "name": "use-local-storage",
     "description": "A hook for managing localStorage with React state",
     "category": "state",
@@ -28,6 +47,184 @@
       {
         "name": "basic-usage.tsx",
         "description": "Basic localStorage usage"
+      }
+    ]
+  },
+  {
+    "name": "use-network-information",
+    "description": "A hook for accessing network connection information and monitoring network changes",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-toggle",
+    "description": "A hook for managing boolean toggle state",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic toggle usage"
+      }
+    ]
+  },
+  {
+    "name": "use-vibration",
+    "description": "A hook for controlling device vibration using the Vibration API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-storage",
+    "description": "A hook for managing browser storage quotas, usage estimation, and persistence using the Storage API",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic storage estimation and persistence management"
+      }
+    ]
+  },
+  {
+    "name": "use-contact-picker",
+    "description": "A hook for accessing the Contact Picker API to select contacts with user permission",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic contact selection with name and email"
+      }
+    ]
+  },
+  {
+    "name": "use-device-orientation",
+    "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic device orientation monitoring"
+      }
+    ]
+  },
+  {
+    "name": "use-web-share",
+    "description": "A hook for sharing content using the Web Share API to access native sharing mechanisms",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "type": "example"
+      }
+    ]
+  },
+  {
+    "name": "use-hover",
+    "description": "A hook for detecting when an element is being hovered with optional callbacks and delay",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic hover detection"
+      }
+    ]
+  },
+  {
+    "name": "use-throttle",
+    "description": "A hook for throttling values to limit updates to at most once per specified delay period",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic throttling usage"
+      }
+    ]
+  },
+  {
+    "name": "use-array",
+    "description": "A hook providing helper methods for working with array state including push, pop, filter, sort, and other common operations",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic array manipulation"
       }
     ]
   }

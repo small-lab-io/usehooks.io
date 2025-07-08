@@ -1,0 +1,13 @@
+{
+  "name": "use-toggle",
+  "description": "A hook for managing toggle state with toggle and reset",
+  "category": "state",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

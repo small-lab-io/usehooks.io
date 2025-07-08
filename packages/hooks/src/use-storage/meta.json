@@ -1,0 +1,19 @@
+{
+  "name": "use-storage",
+  "description": "A hook for managing browser storage quotas, usage estimation, and persistence using the Storage API",
+  "category": "browser",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic storage estimation and persistence management"
+    }
+  ]
+}

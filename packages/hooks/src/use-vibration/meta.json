@@ -1,0 +1,13 @@
+{
+  "name": "use-vibration",
+  "description": "A hook for controlling device vibration using the Vibration API",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

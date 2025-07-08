@@ -1,0 +1,19 @@
+{
+  "name": "use-array",
+  "description": "A hook providing helper methods for working with array state including push, pop, filter, sort, and other common operations",
+  "category": "state",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic array manipulation"
+    }
+  ]
+}

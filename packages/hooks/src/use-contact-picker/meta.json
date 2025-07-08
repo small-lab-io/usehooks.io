@@ -1,0 +1,19 @@
+{
+  "name": "use-contact-picker",
+  "description": "A hook for accessing the Contact Picker API to select contacts with user permission",
+  "category": "browser",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic contact selection with name and email"
+    }
+  ]
+}

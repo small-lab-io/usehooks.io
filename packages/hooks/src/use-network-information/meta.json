@@ -1,0 +1,13 @@
+{
+  "name": "use-network-information",
+  "description": "A hook for accessing network connection information and monitoring network changes",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

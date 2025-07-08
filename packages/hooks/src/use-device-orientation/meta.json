@@ -1,0 +1,19 @@
+{
+  "name": "use-device-orientation",
+  "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic device orientation monitoring"
+    }
+  ]
+}

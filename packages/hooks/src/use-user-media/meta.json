@@ -1,0 +1,13 @@
+{
+  "name": "use-user-media",
+  "description": "A hook for accessing camera and microphone using the getUserMedia API",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

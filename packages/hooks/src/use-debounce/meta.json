@@ -1,0 +1,19 @@
+{
+  "name": "use-debounce",
+  "description": "A hook for debouncing values to delay updates until after a specified delay period",
+  "category": "utility",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "example.tsx",
+      "description": "Basic debounce usage"
+    }
+  ]
+}

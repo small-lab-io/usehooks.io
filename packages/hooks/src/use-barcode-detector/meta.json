@@ -1,0 +1,13 @@
+{
+  "name": "use-barcode-detector",
+  "description": "A hook for detecting barcodes and QR codes in images using the Barcode Detection API",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

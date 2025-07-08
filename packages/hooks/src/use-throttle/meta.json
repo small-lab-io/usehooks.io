@@ -1,0 +1,19 @@
+{
+  "name": "use-throttle",
+  "description": "A hook for throttling values to limit updates to at most once per specified delay period",
+  "category": "utility",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic throttling usage"
+    }
+  ]
+}

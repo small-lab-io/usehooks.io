@@ -1,0 +1,19 @@
+{
+  "name": "use-hover",
+  "description": "A hook for detecting when an element is being hovered with optional callbacks and delay",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic hover detection"
+    }
+  ]
+}
