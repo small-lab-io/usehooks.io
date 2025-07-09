@@ -1,31 +1,39 @@
-# shadcn/ui monorepo template
+# usehooks.io
 
-This template is for creating a monorepo with shadcn/ui.
+A monorepo for creating, managing, and showcasing reusable React hooks. This project combines a collection of high-quality React hooks with tools to easily integrate them into your projects.
 
-## Usage
+## Features
+
+- 📦 **Collection of React Hooks**: A growing library of reusable React hooks
+- 🛠️ **CLI Tool**: Easy installation of hooks into your projects
+- 🧩 **UI Components**: Built with shadcn/ui for consistent design
+- 🚀 **Next.js Website**: Showcase and documentation for all hooks
+- 📝 **TypeScript Support**: Full type safety across the entire project
+
+## Project Structure
+
+This monorepo contains several packages:
+
+- `packages/hooks`: Collection of reusable React and next.js hooks
+- `packages/usehooks-cli`: CLI tool for adding hooks to your projects
+
+## Getting Started
 
 ```bash
-pnpm dlx shadcn@latest init
+# Initialize usehooks in your project
+npx usehooks-cli@latest init
+
+# Add a specific hook
+npx usehooks-cli@latest add use-counter
+
+# List all available hooks
+npx usehooks-cli@latest list
 ```
 
-## Adding components
+## Contributing
 
-To add components to your app, run the following command at the root of your `www` app:
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-```bash
-pnpm dlx shadcn@latest add button -c apps/www
-```
+## License
 
-This will place the ui components in the `packages/ui/src/components` directory.
-
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@workspace/ui/components/button";
-```
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
