@@ -6,9 +6,6 @@ A monorepo for creating, managing, and showcasing reusable React hooks. This pro
 
 - 📦 **Collection of React Hooks**: A growing library of reusable React hooks
 - 🛠️ **CLI Tool**: Easy installation of hooks into your projects
-- 🧩 **UI Components**: Built with shadcn/ui for consistent design
-- 🚀 **Next.js Website**: Showcase and documentation for all hooks
-- 📝 **TypeScript Support**: Full type safety across the entire project
 
 ## Project Structure
 
