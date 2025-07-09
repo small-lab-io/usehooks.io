@@ -227,5 +227,24 @@
         "description": "Basic array manipulation"
       }
     ]
+  },
+  {
+    "name": "use-previous",
+    "description": "A hook that returns the previous value of a state or prop",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic usage of usePrevious hook"
+      }
+    ]
   }
 ]

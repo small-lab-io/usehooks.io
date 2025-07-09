@@ -1,0 +1,13 @@
+{
+  "name": "use-previous",
+  "description": "A hook that returns the previous value of a state or prop",
+  "category": "utility",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}
