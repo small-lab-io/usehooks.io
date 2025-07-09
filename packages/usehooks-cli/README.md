@@ -2,6 +2,8 @@
 
 A command-line interface tool for seamlessly integrating React hooks into your projects. Inspired by shadcn/ui's component workflow, usehooks CLI makes it easy to add and manage hooks in your React applications.
 
+> ⚠️ This package is a work in progress and not ready for use. Use at your own risk.
+
 ## Features
 
 - 🚀 Quick and easy hook installation
