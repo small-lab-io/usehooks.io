@@ -1,4 +1,4 @@
-> ⚠️ This package is a work in progress and not ready for use. Use at your own risk.
+> ⚠️ This package is a work in progress and not ready for use. Use at your own risk ⚠️
 
 # usehooks CLI
 
