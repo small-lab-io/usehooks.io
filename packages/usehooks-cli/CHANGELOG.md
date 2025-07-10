@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 3.0.1
+
+### Patch Changes
+
+- Some ts fixes
+
 ## 3.0.0
 
 ### Major Changes

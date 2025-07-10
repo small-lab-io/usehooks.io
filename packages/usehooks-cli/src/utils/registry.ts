@@ -1,9 +1,7 @@
-import path from "path";
 import fetch from "node-fetch";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export interface HookMeta {
   name: string;

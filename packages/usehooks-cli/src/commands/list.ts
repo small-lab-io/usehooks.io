@@ -14,7 +14,7 @@ export async function listCommand() {
 
   categories.forEach((category) => {
     console.log(chalk.bold.cyan(`${category.toUpperCase()}`));
-    hooksByCategory[category].forEach((hook) => {
+    hooksByCategory[category]?.forEach((hook) => {
       console.log(`${chalk.green("●")} ${chalk.bold(hook.name)}`);
       console.log(`  ${chalk.gray(hook.description)}`);
     });
@@ -22,7 +22,7 @@ export async function listCommand() {
   });
 
   const totalHooks = categories.reduce(
-    (sum, cat) => sum + hooksByCategory[cat].length,
+    (sum, cat) => sum + (hooksByCategory[cat]?.length || 0),
     0
   );
   console.log(chalk.blue(`Total: ${totalHooks} hooks available`));
