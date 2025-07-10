@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 3.0.4
+
+### Patch Changes
+
+- Update homepage url
+
 ## 3.0.3
 
 ### Patch Changes
