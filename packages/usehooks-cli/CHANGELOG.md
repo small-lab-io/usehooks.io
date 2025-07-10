@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 3.0.2
+
+### Patch Changes
+
+- Update url for repository
+
 ## 3.0.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "usehooks-cli",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "A CLI for adding React hooks to your project",
   "type": "module",
   "private": true,
@@ -24,14 +24,14 @@
   ],
   "author": "Your Name <your.email@example.com>",
   "license": "MIT",
-  "homepage": "https://github.com/yourusername/usehooks",
+  "homepage": "https://github.com/small-lab-io/usehooks.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/usehooks.git",
+    "url": "https://github.com/small-lab-io/usehooks.io/usehooks.git",
     "directory": "packages/usehooks-cli"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/usehooks/issues"
+    "url": "https://github.com/small-lab-io/usehooks.io/issues"
   },
   "scripts": {
     "build": "tsup",
