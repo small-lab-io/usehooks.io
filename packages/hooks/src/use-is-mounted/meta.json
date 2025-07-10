@@ -1,0 +1,19 @@
+{
+  "name": "use-is-mounted",
+  "description": "A hook that returns whether the component is currently mounted",
+  "category": "utility",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic mount status checking"
+    }
+  ]
+}

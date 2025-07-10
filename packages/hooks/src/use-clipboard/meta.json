@@ -1,0 +1,19 @@
+{
+  "name": "use-clipboard",
+  "description": "A hook for interacting with the clipboard API to copy text content with state management",
+  "category": "browser",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic clipboard copy operations"
+    }
+  ]
+}

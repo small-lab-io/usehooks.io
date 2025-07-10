@@ -341,5 +341,156 @@
         "type": "example"
       }
     ]
+  },
+  {
+    "name": "use-window-size",
+    "description": "A hook that tracks the current window dimensions and updates on resize.",
+    "category": "Browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx"
+      }
+    ]
+  },
+  {
+    "name": "use-deep-compare-effect",
+    "description": "Like useEffect but with deep equality check for dependencies",
+    "category": "lifecycle",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic deep compare effect usage"
+      }
+    ]
+  },
+  {
+    "name": "use-fetch",
+    "description": "A hook for making HTTP requests using the Fetch API with loading states and error handling",
+    "category": "network",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic fetch usage with different HTTP methods"
+      }
+    ]
+  },
+  {
+    "name": "use-fullscreen",
+    "description": "A hook for managing fullscreen mode using the Fullscreen API",
+    "category": "dom",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic fullscreen usage"
+      }
+    ]
+  },
+  {
+    "name": "use-geolocation",
+    "description": "A hook for accessing the Geolocation API to get user's location",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic geolocation usage"
+      }
+    ]
+  },
+  {
+    "name": "use-is-mounted",
+    "description": "A hook that returns whether the component is currently mounted",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic mount status checking"
+      }
+    ]
+  },
+  {
+    "name": "use-timeout",
+    "description": "A hook for managing timeouts with start, stop, and reset functionality",
+    "category": "utilities",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic timeout usage with controls"
+      }
+    ]
+  },
+  {
+    "name": "use-update-effect",
+    "description": "Like useEffect but skips the initial render",
+    "category": "lifecycle",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic useUpdateEffect usage"
+      }
+    ]
   }
 ]

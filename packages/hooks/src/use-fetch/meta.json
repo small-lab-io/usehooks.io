@@ -1,0 +1,19 @@
+{
+  "name": "use-fetch",
+  "description": "A hook for making HTTP requests using the Fetch API with loading states and error handling",
+  "category": "network",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic fetch usage with different HTTP methods"
+    }
+  ]
+}

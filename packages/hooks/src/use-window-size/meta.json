@@ -1,0 +1,7 @@
+{
+  "name": "useWindowSize",
+  "description": "A hook that tracks the current window dimensions and updates on resize.",
+  "category": "Browser",
+  "dependencies": {},
+  "files": ["index.ts", "basic-usage.tsx"]
+}

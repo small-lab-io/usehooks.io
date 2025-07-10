@@ -1,0 +1,19 @@
+{
+  "name": "use-fullscreen",
+  "description": "A hook for managing fullscreen mode using the Fullscreen API",
+  "category": "dom",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic fullscreen usage"
+    }
+  ]
+}

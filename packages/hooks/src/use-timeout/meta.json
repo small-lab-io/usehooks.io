@@ -1,0 +1,19 @@
+{
+  "name": "use-timeout",
+  "description": "A hook for managing timeouts with start, stop, and reset functionality",
+  "category": "utilities",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic timeout usage with controls"
+    }
+  ]
+}

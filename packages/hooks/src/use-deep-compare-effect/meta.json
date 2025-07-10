@@ -1,0 +1,19 @@
+{
+  "name": "use-deep-compare-effect",
+  "description": "Like useEffect but with deep equality check for dependencies",
+  "category": "lifecycle",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic deep compare effect usage"
+    }
+  ]
+}

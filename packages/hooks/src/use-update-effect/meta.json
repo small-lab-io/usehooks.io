@@ -1,0 +1,19 @@
+{
+  "name": "use-update-effect",
+  "description": "Like useEffect but skips the initial render",
+  "category": "lifecycle",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic useUpdateEffect usage"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "use-geolocation",
+  "description": "A hook for accessing the Geolocation API to get user's location",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic geolocation usage"
+    }
+  ]
+}

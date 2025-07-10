@@ -1,5 +1,11 @@
 # @workspace/hooks
 
+## 0.1.0
+
+### Minor Changes
+
+- New hooks
+
 ## 0.0.2
 
 ### Patch Changes

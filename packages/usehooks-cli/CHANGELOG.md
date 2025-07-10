@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 3.1.0
+
+### Minor Changes
+
+- New hooks
+
 ## 3.0.5
 
 ### Patch Changes
