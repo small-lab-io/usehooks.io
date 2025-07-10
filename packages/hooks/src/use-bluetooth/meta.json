@@ -1,0 +1,19 @@
+{
+  "name": "use-bluetooth",
+  "description": "A hook for interacting with Bluetooth Low Energy devices using the Web Bluetooth API",
+  "category": "browser",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic Bluetooth device connection and communication"
+    }
+  ]
+}

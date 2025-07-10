@@ -1,5 +1,88 @@
 [
   {
+    "name": "use-array",
+    "description": "A hook providing helper methods for working with array state including push, pop, filter, sort, and other common operations",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic array manipulation"
+      }
+    ]
+  },
+  {
+    "name": "use-audio-recorder",
+    "description": "A comprehensive hook for audio recording with real-time analysis using getUserMedia, MediaRecorder, and Web Audio APIs",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-barcode-detector",
+    "description": "A hook for detecting barcodes and QR codes in images using the Barcode Detection API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-bluetooth",
+    "description": "A hook for interacting with Bluetooth Low Energy devices using the Web Bluetooth API",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic Bluetooth device connection and communication"
+      }
+    ]
+  },
+  {
+    "name": "use-contact-picker",
+    "description": "A hook for accessing the Contact Picker API to select contacts with user permission",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic contact selection with name and email"
+      }
+    ]
+  },
+  {
     "name": "use-counter",
     "description": "A hook for managing counter state with increment, decrement, and reset",
     "category": "state",
@@ -32,108 +115,6 @@
     ]
   },
   {
-    "name": "use-local-storage",
-    "description": "A hook for managing localStorage with React state",
-    "category": "state",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic localStorage usage"
-      }
-    ]
-  },
-  {
-    "name": "use-network-information",
-    "description": "A hook for accessing network connection information and monitoring network changes",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-toggle",
-    "description": "A hook for managing boolean toggle state",
-    "category": "state",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic toggle usage"
-      }
-    ]
-  },
-  {
-    "name": "use-vibration",
-    "description": "A hook for controlling device vibration using the Vibration API",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-storage",
-    "description": "A hook for managing browser storage quotas, usage estimation, and persistence using the Storage API",
-    "category": "browser",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic storage estimation and persistence management"
-      }
-    ]
-  },
-  {
-    "name": "use-contact-picker",
-    "description": "A hook for accessing the Contact Picker API to select contacts with user permission",
-    "category": "browser",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic contact selection with name and email"
-      }
-    ]
-  },
-  {
     "name": "use-device-orientation",
     "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API",
     "category": "sensors",
@@ -149,25 +130,6 @@
       {
         "name": "basic-usage.tsx",
         "description": "Basic device orientation monitoring"
-      }
-    ]
-  },
-  {
-    "name": "use-web-share",
-    "description": "A hook for sharing content using the Web Share API to access native sharing mechanisms",
-    "category": "browser",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "type": "example"
       }
     ]
   },
@@ -191,6 +153,119 @@
     ]
   },
   {
+    "name": "use-local-storage",
+    "description": "A hook for managing localStorage with React state",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic localStorage usage"
+      }
+    ]
+  },
+  {
+    "name": "use-media-session",
+    "description": "A hook for customizing media notifications and handling media control actions using the Media Session API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-network-information",
+    "description": "A hook for accessing network connection information and monitoring network changes",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-previous",
+    "description": "A hook that returns the previous value of a state or prop",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-role-guard",
+    "description": "A hook for role-based access control that redirects or hides content based on user roles",
+    "category": "auth",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      },
+      {
+        "name": "basic-usage.tsx",
+        "type": "example"
+      }
+    ]
+  },
+  {
+    "name": "use-set",
+    "description": "A hook for managing and manipulating Set data structure with comprehensive methods for set operations, filtering, and state management",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic Set manipulation and operations"
+      }
+    ]
+  },
+  {
+    "name": "use-storage",
+    "description": "A hook for managing browser storage quotas, usage estimation, and persistence using the Storage API",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic storage estimation and persistence management"
+      }
+    ]
+  },
+  {
     "name": "use-throttle",
     "description": "A hook for throttling values to limit updates to at most once per specified delay period",
     "category": "utility",
@@ -210,8 +285,8 @@
     ]
   },
   {
-    "name": "use-array",
-    "description": "A hook providing helper methods for working with array state including push, pop, filter, sort, and other common operations",
+    "name": "use-toggle",
+    "description": "A hook for managing toggle state with toggle and reset",
     "category": "state",
     "dependencies": [],
     "devDependencies": [],
@@ -220,18 +295,38 @@
         "name": "index.ts",
         "type": "hook"
       }
-    ],
-    "examples": [
+    ]
+  },
+  {
+    "name": "use-user-media",
+    "description": "A hook for accessing camera and microphone using the getUserMedia API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
       {
-        "name": "basic-usage.tsx",
-        "description": "Basic array manipulation"
+        "name": "index.ts",
+        "type": "hook"
       }
     ]
   },
   {
-    "name": "use-previous",
-    "description": "A hook that returns the previous value of a state or prop",
-    "category": "utility",
+    "name": "use-vibration",
+    "description": "A hook for controlling device vibration using the Vibration API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-web-share",
+    "description": "A hook for sharing content using the Web Share API to access native sharing mechanisms",
+    "category": "browser",
     "dependencies": [],
     "devDependencies": [],
     "files": [
@@ -243,7 +338,7 @@
     "examples": [
       {
         "name": "basic-usage.tsx",
-        "description": "Basic usage of usePrevious hook"
+        "type": "example"
       }
     ]
   }

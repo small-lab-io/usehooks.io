@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 3.0.5
+
+### Patch Changes
+
+- New hooks use-bluetooth et use-set
+
 ## 3.0.4
 
 ### Patch Changes

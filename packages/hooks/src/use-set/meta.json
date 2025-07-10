@@ -1,0 +1,19 @@
+{
+  "name": "use-set",
+  "description": "A hook for managing and manipulating Set data structure with comprehensive methods for set operations, filtering, and state management",
+  "category": "state",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic Set manipulation and operations"
+    }
+  ]
+}
