@@ -15,7 +15,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2022",
-    "types": ["jest", "@testing-library/jest-dom"]
+    "target": "ES2022"
   }
 }

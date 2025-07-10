@@ -3,7 +3,7 @@
   "version": "3.0.2",
   "description": "A CLI for adding React hooks to your project",
   "type": "module",
-  "private": true,
+  "private": false,
   "publishConfig": {
     "access": "public"
   },
