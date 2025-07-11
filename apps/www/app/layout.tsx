@@ -1,12 +1,13 @@
 import { Anchor } from "lucide-react";
+import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/components/providers";
 import { ModeToggle } from "@/components/toogle-theme";
-import Link from "next/link";
 import { GithubIcon } from "@/components/github-icon";
 import { Button } from "@workspace/ui/components/button";
-import "@workspace/ui/globals.css";
 import { CommandMenu } from "@/components/command-menu";
+import "@workspace/ui/globals.css";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -54,7 +55,10 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
                 </Button>
               </div>
             </header>
-            <main className="flex flex-1 flex-col h-screen">{children}</main>
+            <main className="flex flex-1 flex-col h-screen">
+              {children}
+              <Analytics />
+            </main>
           </>
         </Providers>
       </body>
