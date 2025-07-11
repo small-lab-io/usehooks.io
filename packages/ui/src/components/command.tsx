@@ -16,6 +16,7 @@ import {
 function Command({
   className,
   ...props
+  // @ts-ignore
 }: React.ComponentPropsWithoutRef<typeof CommandPrimitive> & {
   className?: string;
 }) {
