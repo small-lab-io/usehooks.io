@@ -1,5 +1,6 @@
 import { Anchor } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/components/providers";
@@ -8,7 +9,6 @@ import { GithubIcon } from "@/components/github-icon";
 import { Button } from "@workspace/ui/components/button";
 import { CommandMenu } from "@/components/command-menu";
 import "@workspace/ui/globals.css";
-import type { Metadata } from "next";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | useHooks",
   },
   description:
-    "Collection of modern, server-safe React hooks for your next project",
+    "Collection of modern, server-safe React hooks for your next project. Similar to shadcn/ui but for hooks - no package dependencies, just install the source code you need.",
 };
 
 export default function RootLayout({ children }: Readonly<LayoutProps>) {

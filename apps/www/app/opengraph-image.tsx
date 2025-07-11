@@ -26,7 +26,7 @@ export default async function Image() {
           fontWeight: 600,
         }}
       >
-        <div style={{ marginBottom: 20 }}>useHooks</div>
+        <div style={{ marginBottom: 20 }}>useHooks.io</div>
         <div style={{ fontSize: 32, opacity: 0.9 }}>React Hooks Library</div>
       </div>
     ),

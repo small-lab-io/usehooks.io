@@ -36,8 +36,8 @@ export default async function HomePage() {
             Modern React Hooks
           </h1>
           <p className="mt-4 text-xl text-muted-foreground animate-in fade-in-0 duration-1000">
-            A collection of modern, server-safe React hooks ready to power up
-            your next project
+            A collection of modern, server-safe React hooks with zero
+            dependencies - install with our CLI tool
           </p>
           <div className="mt-8 flex gap-4 animate-in fade-in-0 duration-1000">
             <Button
@@ -49,6 +49,18 @@ export default async function HomePage() {
               <Link href="/docs">Documentation</Link>
             </Button>
           </div>
+        </div>
+
+        <div className="flex flex-col items-center justify-center py-10 md:py-60 text-center">
+          <h1 className="text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
+            Install Hooks via CLI
+          </h1>
+          <p className="mt-4 text-xl text-muted-foreground animate-in fade-in-0 duration-1000">
+            Get started with a single command
+            <code className="block mt-4 text-sm bg-gray-100 dark:bg-gray-800 p-2 rounded">
+              npx usehooks-cli@latest init
+            </code>
+          </p>
         </div>
 
         <div className="grid gap-8 py-62 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
