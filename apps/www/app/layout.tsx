@@ -30,7 +30,7 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
       >
         <Providers>
           <>
-            <header className="h-16 flex justify-between items-center container mx-auto">
+            <header className="h-16 flex justify-between items-center container mx-auto px-2 md:px-0">
               <Link href="/" className="flex items-center gap-2">
                 <Anchor className="w-4 h-4" />
                 <span className="text-lg font-black tracking-tighter animate-in fade-in-0 duration-1000 cursor-pointer">
@@ -40,7 +40,9 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
                 </span>
               </Link>
               <div className="flex items-center gap-2">
-                <CommandMenu />
+                <div className="hidden sm:block">
+                  <CommandMenu />
+                </div>
                 <ModeToggle />
                 <Button asChild variant="ghost">
                   <Link

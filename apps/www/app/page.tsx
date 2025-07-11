@@ -18,17 +18,15 @@ export default async function HomePage() {
   return (
     <ScrollArea className="h-[calc(100vh-64px)]">
       <div className="min-h-screen container mx-auto px-4 md:px-0">
-        {/* Hero Logo with fade-in and scale animation */}
-        <div className="flex items-center gap-2 justify-center mt-20 animate-in fade-in-0 slide-in-from-top-4 duration-1000">
+        <div className="flex items-center gap-2 justify-center mt-20 animate-in fade-in-0 slide-in-from-top-4 duration-1000 w-full ">
           <Anchor className="w-20 h-20" />
-          <span className="text-8xl font-black tracking-tighter animate-in fade-in-0 duration-1000">
+          <span className="text-3xl md:text-8xl font-black tracking-tighter animate-in fade-in-0 duration-1000 w-fit">
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
               use<span className="font-light italic">hooks.</span>io
             </span>
           </span>
         </div>
 
-        {/* Main Hero Section with staggered animations */}
         <div className="flex flex-col items-center justify-center py-20 md:py-60 text-center">
           <h1 className="text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
             Modern React Hooks
@@ -49,7 +47,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Feature Cards with hover animations */}
         <div className="grid gap-8 py-62 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3">
           <div className="rounded-lg border p-6 transition-all duration-300 animate-in fade-in-0 slide-in-from-left-6">
             <h3 className="text-xl font-semibold">Server-Safe</h3>
@@ -124,7 +121,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Hooks Grid with staggered animations */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {hooks.map((hook, index) => (
             <div
@@ -159,7 +155,6 @@ export default async function HomePage() {
           style={{ animationDelay: `${2500 + hooks.length * 100}ms` }}
         />
 
-        {/* Footer Logo with animation */}
         <div
           className="flex items-center gap-2 justify-center animate-in fade-in-0 slide-in-from-bottom-4 duration-1000"
           style={{ animationDelay: `${2700 + hooks.length * 100}ms` }}
@@ -170,7 +165,6 @@ export default async function HomePage() {
           </span>
         </div>
 
-        {/* Final CTA Section */}
         <div
           className="py-20 text-center animate-in fade-in-0 slide-in-from-bottom-6 duration-1000"
           style={{ animationDelay: `${2900 + hooks.length * 100}ms` }}
