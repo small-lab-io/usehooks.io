@@ -30,7 +30,8 @@ async function getHookSource(name: string): Promise<string> {
   );
   try {
     return await fs.readFile(hookPath, "utf8");
-  } catch () {
+  } catch (error) {
+    console.error(`Error reading hook source file: ${error}`);
     return "Source code not available";
   }
 }
