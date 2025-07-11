@@ -1,5 +1,6 @@
 import { Anchor } from "lucide-react";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Providers } from "@/components/providers";
@@ -22,6 +23,16 @@ const fontMono = Geist_Mono({
 interface LayoutProps {
   children: React.ReactNode;
 }
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://usehooks.io"),
+  title: {
+    default: "useHooks - React Hooks Library",
+    template: "%s | useHooks",
+  },
+  description:
+    "Collection of modern, server-safe React hooks for your next project",
+};
 
 export default function RootLayout({ children }: Readonly<LayoutProps>) {
   return (

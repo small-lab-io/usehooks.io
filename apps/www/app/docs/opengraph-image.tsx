@@ -1,8 +1,6 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 
-export const alt = "About Acme";
+export const alt = "usehooks.io documentation";
 export const size = {
   width: 1200,
   height: 630,
@@ -11,9 +9,11 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const interSemiBold = await readFile(
-    join(process.cwd(), "assets/Inter-SemiBold.ttf")
-  );
+  const interSemiBold = await fetch(
+    new URL(
+      "https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff"
+    )
+  ).then((res) => res.arrayBuffer());
 
   return new ImageResponse(
     (
@@ -38,7 +38,7 @@ export default async function Image() {
           name: "Inter",
           data: interSemiBold,
           style: "normal",
-          weight: 400,
+          weight: 600,
         },
       ],
     }
