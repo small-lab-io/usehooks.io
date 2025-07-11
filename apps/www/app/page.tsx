@@ -27,6 +27,10 @@ export default async function HomePage() {
           </span>
         </div>
 
+        <div className="flex items-center justify-center text-xl font-medium text-muted-foreground animate-in fade-in-0 duration-1000 w-full text-center">
+          (Work in Progress - Not Ready for Production)
+        </div>
+
         <div className="flex flex-col items-center justify-center py-20 md:py-60 text-center">
           <h1 className="text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
             Modern React Hooks
