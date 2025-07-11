@@ -80,6 +80,7 @@ export default async function HookPage({
 
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Implementation</h2>
+        {/*@ts-ignore*/}
         <SyntaxHighlighter
           language="typescript"
           style={oneDark}
