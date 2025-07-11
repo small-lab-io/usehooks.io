@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 3.1.1
+
+### Patch Changes
+
+- Fixing registry file
+
 ## 3.1.0
 
 ### Minor Changes
