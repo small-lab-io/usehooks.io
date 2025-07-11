@@ -1,8 +1,6 @@
 import { ImageResponse } from "next/og";
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 
-export const alt = "About Acme";
+export const alt = "useHooks - React Hooks Library";
 export const size = {
   width: 1200,
   height: 630,
@@ -11,36 +9,29 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const interSemiBold = await readFile(
-    join(process.cwd(), "assets/Inter-SemiBold.ttf")
-  );
-
   return new ImageResponse(
     (
       <div
         style={{
-          fontSize: 128,
-          background: "white",
+          fontSize: 64,
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
+          color: "white",
+          fontFamily: "system-ui, sans-serif",
+          fontWeight: 600,
         }}
       >
-        usehooks.io
+        <div style={{ marginBottom: 20 }}>useHooks</div>
+        <div style={{ fontSize: 32, opacity: 0.9 }}>React Hooks Library</div>
       </div>
     ),
     {
       ...size,
-      fonts: [
-        {
-          name: "Inter",
-          data: interSemiBold,
-          style: "normal",
-          weight: 400,
-        },
-      ],
     }
   );
 }
