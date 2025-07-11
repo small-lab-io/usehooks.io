@@ -22,6 +22,7 @@ function Command({
   children?: React.ReactNode;
 }) {
   return (
+    // @ts-ignore
     <CommandPrimitive
       data-slot="command"
       className={cn(
