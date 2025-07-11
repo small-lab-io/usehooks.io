@@ -68,7 +68,10 @@ function CommandDialog({
 function CommandInput({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input> & {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <div
       data-slot="command-input-wrapper"
@@ -90,7 +93,10 @@ function CommandInput({
 function CommandList({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.List>) {
+}: React.ComponentProps<typeof CommandPrimitive.List> & {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <CommandPrimitive.List
       data-slot="command-list"
@@ -118,7 +124,10 @@ function CommandEmpty({
 function CommandGroup({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Group>) {
+}: React.ComponentProps<typeof CommandPrimitive.Group> & {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <CommandPrimitive.Group
       data-slot="command-group"
@@ -134,7 +143,10 @@ function CommandGroup({
 function CommandSeparator({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Separator>) {
+}: React.ComponentProps<typeof CommandPrimitive.Separator> & {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <CommandPrimitive.Separator
       data-slot="command-separator"
@@ -147,7 +159,10 @@ function CommandSeparator({
 function CommandItem({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Item>) {
+}: React.ComponentProps<typeof CommandPrimitive.Item> & {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <CommandPrimitive.Item
       data-slot="command-item"
@@ -163,7 +178,10 @@ function CommandItem({
 function CommandShortcut({
   className,
   ...props
-}: React.ComponentProps<"span">) {
+}: React.ComponentProps<"span"> & {
+  className?: string;
+  children?: React.ReactNode;
+}) {
   return (
     <span
       data-slot="command-shortcut"
