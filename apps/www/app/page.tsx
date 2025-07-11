@@ -60,6 +60,9 @@ export default async function HomePage() {
             <code className="block mt-4 text-sm bg-gray-100 dark:bg-gray-800 p-2 rounded">
               npx usehooks-cli@latest init
             </code>
+            <code className="block mt-4 text-sm bg-gray-100 dark:bg-gray-800 p-2 rounded">
+              npx usehooks-cli@latest add use-array
+            </code>
           </p>
         </div>
 
