@@ -65,7 +65,7 @@ export function CommandMenu() {
         </div>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Search hooks, settings, and more..." />
+        <CommandInput />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Hooks">
