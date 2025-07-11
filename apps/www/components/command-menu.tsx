@@ -67,31 +67,33 @@ export function CommandMenu() {
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Hooks">
-            {loading ? (
-              <CommandItem disabled>
-                <span>Loading hooks...</span>
-              </CommandItem>
-            ) : hooks.length > 0 ? (
-              hooks.map((hook) => (
-                <CommandItem
-                  key={hook.name}
-                  onSelect={() => {
-                    router.push(`/docs/${hook.name}`);
-                    setOpen(false);
-                  }}
-                >
-                  <span>{hook.name}</span>
-                  <CommandShortcut> {hook.category}</CommandShortcut>
+          <>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading="Hooks">
+              {loading ? (
+                <CommandItem disabled>
+                  <span>Loading hooks...</span>
                 </CommandItem>
-              ))
-            ) : (
-              <CommandItem disabled>
-                <span>No hooks available</span>
-              </CommandItem>
-            )}
-          </CommandGroup>
+              ) : hooks.length > 0 ? (
+                hooks.map((hook) => (
+                  <CommandItem
+                    key={hook.name}
+                    onSelect={() => {
+                      router.push(`/docs/${hook.name}`);
+                      setOpen(false);
+                    }}
+                  >
+                    <span>{hook.name}</span>
+                    <CommandShortcut> {hook.category}</CommandShortcut>
+                  </CommandItem>
+                ))
+              ) : (
+                <CommandItem disabled>
+                  <span>No hooks available</span>
+                </CommandItem>
+              )}
+            </CommandGroup>
+          </>
         </CommandList>
       </CommandDialog>
     </>
