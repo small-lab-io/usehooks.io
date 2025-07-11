@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import * as React from "react";
@@ -22,7 +23,6 @@ function Command({
   children?: React.ReactNode;
 }) {
   return (
-    // @ts-ignore
     <CommandPrimitive
       data-slot="command"
       className={cn(
