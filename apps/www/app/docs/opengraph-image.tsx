@@ -9,12 +9,6 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const interSemiBold = await fetch(
-    new URL(
-      "https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff"
-    )
-  ).then((res) => res.arrayBuffer());
-
   return new ImageResponse(
     (
       <div
@@ -26,6 +20,7 @@ export default async function Image() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          fontFamily: "system-ui, sans-serif",
         }}
       >
         usehooks.io documentation
@@ -33,14 +28,6 @@ export default async function Image() {
     ),
     {
       ...size,
-      fonts: [
-        {
-          name: "Inter",
-          data: interSemiBold,
-          style: "normal",
-          weight: 600,
-        },
-      ],
     }
   );
 }
