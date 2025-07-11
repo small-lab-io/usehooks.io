@@ -19,6 +19,7 @@ function Command({
   // @ts-ignore
 }: React.ComponentPropsWithoutRef<typeof CommandPrimitive> & {
   className?: string;
+  children?: React.ReactNode;
 }) {
   return (
     <CommandPrimitive
