@@ -27,8 +27,8 @@ interface LayoutProps {
 export const metadata: Metadata = {
   metadataBase: new URL("https://usehooks.io"),
   title: {
-    default: "useHooks - React Hooks Library",
-    template: "%s | useHooks",
+    default: "useHooks.io - React Hooks Library",
+    template: "%s | useHooks.io",
   },
   description:
     "Collection of modern, server-safe React hooks for your next project. Similar to shadcn/ui but for hooks - no package dependencies, just install the source code you need.",
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
                 <Anchor className="w-4 h-4" />
                 <span className="text-lg font-black tracking-tighter animate-in fade-in-0 duration-1000 cursor-pointer">
                   <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                    use<span className="font-light italic">hooks.</span>io
+                    use<span className="font-light italic">Hooks.</span>io
                   </span>
                 </span>
               </Link>

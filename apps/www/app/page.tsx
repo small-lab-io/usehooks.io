@@ -22,7 +22,7 @@ export default async function HomePage() {
           <Anchor className="w-20 h-20" />
           <span className="text-3xl md:text-8xl font-black tracking-tighter animate-in fade-in-0 duration-1000 w-fit">
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-              use<span className="font-light italic">hooks.</span>io
+              use<span className="font-light italic">Hooks.</span>io
             </span>
           </span>
         </div>
@@ -180,7 +180,7 @@ export default async function HomePage() {
         >
           <Anchor className="w-10 h-10" />
           <span className="text-4xl font-black tracking-tighter bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-            use<span className="font-light italic">hooks.</span>io
+            use<span className="font-light italic">Hooks.</span>io
           </span>
         </div>
 
