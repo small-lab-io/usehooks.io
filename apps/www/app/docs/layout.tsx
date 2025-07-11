@@ -2,13 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { SidebarProvider } from "@workspace/ui/components/sidebar";
 
-export default function DocsLayout({
-  children,
-  details,
-}: {
-  children: React.ReactNode;
-  details: React.ReactNode;
-}) {
+export default function DocsLayout({ details }: { details: React.ReactNode }) {
   return (
     <div className="h-[calc(100vh-64px)] flex">
       <ScrollArea className="flex-1">

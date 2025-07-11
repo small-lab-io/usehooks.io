@@ -11,9 +11,8 @@ import {
   CommandList,
   CommandShortcut,
 } from "@workspace/ui/components/command";
-import { getHooks } from "@/lib/get-hooks";
-import type { HookMeta } from "@/lib/get-hooks";
 import { Button } from "@workspace/ui/components/button";
+import { getHooks, type HookMeta } from "@/lib/get-hooks";
 
 export function CommandMenu() {
   const router = useRouter();
