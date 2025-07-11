@@ -4,6 +4,7 @@ export type HookMeta = {
   name: string;
   description: string;
   category: string;
+  examples: [{ name: string; description: string }];
 };
 
 const hooksUrl =
