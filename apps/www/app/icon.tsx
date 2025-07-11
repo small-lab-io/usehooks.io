@@ -22,7 +22,7 @@ export default function Icon() {
           color: "white",
         }}
       >
-        <Anchor className="w-16 h-16" />
+        <Anchor className="w-16 h-16" color="white" />
       </div>
     ),
     {
