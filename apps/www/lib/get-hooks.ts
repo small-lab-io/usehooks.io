@@ -2,6 +2,7 @@ import { useFetch } from "@/hooks/use-fetch";
 
 export type HookMeta = {
   name: string;
+  title: string;
   description: string;
   category: string;
   examples: [{ name: string; description: string }];

@@ -5,6 +5,7 @@ import { getHooks } from "@/lib/get-hooks";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Anchor } from "lucide-react";
 import { Separator } from "@workspace/ui/components/separator";
+import { CaterogyButton } from "@/components/category-button";
 
 export const metadata: Metadata = {
   title: "useHooks - React Hooks Library",
@@ -118,56 +119,54 @@ export default async function HomePage() {
           <div className="flex flex-wrap justify-center gap-4">
             {Array.from(new Set(hooks.map((hook) => hook.category))).map(
               (category, index) => (
-                <div
+                <CaterogyButton
                   key={category}
-                  className="animate-in fade-in-0 slide-in-from-bottom-4"
-                  style={{ animationDelay: `${1500 + index * 100}ms` }}
-                >
-                  <div className="rounded-full bg-primary/10 px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/20">
-                    {category}
-                    <span className="ml-2 text-xs text-muted-foreground">
-                      (
-                      {
-                        hooks.filter((hook) => hook.category === category)
-                          .length
-                      }
-                      )
-                    </span>
-                  </div>
-                </div>
+                  category={category}
+                  index={index}
+                  hooks={hooks}
+                />
               )
             )}
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {hooks.map((hook, index) => (
-            <div
-              className={`container mx-auto py-12 transition-all duration-200 hover:scale-105 animate-in fade-in-0 slide-in-from-bottom-4`}
-              style={{
-                animationDelay: `${2100 + index * 100}ms`,
-              }}
-              key={hook.name}
-            >
-              <Link
-                href={`/docs/${hook.name}`}
-                className="block transition-colors duration-200 hover:text-primary"
-              >
-                <h1 className="text-4xl font-bold mb-2 transition-colors duration-200">
-                  {hook.name}
-                </h1>
-              </Link>
-              <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 transition-all duration-200 hover:bg-primary/20">
-                {hook.category}
-              </span>
+        {Array.from(new Set(hooks.map((hook) => hook.category))).map(
+          (category) => (
+            <div key={category} id={category}>
+              <h3 className="text-2xl font-bold mt-16 mb-8">{category}</h3>
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {hooks
+                  .filter((hook) => hook.category === category)
+                  .map((hook, index) => (
+                    <div
+                      className={`container mx-auto py-12 transition-all duration-200 hover:scale-105 animate-in fade-in-0 slide-in-from-bottom-4`}
+                      style={{
+                        animationDelay: `${2100 + index * 100}ms`,
+                      }}
+                      key={hook.name}
+                    >
+                      <Link
+                        href={`/docs/${hook.name}`}
+                        className="block transition-colors duration-200 hover:text-primary"
+                      >
+                        <h1 className="text-4xl font-bold mb-2 transition-colors duration-200">
+                          {hook.title}
+                        </h1>
+                      </Link>
+                      <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 transition-all duration-200 hover:bg-primary/20">
+                        {hook.category}
+                      </span>
 
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold mb-4">Description</h2>
-                <p className="text-lg">{hook.description}</p>
+                      <div className="mb-8">
+                        <h2 className="text-2xl font-bold mb-4">Description</h2>
+                        <p className="text-lg">{hook.description}</p>
+                      </div>
+                    </div>
+                  ))}
               </div>
             </div>
-          ))}
-        </div>
+          )
+        )}
 
         <Separator
           className="my-10 animate-in fade-in-0 duration-1000"
