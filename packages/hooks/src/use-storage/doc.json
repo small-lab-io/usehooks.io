@@ -1,0 +1,84 @@
+{
+  "name": "useStorage",
+  "description": "A React hook for managing browser storage quotas and persistence using the Storage API. Provides storage estimation, usage monitoring, and persistent storage management.",
+  "category": "browser",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": "UseStorageReturn",
+  "methods": [
+    {
+      "name": "estimate",
+      "type": "StorageEstimate | null",
+      "description": "Current storage quota and usage information"
+    },
+    {
+      "name": "isLoading",
+      "type": "boolean",
+      "description": "True when fetching storage information"
+    },
+    {
+      "name": "error",
+      "type": "string | null",
+      "description": "Error message if storage operations fail"
+    },
+    {
+      "name": "isPersistent",
+      "type": "boolean | null",
+      "description": "Whether storage is persistent (won't be cleared under pressure)"
+    },
+    {
+      "name": "usagePercentage",
+      "type": "number | null",
+      "description": "Percentage of storage quota currently used"
+    },
+    {
+      "name": "isSupported",
+      "type": "boolean",
+      "description": "Whether the Storage API is supported in this browser"
+    },
+    {
+      "name": "getEstimate",
+      "type": "() => Promise<StorageEstimate | null>",
+      "description": "Manually refresh storage estimate"
+    },
+    {
+      "name": "requestPersistentStorage",
+      "type": "() => Promise<boolean>",
+      "description": "Request persistent storage permission from the browser"
+    },
+    {
+      "name": "checkPersistence",
+      "type": "() => Promise<boolean>",
+      "description": "Check if storage is currently persistent"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Storage Usage Monitor",
+      "description": "Displaying current storage usage and quota information",
+      "code": "const { \n  estimate, \n  usagePercentage, \n  isLoading, \n  error, \n  isSupported \n} = useStorage();\n\nif (!isSupported) {\n  return <div>Storage API not supported</div>;\n}\n\nif (isLoading) {\n  return <div>Loading storage info...</div>;\n}\n\nif (error) {\n  return <div>Error: {error}</div>;\n}\n\nreturn (\n  <div className=\"storage-info\">\n    <h3>Storage Usage</h3>\n    {estimate && (\n      <>\n        <div className=\"usage-bar\">\n          <div \n            className=\"usage-fill\"\n            style={{ width: `${usagePercentage}%` }}\n          />\n        </div>\n        <p>\n          Used: {(estimate.usage / 1024 / 1024).toFixed(2)} MB of{' '}\n          {(estimate.quota / 1024 / 1024).toFixed(2)} MB\n          ({usagePercentage}%)\n        </p>\n        {estimate.usageDetails && (\n          <div className=\"usage-details\">\n            <h4>Usage by type:</h4>\n            {Object.entries(estimate.usageDetails).map(([key, value]) => (\n              <p key={key}>\n                {key}: {(value / 1024 / 1024).toFixed(2)} MB\n              </p>\n            ))}\n          </div>\n        )}\n      </>\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Persistent Storage Manager",
+      "description": "Managing persistent storage permissions and status",
+      "code": "const { \n  isPersistent, \n  requestPersistentStorage, \n  checkPersistence,\n  error \n} = useStorage();\nconst [isRequesting, setIsRequesting] = useState(false);\n\nconst handleRequestPersistent = async () => {\n  setIsRequesting(true);\n  try {\n    const granted = await requestPersistentStorage();\n    if (granted) {\n      showToast('Persistent storage granted!');\n    } else {\n      showToast('Persistent storage denied');\n    }\n  } catch (err) {\n    showToast('Failed to request persistent storage');\n  } finally {\n    setIsRequesting(false);\n  }\n};\n\nconst handleCheckPersistence = async () => {\n  await checkPersistence();\n};\n\nreturn (\n  <div className=\"persistence-manager\">\n    <h3>Storage Persistence</h3>\n    \n    <div className=\"status\">\n      Status: {\n        isPersistent === null ? 'Unknown' :\n        isPersistent ? '✅ Persistent' : '⚠️ Not Persistent'\n      }\n    </div>\n    \n    {!isPersistent && (\n      <div className=\"warning\">\n        <p>Your data may be cleared when storage is low.</p>\n        <button \n          onClick={handleRequestPersistent}\n          disabled={isRequesting}\n        >\n          {isRequesting ? 'Requesting...' : 'Request Persistent Storage'}\n        </button>\n      </div>\n    )}\n    \n    <button onClick={handleCheckPersistence}>\n      Refresh Status\n    </button>\n    \n    {error && <div className=\"error\">{error}</div>}\n  </div>\n);"
+    },
+    {
+      "title": "Storage Quota Warning",
+      "description": "Warning users when storage is running low",
+      "code": "const { \n  estimate, \n  usagePercentage, \n  getEstimate,\n  requestPersistentStorage \n} = useStorage();\nconst [showWarning, setShowWarning] = useState(false);\n\n// Check storage usage periodically\nuseEffect(() => {\n  const interval = setInterval(() => {\n    getEstimate();\n  }, 60000); // Check every minute\n\n  return () => clearInterval(interval);\n}, [getEstimate]);\n\n// Show warning when storage is getting full\nuseEffect(() => {\n  if (usagePercentage && usagePercentage > 80) {\n    setShowWarning(true);\n  } else {\n    setShowWarning(false);\n  }\n}, [usagePercentage]);\n\nconst handleClearCache = async () => {\n  // Clear application cache\n  await clearApplicationCache();\n  await getEstimate(); // Refresh storage info\n  showToast('Cache cleared successfully');\n};\n\nreturn (\n  <div>\n    {showWarning && (\n      <div className=\"storage-warning\">\n        <h4>⚠️ Storage Running Low</h4>\n        <p>\n          You're using {usagePercentage}% of your available storage.\n          Consider clearing some data or requesting persistent storage.\n        </p>\n        <div className=\"warning-actions\">\n          <button onClick={handleClearCache}>\n            Clear Cache\n          </button>\n          <button onClick={requestPersistentStorage}>\n            Request Persistent Storage\n          </button>\n        </div>\n      </div>\n    )}\n    \n    {/* Rest of your app */}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect, useCallback } from 'react';"
+  ],
+  "notes": [
+    "Requires a modern browser with Storage API support",
+    "Automatically fetches storage estimate and persistence status on mount",
+    "Persistent storage prevents data from being cleared under storage pressure",
+    "Storage estimates are approximate and may vary between browsers",
+    "Useful for PWAs and applications that store significant amounts of data",
+    "Provides both automatic monitoring and manual control methods"
+  ]
+}

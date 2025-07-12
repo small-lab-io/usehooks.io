@@ -1,0 +1,44 @@
+{
+  "name": "useIsMounted",
+  "description": "A React hook that provides a function to check whether the component is currently mounted. Useful for preventing state updates on unmounted components and avoiding memory leaks.",
+  "category": "lifecycle",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": "() => boolean",
+  "returnValue": [
+    {
+      "name": "isMounted",
+      "type": "() => boolean",
+      "description": "A function that returns true if the component is currently mounted, false otherwise"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Checking mount status before state updates",
+      "code": "const isMounted = useIsMounted();\n\nconst fetchData = async () => {\n  try {\n    const response = await fetch('/api/data');\n    const data = await response.json();\n    \n    // Only update state if component is still mounted\n    if (isMounted()) {\n      setData(data);\n    }\n  } catch (error) {\n    if (isMounted()) {\n      setError(error.message);\n    }\n  }\n};"
+    },
+    {
+      "title": "Preventing Memory Leaks",
+      "description": "Using with async operations to prevent warnings",
+      "code": "const isMounted = useIsMounted();\nconst [loading, setLoading] = useState(false);\nconst [data, setData] = useState(null);\n\nconst handleAsyncOperation = useCallback(async () => {\n  setLoading(true);\n  \n  try {\n    await new Promise(resolve => setTimeout(resolve, 2000));\n    \n    // Check if component is still mounted before updating state\n    if (isMounted()) {\n      setData('Operation completed');\n      setLoading(false);\n    }\n  } catch (error) {\n    if (isMounted()) {\n      setLoading(false);\n    }\n  }\n}, [isMounted]);"
+    },
+    {
+      "title": "With useEffect Cleanup",
+      "description": "Combining with useEffect for safe async operations",
+      "code": "const isMounted = useIsMounted();\n\nuseEffect(() => {\n  let cancelled = false;\n  \n  const fetchUserData = async () => {\n    try {\n      const response = await fetch(`/api/users/${userId}`);\n      const userData = await response.json();\n      \n      // Double check: not cancelled and component still mounted\n      if (!cancelled && isMounted()) {\n        setUser(userData);\n      }\n    } catch (error) {\n      if (!cancelled && isMounted()) {\n        setError(error.message);\n      }\n    }\n  };\n  \n  fetchUserData();\n  \n  return () => {\n    cancelled = true;\n  };\n}, [userId, isMounted]);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useEffect, useRef } from 'react';"
+  ],
+  "notes": [
+    "Returns a function, not a boolean value directly - call the function to get the current mount status",
+    "Uses useRef to track mount status without causing re-renders",
+    "Particularly useful for preventing 'Can't perform a React state update on an unmounted component' warnings",
+    "Should be used in combination with proper cleanup patterns in useEffect",
+    "The returned function is stable and doesn't change between renders",
+    "Helps prevent memory leaks in async operations like API calls or timers"
+  ]
+}

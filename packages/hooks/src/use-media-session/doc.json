@@ -1,0 +1,90 @@
+{
+  "name": "useMediaSession",
+  "description": "A hook for integrating with the Media Session API to control media playback from system UI, notifications, and hardware media keys. Allows setting metadata and handling media control actions.",
+  "category": "browser",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "UseMediaSessionOptions",
+      "optional": true,
+      "description": "Configuration options for media session",
+      "properties": [
+        {
+          "name": "metadata",
+          "type": "MediaMetadataInit",
+          "optional": true,
+          "description": "Initial metadata for the media session"
+        },
+        {
+          "name": "playbackState",
+          "type": "MediaSessionPlaybackState",
+          "optional": true,
+          "description": "Initial playback state ('none', 'paused', 'playing')"
+        },
+        {
+          "name": "actionHandlers",
+          "type": "Partial<Record<MediaSessionAction, MediaSessionActionHandler>>",
+          "optional": true,
+          "description": "Initial action handlers for media controls"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseMediaSessionReturn",
+    "properties": [
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether the Media Session API is supported"
+      },
+      {
+        "name": "setMetadata",
+        "type": "(metadata: MediaMetadataInit) => void",
+        "description": "Set media metadata (title, artist, album, artwork)"
+      },
+      {
+        "name": "setPlaybackState",
+        "type": "(state: MediaSessionPlaybackState) => void",
+        "description": "Set the current playback state"
+      },
+      {
+        "name": "setActionHandler",
+        "type": "(action: MediaSessionAction, handler: MediaSessionActionHandler | null) => void",
+        "description": "Set or remove an action handler for media controls"
+      },
+      {
+        "name": "clearActionHandlers",
+        "type": "() => void",
+        "description": "Clear all action handlers"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Audio Player",
+      "description": "Simple audio player with media session integration",
+      "code": "import { useMediaSession } from '@usehooks/use-media-session';\nimport { useRef, useState } from 'react';\n\nfunction AudioPlayer() {\n  const audioRef = useRef<HTMLAudioElement>(null);\n  const [isPlaying, setIsPlaying] = useState(false);\n  const [currentTrack, setCurrentTrack] = useState(0);\n  \n  const tracks = [\n    {\n      title: 'Song One',\n      artist: 'Artist Name',\n      album: 'Album Name',\n      src: '/audio/song1.mp3',\n      artwork: [{ src: '/images/album1.jpg', sizes: '512x512', type: 'image/jpeg' }]\n    },\n    {\n      title: 'Song Two',\n      artist: 'Artist Name',\n      album: 'Album Name',\n      src: '/audio/song2.mp3',\n      artwork: [{ src: '/images/album2.jpg', sizes: '512x512', type: 'image/jpeg' }]\n    }\n  ];\n\n  const {\n    isSupported,\n    setMetadata,\n    setPlaybackState,\n    setActionHandler\n  } = useMediaSession();\n\n  const play = () => {\n    audioRef.current?.play();\n    setIsPlaying(true);\n    setPlaybackState('playing');\n  };\n\n  const pause = () => {\n    audioRef.current?.pause();\n    setIsPlaying(false);\n    setPlaybackState('paused');\n  };\n\n  const nextTrack = () => {\n    const next = (currentTrack + 1) % tracks.length;\n    setCurrentTrack(next);\n    updateMetadata(next);\n  };\n\n  const prevTrack = () => {\n    const prev = (currentTrack - 1 + tracks.length) % tracks.length;\n    setCurrentTrack(prev);\n    updateMetadata(prev);\n  };\n\n  const updateMetadata = (trackIndex: number) => {\n    const track = tracks[trackIndex];\n    setMetadata({\n      title: track.title,\n      artist: track.artist,\n      album: track.album,\n      artwork: track.artwork\n    });\n  };\n\n  // Set up media session handlers\n  React.useEffect(() => {\n    if (isSupported) {\n      setActionHandler('play', play);\n      setActionHandler('pause', pause);\n      setActionHandler('nexttrack', nextTrack);\n      setActionHandler('previoustrack', prevTrack);\n      \n      // Set initial metadata\n      updateMetadata(currentTrack);\n    }\n  }, [isSupported, currentTrack]);\n\n  return (\n    <div>\n      <audio\n        ref={audioRef}\n        src={tracks[currentTrack].src}\n        onPlay={() => {\n          setIsPlaying(true);\n          setPlaybackState('playing');\n        }}\n        onPause={() => {\n          setIsPlaying(false);\n          setPlaybackState('paused');\n        }}\n        onEnded={nextTrack}\n      />\n      \n      <div>\n        <h3>{tracks[currentTrack].title}</h3>\n        <p>{tracks[currentTrack].artist} - {tracks[currentTrack].album}</p>\n      </div>\n      \n      <div>\n        <button onClick={prevTrack}>⏮</button>\n        <button onClick={isPlaying ? pause : play}>\n          {isPlaying ? '⏸' : '▶️'}\n        </button>\n        <button onClick={nextTrack}>⏭</button>\n      </div>\n      \n      {!isSupported && (\n        <p>Media Session API not supported</p>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Podcast Player",
+      "description": "Podcast player with seek controls and chapter support",
+      "code": "import { useMediaSession } from '@usehooks/use-media-session';\nimport { useRef, useState, useEffect } from 'react';\n\nfunction PodcastPlayer() {\n  const audioRef = useRef<HTMLAudioElement>(null);\n  const [isPlaying, setIsPlaying] = useState(false);\n  const [currentTime, setCurrentTime] = useState(0);\n  const [duration, setDuration] = useState(0);\n\n  const podcast = {\n    title: 'Episode 42: React Hooks Deep Dive',\n    artist: 'Tech Podcast',\n    album: 'Season 3',\n    src: '/audio/podcast-episode.mp3',\n    artwork: [\n      { src: '/images/podcast-cover.jpg', sizes: '512x512', type: 'image/jpeg' }\n    ]\n  };\n\n  const {\n    setMetadata,\n    setPlaybackState,\n    setActionHandler\n  } = useMediaSession({\n    metadata: podcast,\n    playbackState: 'paused'\n  });\n\n  const play = () => {\n    audioRef.current?.play();\n    setIsPlaying(true);\n    setPlaybackState('playing');\n  };\n\n  const pause = () => {\n    audioRef.current?.pause();\n    setIsPlaying(false);\n    setPlaybackState('paused');\n  };\n\n  const seekBackward = () => {\n    if (audioRef.current) {\n      audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 10);\n    }\n  };\n\n  const seekForward = () => {\n    if (audioRef.current) {\n      audioRef.current.currentTime = Math.min(\n        audioRef.current.duration,\n        audioRef.current.currentTime + 30\n      );\n    }\n  };\n\n  const seekTo = (details: { seekTime?: number }) => {\n    if (audioRef.current && details.seekTime !== undefined) {\n      audioRef.current.currentTime = details.seekTime;\n    }\n  };\n\n  // Set up media session handlers\n  useEffect(() => {\n    setActionHandler('play', play);\n    setActionHandler('pause', pause);\n    setActionHandler('seekbackward', seekBackward);\n    setActionHandler('seekforward', seekForward);\n    setActionHandler('seekto', seekTo);\n  }, []);\n\n  // Update time\n  useEffect(() => {\n    const audio = audioRef.current;\n    if (!audio) return;\n\n    const updateTime = () => setCurrentTime(audio.currentTime);\n    const updateDuration = () => setDuration(audio.duration);\n\n    audio.addEventListener('timeupdate', updateTime);\n    audio.addEventListener('loadedmetadata', updateDuration);\n\n    return () => {\n      audio.removeEventListener('timeupdate', updateTime);\n      audio.removeEventListener('loadedmetadata', updateDuration);\n    };\n  }, []);\n\n  const formatTime = (time: number) => {\n    const minutes = Math.floor(time / 60);\n    const seconds = Math.floor(time % 60);\n    return `${minutes}:${seconds.toString().padStart(2, '0')}`;\n  };\n\n  return (\n    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px' }}>\n      <audio\n        ref={audioRef}\n        src={podcast.src}\n        onPlay={() => {\n          setIsPlaying(true);\n          setPlaybackState('playing');\n        }}\n        onPause={() => {\n          setIsPlaying(false);\n          setPlaybackState('paused');\n        }}\n      />\n      \n      <div style={{ textAlign: 'center', marginBottom: '20px' }}>\n        <img\n          src={podcast.artwork[0].src}\n          alt=\"Podcast cover\"\n          style={{ width: '200px', height: '200px', borderRadius: '8px' }}\n        />\n        <h3>{podcast.title}</h3>\n        <p>{podcast.artist}</p>\n      </div>\n      \n      <div style={{ marginBottom: '20px' }}>\n        <input\n          type=\"range\"\n          min={0}\n          max={duration || 0}\n          value={currentTime}\n          onChange={(e) => {\n            const time = parseFloat(e.target.value);\n            if (audioRef.current) {\n              audioRef.current.currentTime = time;\n            }\n          }}\n          style={{ width: '100%' }}\n        />\n        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>\n          <span>{formatTime(currentTime)}</span>\n          <span>{formatTime(duration)}</span>\n        </div>\n      </div>\n      \n      <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>\n        <button onClick={seekBackward}>⏪ 10s</button>\n        <button onClick={isPlaying ? pause : play} style={{ fontSize: '24px' }}>\n          {isPlaying ? '⏸' : '▶️'}\n        </button>\n        <button onClick={seekForward}>30s ⏩</button>\n      </div>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Dynamic Metadata Updates",
+      "description": "Update media session metadata dynamically based on content",
+      "code": "import { useMediaSession } from '@usehooks/use-media-session';\nimport { useState, useEffect } from 'react';\n\nfunction DynamicMediaSession() {\n  const [currentContent, setCurrentContent] = useState('music');\n  const [isActive, setIsActive] = useState(false);\n\n  const {\n    isSupported,\n    setMetadata,\n    setPlaybackState,\n    setActionHandler,\n    clearActionHandlers\n  } = useMediaSession();\n\n  const contentTypes = {\n    music: {\n      title: 'Beautiful Song',\n      artist: 'Amazing Artist',\n      album: 'Great Album',\n      artwork: [{ src: '/music-cover.jpg', sizes: '512x512', type: 'image/jpeg' }]\n    },\n    podcast: {\n      title: 'Tech Talk Episode 15',\n      artist: 'Tech Podcast Network',\n      album: 'Season 2',\n      artwork: [{ src: '/podcast-cover.jpg', sizes: '512x512', type: 'image/jpeg' }]\n    },\n    audiobook: {\n      title: 'Chapter 3: The Journey Begins',\n      artist: 'Famous Author',\n      album: 'Epic Novel',\n      artwork: [{ src: '/book-cover.jpg', sizes: '512x512', type: 'image/jpeg' }]\n    }\n  };\n\n  const handlePlay = () => {\n    setIsActive(true);\n    setPlaybackState('playing');\n    console.log('Playing:', currentContent);\n  };\n\n  const handlePause = () => {\n    setIsActive(false);\n    setPlaybackState('paused');\n    console.log('Paused:', currentContent);\n  };\n\n  const handleStop = () => {\n    setIsActive(false);\n    setPlaybackState('none');\n    console.log('Stopped:', currentContent);\n  };\n\n  // Update metadata when content type changes\n  useEffect(() => {\n    if (isSupported) {\n      const metadata = contentTypes[currentContent as keyof typeof contentTypes];\n      setMetadata(metadata);\n    }\n  }, [currentContent, isSupported]);\n\n  // Set up action handlers\n  useEffect(() => {\n    if (isSupported) {\n      setActionHandler('play', handlePlay);\n      setActionHandler('pause', handlePause);\n      setActionHandler('stop', handleStop);\n\n      return () => {\n        clearActionHandlers();\n      };\n    }\n  }, [isSupported]);\n\n  if (!isSupported) {\n    return <div>Media Session API not supported</div>;\n  }\n\n  return (\n    <div style={{ padding: '20px' }}>\n      <h2>Dynamic Media Session</h2>\n      \n      <div style={{ marginBottom: '20px' }}>\n        <label>Content Type: </label>\n        <select\n          value={currentContent}\n          onChange={(e) => setCurrentContent(e.target.value)}\n        >\n          <option value=\"music\">Music</option>\n          <option value=\"podcast\">Podcast</option>\n          <option value=\"audiobook\">Audiobook</option>\n        </select>\n      </div>\n\n      <div style={{ marginBottom: '20px' }}>\n        <h3>Current Metadata:</h3>\n        <pre style={{ backgroundColor: '#f5f5f5', padding: '10px', borderRadius: '4px' }}>\n          {JSON.stringify(contentTypes[currentContent as keyof typeof contentTypes], null, 2)}\n        </pre>\n      </div>\n\n      <div>\n        <button onClick={handlePlay} disabled={isActive}>\n          Play\n        </button>\n        <button onClick={handlePause} disabled={!isActive}>\n          Pause\n        </button>\n        <button onClick={handleStop}>\n          Stop\n        </button>\n      </div>\n\n      <p>Status: {isActive ? 'Active' : 'Inactive'}</p>\n      <p>Use your device's media controls or notification to test the integration!</p>\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Only available in browsers that support the Media Session API (Chrome 57+, Firefox 82+)",
+    "Requires active media element for full functionality",
+    "Media controls appear in system notifications, lock screen, and hardware keys",
+    "Artwork should be provided in multiple sizes for best compatibility",
+    "Action handlers are automatically cleared on component unmount",
+    "Some actions may not be available on all platforms"
+  ]
+}

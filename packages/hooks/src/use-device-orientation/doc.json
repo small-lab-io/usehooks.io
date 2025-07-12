@@ -1,0 +1,89 @@
+{
+  "name": "useDeviceOrientation",
+  "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API. Provides alpha, beta, and gamma rotation values along with compass heading on supported devices.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "UseDeviceOrientationOptions",
+      "optional": true,
+      "description": "Configuration options for device orientation",
+      "properties": [
+        {
+          "name": "absolute",
+          "type": "boolean",
+          "optional": true,
+          "description": "Whether to request absolute orientation values (auto-starts listening)"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseDeviceOrientationReturn",
+    "properties": [
+      {
+        "name": "orientation",
+        "type": "DeviceOrientation | null",
+        "description": "Current device orientation data including alpha, beta, gamma values"
+      },
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether DeviceOrientationEvent is supported"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if orientation access failed"
+      },
+      {
+        "name": "requestPermission",
+        "type": "() => Promise<boolean>",
+        "description": "Request permission for device orientation (required on iOS 13+)"
+      },
+      {
+        "name": "startListening",
+        "type": "() => void",
+        "description": "Start listening to orientation changes"
+      },
+      {
+        "name": "stopListening",
+        "type": "() => void",
+        "description": "Stop listening to orientation changes"
+      },
+      {
+        "name": "isListening",
+        "type": "boolean",
+        "description": "Whether currently listening to orientation changes"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Orientation Display",
+      "description": "Display device orientation values with manual start/stop",
+      "code": "import { useDeviceOrientation } from '@usehooks/use-device-orientation';\n\nfunction OrientationDisplay() {\n  const {\n    orientation,\n    isSupported,\n    isListening,\n    error,\n    requestPermission,\n    startListening,\n    stopListening\n  } = useDeviceOrientation();\n\n  const handleStart = async () => {\n    const hasPermission = await requestPermission();\n    if (hasPermission) {\n      startListening();\n    }\n  };\n\n  if (!isSupported) {\n    return <div>Device orientation not supported</div>;\n  }\n\n  return (\n    <div>\n      <div>\n        <button onClick={handleStart} disabled={isListening}>\n          Start Listening\n        </button>\n        <button onClick={stopListening} disabled={!isListening}>\n          Stop Listening\n        </button>\n      </div>\n      \n      <p>Status: {isListening ? 'Listening' : 'Stopped'}</p>\n      \n      {error && <p>Error: {error}</p>}\n      \n      {orientation && (\n        <div>\n          <h3>Device Orientation:</h3>\n          <p>Alpha (Z-axis): {orientation.alpha?.toFixed(2)}°</p>\n          <p>Beta (X-axis): {orientation.beta?.toFixed(2)}°</p>\n          <p>Gamma (Y-axis): {orientation.gamma?.toFixed(2)}°</p>\n          <p>Absolute: {orientation.absolute ? 'Yes' : 'No'}</p>\n          {orientation.webkitCompassHeading && (\n            <p>Compass: {orientation.webkitCompassHeading.toFixed(2)}°</p>\n          )}\n        </div>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Compass Application",
+      "description": "Create a simple compass using device orientation",
+      "code": "import { useDeviceOrientation } from '@usehooks/use-device-orientation';\nimport { useEffect, useState } from 'react';\n\nfunction Compass() {\n  const { orientation, requestPermission, startListening } = useDeviceOrientation();\n  const [compassHeading, setCompassHeading] = useState(0);\n\n  useEffect(() => {\n    const initCompass = async () => {\n      const hasPermission = await requestPermission();\n      if (hasPermission) {\n        startListening();\n      }\n    };\n    initCompass();\n  }, []);\n\n  useEffect(() => {\n    if (orientation) {\n      // Use webkitCompassHeading if available, otherwise use alpha\n      const heading = orientation.webkitCompassHeading ?? orientation.alpha ?? 0;\n      setCompassHeading(heading);\n    }\n  }, [orientation]);\n\n  const compassStyle = {\n    width: '200px',\n    height: '200px',\n    border: '2px solid #333',\n    borderRadius: '50%',\n    position: 'relative' as const,\n    margin: '20px auto',\n    backgroundColor: '#f0f0f0'\n  };\n\n  const needleStyle = {\n    position: 'absolute' as const,\n    top: '10px',\n    left: '50%',\n    width: '2px',\n    height: '80px',\n    backgroundColor: 'red',\n    transformOrigin: 'bottom center',\n    transform: `translateX(-50%) rotate(${compassHeading}deg)`,\n    transition: 'transform 0.3s ease'\n  };\n\n  return (\n    <div style={{ textAlign: 'center' }}>\n      <h2>Compass</h2>\n      <div style={compassStyle}>\n        <div style={needleStyle}></div>\n        <div style={{ position: 'absolute', top: '5px', left: '50%', transform: 'translateX(-50%)' }}>N</div>\n        <div style={{ position: 'absolute', bottom: '5px', left: '50%', transform: 'translateX(-50%)' }}>S</div>\n        <div style={{ position: 'absolute', left: '5px', top: '50%', transform: 'translateY(-50%)' }}>W</div>\n        <div style={{ position: 'absolute', right: '5px', top: '50%', transform: 'translateY(-50%)' }}>E</div>\n      </div>\n      <p>Heading: {compassHeading.toFixed(1)}°</p>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Auto-start with Absolute Values",
+      "description": "Automatically start listening with absolute orientation values",
+      "code": "import { useDeviceOrientation } from '@usehooks/use-device-orientation';\n\nfunction AbsoluteOrientation() {\n  const {\n    orientation,\n    isSupported,\n    isListening,\n    error\n  } = useDeviceOrientation({ absolute: true });\n\n  if (!isSupported) {\n    return <div>Device orientation not supported</div>;\n  }\n\n  return (\n    <div>\n      <h3>Absolute Device Orientation</h3>\n      <p>Status: {isListening ? 'Active' : 'Inactive'}</p>\n      \n      {error && (\n        <div style={{ color: 'red' }}>\n          <p>Error: {error}</p>\n          <p>Note: On iOS, you may need to enable motion access in Settings.</p>\n        </div>\n      )}\n      \n      {orientation && (\n        <div style={{ fontFamily: 'monospace' }}>\n          <div>Alpha (Z): {orientation.alpha?.toFixed(3)}°</div>\n          <div>Beta (X): {orientation.beta?.toFixed(3)}°</div>\n          <div>Gamma (Y): {orientation.gamma?.toFixed(3)}°</div>\n          <div>Absolute: {orientation.absolute ? '✓' : '✗'}</div>\n          \n          {/* Visual representation */}\n          <div style={{ marginTop: '20px' }}>\n            <div>Tilt Forward/Back: {orientation.beta ? (orientation.beta > 0 ? 'Forward' : 'Back') : 'Level'}</div>\n            <div>Tilt Left/Right: {orientation.gamma ? (orientation.gamma > 0 ? 'Right' : 'Left') : 'Level'}</div>\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Requires user permission on iOS 13+ devices",
+    "HTTPS required in production environments",
+    "Alpha represents rotation around Z-axis (0-360°)",
+    "Beta represents rotation around X-axis (-180° to 180°)",
+    "Gamma represents rotation around Y-axis (-90° to 90°)",
+    "WebKit compass heading available on some iOS devices",
+    "Automatically cleans up event listeners on unmount"
+  ]
+}

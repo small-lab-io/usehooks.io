@@ -1,0 +1,60 @@
+{
+  "name": "useThrottle",
+  "description": "A React hook for throttling values to limit the frequency of updates. Unlike debouncing, throttling ensures updates happen at regular intervals during continuous changes.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "value",
+      "type": "T",
+      "description": "The value to throttle"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "description": "The minimum time in milliseconds between updates"
+    }
+  ],
+  "returnType": "T",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of the value being throttled"
+    }
+  ],
+  "returnValue": [
+    {
+      "name": "throttledValue",
+      "type": "T",
+      "description": "The throttled value that updates at most once per delay period"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Scroll Position Throttling",
+      "description": "Throttling scroll events for performance",
+      "code": "const [scrollY, setScrollY] = useState(0);\nconst throttledScrollY = useThrottle(scrollY, 100);\n\nuseEffect(() => {\n  const handleScroll = () => setScrollY(window.scrollY);\n  \n  window.addEventListener('scroll', handleScroll);\n  return () => window.removeEventListener('scroll', handleScroll);\n}, []);\n\n// Use throttled value for expensive operations\nuseEffect(() => {\n  updateParallaxElements(throttledScrollY);\n}, [throttledScrollY]);"
+    },
+    {
+      "title": "Mouse Movement Tracking",
+      "description": "Throttling mouse movement for smooth animations",
+      "code": "const [mousePos, setMousePos] = useState({ x: 0, y: 0 });\nconst throttledMousePos = useThrottle(mousePos, 16); // ~60fps\n\nuseEffect(() => {\n  const handleMouseMove = (e: MouseEvent) => {\n    setMousePos({ x: e.clientX, y: e.clientY });\n  };\n\n  document.addEventListener('mousemove', handleMouseMove);\n  return () => document.removeEventListener('mousemove', handleMouseMove);\n}, []);\n\n// Smooth cursor following animation\nreturn (\n  <div\n    style={{\n      transform: `translate(${throttledMousePos.x}px, ${throttledMousePos.y}px)`\n    }}\n  />\n);"
+    },
+    {
+      "title": "API Rate Limiting",
+      "description": "Throttling API calls to respect rate limits",
+      "code": "const [searchQuery, setSearchQuery] = useState('');\nconst throttledQuery = useThrottle(searchQuery, 1000);\n\nuseEffect(() => {\n  if (throttledQuery) {\n    // API call happens at most once per second\n    searchAPI(throttledQuery);\n  }\n}, [throttledQuery]);\n\nreturn (\n  <input\n    value={searchQuery}\n    onChange={(e) => setSearchQuery(e.target.value)}\n    placeholder=\"Search (throttled)...\"\n  />\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect, useRef } from 'react';"
+  ],
+  "notes": [
+    "Unlike debouncing, throttling ensures regular updates during continuous changes",
+    "First update happens immediately, subsequent updates are limited by the delay",
+    "Ideal for scroll events, mouse movements, and other high-frequency events",
+    "Uses a combination of immediate execution and scheduled updates for optimal performance",
+    "Properly cleans up timeouts on unmount to prevent memory leaks"
+  ]
+}

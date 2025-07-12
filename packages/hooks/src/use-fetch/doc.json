@@ -1,0 +1,89 @@
+{
+  "name": "useFetch",
+  "description": "A comprehensive React hook for making HTTP requests using the Fetch API with loading states, error handling, request cancellation, and convenient methods for different HTTP verbs.",
+  "category": "network",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "url",
+      "type": "string",
+      "optional": true,
+      "description": "The URL to fetch from"
+    },
+    {
+      "name": "options",
+      "type": "UseFetchOptions",
+      "optional": true,
+      "default": "{}",
+      "description": "Fetch options including immediate execution, callbacks, and RequestInit options"
+    }
+  ],
+  "returnType": "UseFetchReturn<T>",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The expected type of the response data"
+    }
+  ],
+  "methods": [
+    {
+      "name": "data",
+      "type": "T | null",
+      "description": "The fetched data, null if no data or error occurred"
+    },
+    {
+      "name": "loading",
+      "type": "boolean",
+      "description": "True when a request is in progress"
+    },
+    {
+      "name": "error",
+      "type": "Error | null",
+      "description": "Error object if request failed, null otherwise"
+    },
+    {
+      "name": "execute",
+      "type": "(url?: string, options?: RequestInit) => Promise<T | null>",
+      "description": "Manually execute a fetch request with optional URL and options override"
+    },
+    {
+      "name": "abort",
+      "type": "() => void",
+      "description": "Abort the current request"
+    },
+    {
+      "name": "reset",
+      "type": "() => void",
+      "description": "Reset the state to initial values and abort any ongoing request"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic GET Request",
+      "description": "Fetching data with automatic execution",
+      "code": "const { data, loading, error } = useFetch<User[]>('/api/users', {\n  immediate: true\n});\n\nif (loading) return <div>Loading...</div>;\nif (error) return <div>Error: {error.message}</div>;\n\nreturn (\n  <ul>\n    {data?.map(user => (\n      <li key={user.id}>{user.name}</li>\n    ))}\n  </ul>\n);"
+    },
+    {
+      "title": "Manual Execution with POST",
+      "description": "Creating a new resource with manual execution",
+      "code": "const { data, loading, error, execute } = useFetch<User>();\n\nconst createUser = async (userData: CreateUserData) => {\n  try {\n    const newUser = await execute('/api/users', {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(userData)\n    });\n    console.log('User created:', newUser);\n  } catch (err) {\n    console.error('Failed to create user:', err);\n  }\n};\n\nreturn (\n  <form onSubmit={(e) => {\n    e.preventDefault();\n    createUser(formData);\n  }}>\n    {/* form fields */}\n    <button type=\"submit\" disabled={loading}>\n      {loading ? 'Creating...' : 'Create User'}\n    </button>\n  </form>\n);"
+    },
+    {
+      "title": "Request Cancellation",
+      "description": "Cancelling requests and handling cleanup",
+      "code": "const { data, loading, execute, abort, reset } = useFetch<SearchResults>();\nconst [query, setQuery] = useState('');\n\nconst searchUsers = useCallback(async (searchTerm: string) => {\n  if (!searchTerm.trim()) {\n    reset();\n    return;\n  }\n\n  try {\n    await execute(`/api/search?q=${encodeURIComponent(searchTerm)}`);\n  } catch (error) {\n    if (error.name !== 'AbortError') {\n      console.error('Search failed:', error);\n    }\n  }\n}, [execute, reset]);\n\n// Debounced search\nconst debouncedSearch = useDebounce(query, 300);\nuseEffect(() => {\n  searchUsers(debouncedSearch);\n}, [debouncedSearch, searchUsers]);\n\nreturn (\n  <div>\n    <input\n      value={query}\n      onChange={(e) => setQuery(e.target.value)}\n      placeholder=\"Search users...\"\n    />\n    <button onClick={abort}>Cancel</button>\n    {loading && <div>Searching...</div>}\n    {data && <SearchResultsList results={data} />}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect, useCallback, useRef } from 'react';"
+  ],
+  "notes": [
+    "Automatically handles JSON parsing and falls back to text for non-JSON responses",
+    "Includes request cancellation using AbortController to prevent memory leaks",
+    "Provides convenience hooks: useGet, usePost, usePut, useDelete",
+    "Supports both immediate execution and manual triggering",
+    "Includes onSuccess and onError callbacks for side effects",
+    "Properly handles cleanup on component unmount"
+  ]
+}

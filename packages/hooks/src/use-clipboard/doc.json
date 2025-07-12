@@ -1,0 +1,59 @@
+{
+  "name": "useClipboard",
+  "description": "A React hook for interacting with the clipboard API to copy text content with state management, error handling, and automatic feedback.",
+  "category": "browser",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": "UseClipboardReturn",
+  "methods": [
+    {
+      "name": "value",
+      "type": "string | null",
+      "description": "The last successfully copied text value"
+    },
+    {
+      "name": "copy",
+      "type": "(text: string) => Promise<boolean>",
+      "description": "Copy text to clipboard, returns true if successful"
+    },
+    {
+      "name": "copied",
+      "type": "boolean",
+      "description": "True if text was recently copied (resets after 2 seconds)"
+    },
+    {
+      "name": "error",
+      "type": "string | null",
+      "description": "Error message if copy operation failed"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Copy Button with Feedback",
+      "description": "Basic copy functionality with visual feedback",
+      "code": "const { copy, copied, error } = useClipboard();\nconst [text] = useState('Hello, World!');\n\nconst handleCopy = async () => {\n  await copy(text);\n};\n\nreturn (\n  <div>\n    <p>{text}</p>\n    <button onClick={handleCopy} disabled={copied}>\n      {copied ? 'Copied!' : 'Copy'}\n    </button>\n    {error && <p style={{ color: 'red' }}>Error: {error}</p>}\n  </div>\n);"
+    },
+    {
+      "title": "Copy Code Snippet",
+      "description": "Copying code with syntax highlighting and feedback",
+      "code": "const { copy, copied, error } = useClipboard();\n\nconst CodeBlock = ({ code, language }) => {\n  const handleCopyCode = async () => {\n    const success = await copy(code);\n    if (success) {\n      // Optional: Show toast notification\n      showToast('Code copied to clipboard!');\n    }\n  };\n\n  return (\n    <div className=\"code-block\">\n      <div className=\"code-header\">\n        <span>{language}</span>\n        <button \n          onClick={handleCopyCode}\n          className={copied ? 'copied' : ''}\n        >\n          {copied ? '✓ Copied' : '📋 Copy'}\n        </button>\n      </div>\n      <pre><code>{code}</code></pre>\n      {error && <div className=\"error\">{error}</div>}\n    </div>\n  );\n};"
+    },
+    {
+      "title": "Share URL Functionality",
+      "description": "Copying current page URL with user feedback",
+      "code": "const { copy, copied, value, error } = useClipboard();\n\nconst ShareButton = () => {\n  const handleShareUrl = async () => {\n    const currentUrl = window.location.href;\n    const success = await copy(currentUrl);\n    \n    if (success) {\n      // Optional: Analytics tracking\n      trackEvent('url_shared', { url: currentUrl });\n    }\n  };\n\n  return (\n    <div className=\"share-section\">\n      <button onClick={handleShareUrl} className=\"share-btn\">\n        {copied ? '🎉 Link Copied!' : '🔗 Share This Page'}\n      </button>\n      \n      {copied && value && (\n        <div className=\"copied-url\">\n          <small>Copied: {value}</small>\n        </div>\n      )}\n      \n      {error && (\n        <div className=\"error-message\">\n          Failed to copy: {error}\n        </div>\n      )}\n    </div>\n  );\n};"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback } from 'react';"
+  ],
+  "notes": [
+    "Requires a secure context (HTTPS) for the Clipboard API to work",
+    "Automatically resets the 'copied' state after 2 seconds",
+    "Gracefully handles browsers that don't support the Clipboard API",
+    "Returns boolean from copy function to indicate success/failure",
+    "Stores the last successfully copied value for reference",
+    "Provides detailed error messages for debugging"
+  ]
+}

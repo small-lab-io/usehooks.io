@@ -1,0 +1,70 @@
+{
+  "name": "useTimeout",
+  "description": "A React hook for managing timeouts with start, stop, reset, and status checking capabilities. Provides fine-grained control over timeout execution and automatically handles cleanup.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "callback",
+      "type": "() => void",
+      "description": "The function to execute when the timeout completes"
+    },
+    {
+      "name": "delay",
+      "type": "number | null",
+      "description": "The delay in milliseconds, or null to disable the timeout"
+    }
+  ],
+  "returnType": "UseTimeoutReturn",
+  "methods": [
+    {
+      "name": "start",
+      "type": "() => void",
+      "description": "Starts or restarts the timeout"
+    },
+    {
+      "name": "stop",
+      "type": "() => void",
+      "description": "Stops the timeout and prevents the callback from executing"
+    },
+    {
+      "name": "reset",
+      "type": "() => void",
+      "description": "Stops the current timeout and starts a new one"
+    },
+    {
+      "name": "isActive",
+      "type": "() => boolean",
+      "description": "Returns true if the timeout is currently active"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Auto-save Functionality",
+      "description": "Implementing auto-save with manual control",
+      "code": "const [content, setContent] = useState('');\nconst [isSaved, setIsSaved] = useState(true);\n\nconst saveContent = useCallback(() => {\n  // Save content to server\n  saveToServer(content);\n  setIsSaved(true);\n}, [content]);\n\nconst { start, stop, reset, isActive } = useTimeout(saveContent, 2000);\n\nconst handleContentChange = (newContent: string) => {\n  setContent(newContent);\n  setIsSaved(false);\n  reset(); // Reset the auto-save timer\n};\n\nreturn (\n  <div>\n    <textarea\n      value={content}\n      onChange={(e) => handleContentChange(e.target.value)}\n    />\n    <div>\n      {isSaved ? 'Saved' : isActive() ? 'Auto-saving...' : 'Not saved'}\n    </div>\n    <button onClick={stop}>Cancel Auto-save</button>\n  </div>\n);"
+    },
+    {
+      "title": "Notification Auto-dismiss",
+      "description": "Auto-dismissing notifications with pause/resume",
+      "code": "const [notification, setNotification] = useState(null);\n\nconst dismissNotification = useCallback(() => {\n  setNotification(null);\n}, []);\n\nconst { start, stop, reset } = useTimeout(dismissNotification, 5000);\n\nconst showNotification = (message: string) => {\n  setNotification(message);\n  reset(); // Start auto-dismiss timer\n};\n\nreturn (\n  <div>\n    {notification && (\n      <div \n        className=\"notification\"\n        onMouseEnter={stop} // Pause on hover\n        onMouseLeave={start} // Resume on leave\n      >\n        {notification}\n        <button onClick={dismissNotification}>×</button>\n      </div>\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Delayed Action with Cancellation",
+      "description": "Implementing delayed actions that can be cancelled",
+      "code": "const [isDeleting, setIsDeleting] = useState(false);\n\nconst performDelete = useCallback(() => {\n  // Perform actual deletion\n  deleteItem();\n  setIsDeleting(false);\n}, []);\n\nconst { start, stop, isActive } = useTimeout(performDelete, 3000);\n\nconst handleDeleteClick = () => {\n  setIsDeleting(true);\n  start();\n};\n\nconst cancelDelete = () => {\n  stop();\n  setIsDeleting(false);\n};\n\nreturn (\n  <div>\n    {isDeleting ? (\n      <div>\n        <p>Deleting in {isActive() ? '3' : '0'} seconds...</p>\n        <button onClick={cancelDelete}>Cancel</button>\n      </div>\n    ) : (\n      <button onClick={handleDeleteClick}>Delete Item</button>\n    )}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useEffect, useRef, useCallback } from 'react';"
+  ],
+  "notes": [
+    "Automatically starts the timeout when delay changes (if delay is not null)",
+    "Setting delay to null disables the timeout",
+    "Properly cleans up timeouts on unmount to prevent memory leaks",
+    "The callback ref is updated on each render to ensure latest closure",
+    "Provides both automatic and manual control over timeout execution",
+    "Also exports useTimeoutEffect for simpler automatic timeout behavior"
+  ]
+}

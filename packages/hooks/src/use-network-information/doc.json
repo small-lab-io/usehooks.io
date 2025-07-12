@@ -1,0 +1,38 @@
+{
+  "name": "useNetworkInformation",
+  "description": "A React hook that provides access to network connection information using the Network Information API. It tracks connection details like speed, type, and online status with real-time updates.",
+  "parameters": [],
+  "returns": {
+    "type": "UseNetworkInformationReturn",
+    "description": "An object containing network information and utilities",
+    "properties": {
+      "networkInfo": {
+        "type": "NetworkInformation | null",
+        "description": "Current network connection information including downlink, effectiveType, rtt, saveData, and type"
+      },
+      "isOnline": {
+        "type": "boolean",
+        "description": "Whether the browser is currently online"
+      },
+      "isSupported": {
+        "type": "boolean",
+        "description": "Whether the Network Information API is supported in the current browser"
+      },
+      "refresh": {
+        "type": "() => void",
+        "description": "Function to manually refresh the network information"
+      }
+    }
+  },
+  "example": {
+    "title": "Basic usage",
+    "code": "import { useNetworkInformation } from '@usehooks.io/use-network-information';\n\nfunction NetworkStatus() {\n  const { networkInfo, isOnline, isSupported, refresh } = useNetworkInformation();\n\n  if (!isSupported) {\n    return <div>Network Information API not supported</div>;\n  }\n\n  return (\n    <div>\n      <p>Online: {isOnline ? 'Yes' : 'No'}</p>\n      {networkInfo && (\n        <div>\n          <p>Connection Type: {networkInfo.type}</p>\n          <p>Effective Type: {networkInfo.effectiveType}</p>\n          <p>Downlink: {networkInfo.downlink} Mbps</p>\n          <p>RTT: {networkInfo.rtt} ms</p>\n          <p>Save Data: {networkInfo.saveData ? 'Yes' : 'No'}</p>\n        </div>\n      )}\n      <button onClick={refresh}>Refresh</button>\n    </div>\n  );\n}"
+  },
+  "dependencies": ["react"],
+  "notes": [
+    "The Network Information API is experimental and may not be supported in all browsers",
+    "Automatically listens for online/offline events and connection changes",
+    "Returns null for networkInfo when the API is not supported",
+    "Cleans up event listeners on component unmount"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "useWindowSize",
+  "description": "A React hook for tracking the browser window dimensions with automatic updates on resize events and SSR compatibility.",
+  "category": "dom",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": "WindowSize",
+  "returnValue": [
+    {
+      "name": "width",
+      "type": "number",
+      "description": "Current window width in pixels"
+    },
+    {
+      "name": "height",
+      "type": "number",
+      "description": "Current window height in pixels"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Responsive Component Behavior",
+      "description": "Adapting component layout based on window size",
+      "code": "const { width, height } = useWindowSize();\nconst isMobile = width < 768;\nconst isTablet = width >= 768 && width < 1024;\nconst isDesktop = width >= 1024;\n\nreturn (\n  <div className={`container ${isMobile ? 'mobile' : isTablet ? 'tablet' : 'desktop'}`}>\n    <h1>Current Window Size</h1>\n    <p>Width: {width}px</p>\n    <p>Height: {height}px</p>\n    <p>Device: {isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Desktop'}</p>\n    \n    {isMobile && (\n      <div>Mobile-specific content</div>\n    )}\n    \n    {isDesktop && (\n      <div className=\"desktop-sidebar\">\n        Desktop sidebar content\n      </div>\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Dynamic Grid Layout",
+      "description": "Adjusting grid columns based on available width",
+      "code": "const { width } = useWindowSize();\n\nconst getGridColumns = (windowWidth) => {\n  if (windowWidth < 640) return 1;\n  if (windowWidth < 1024) return 2;\n  if (windowWidth < 1280) return 3;\n  return 4;\n};\n\nconst columns = getGridColumns(width);\n\nreturn (\n  <div \n    className=\"grid\"\n    style={{\n      gridTemplateColumns: `repeat(${columns}, 1fr)`,\n      gap: '1rem'\n    }}\n  >\n    {items.map((item, index) => (\n      <div key={index} className=\"grid-item\">\n        {item.content}\n      </div>\n    ))}\n  </div>\n);"
+    },
+    {
+      "title": "Conditional Rendering with Breakpoints",
+      "description": "Showing different components based on screen size",
+      "code": "const { width } = useWindowSize();\n\nconst breakpoints = {\n  sm: 640,\n  md: 768,\n  lg: 1024,\n  xl: 1280\n};\n\nconst Navigation = () => {\n  if (width < breakpoints.md) {\n    return <MobileNavigation />;\n  }\n  \n  return <DesktopNavigation />;\n};\n\nconst Sidebar = () => {\n  // Only show sidebar on larger screens\n  if (width < breakpoints.lg) {\n    return null;\n  }\n  \n  return (\n    <aside className=\"sidebar\">\n      <SidebarContent />\n    </aside>\n  );\n};\n\nreturn (\n  <div className=\"app-layout\">\n    <Navigation />\n    <main className=\"main-content\">\n      <Content />\n    </main>\n    <Sidebar />\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect } from 'react';"
+  ],
+  "notes": [
+    "Returns { width: 0, height: 0 } during SSR to prevent hydration mismatches",
+    "Automatically updates when the window is resized",
+    "Uses window.innerWidth and window.innerHeight for accurate viewport dimensions",
+    "Properly cleans up event listeners on component unmount",
+    "Calls resize handler immediately to get initial window size",
+    "Safe to use in SSR environments like Next.js"
+  ]
+}

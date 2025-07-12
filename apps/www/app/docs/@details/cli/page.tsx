@@ -1,7 +1,6 @@
-import { Separator } from "@workspace/ui/components/separator";
 import { cn } from "@workspace/ui/lib/utils";
+import { Separator } from "@workspace/ui/components/separator";
 
-// Simple Callout component
 function Callout({
   children,
   className,
@@ -20,7 +19,6 @@ function Callout({
   );
 }
 
-// Simple Terminal component
 function Terminal({
   children,
   className,
@@ -39,7 +37,6 @@ function Terminal({
   );
 }
 
-// Simple Steps component
 function Steps({ children }: { children: React.ReactNode }) {
   return <div className="space-y-6">{children}</div>;
 }
@@ -185,7 +182,7 @@ export default function CliPage() {
                 Skip confirmation prompt. (default: false)
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
               <div className="font-mono text-blue-600 dark:text-blue-400">
                 -o, --overwrite
               </div>

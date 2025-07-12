@@ -1,0 +1,84 @@
+{
+  "name": "useRoleGuard",
+  "description": "A React hook for role-based access control that checks user permissions against required roles. Provides utilities for authorization, redirection, and session management.",
+  "parameters": [
+    {
+      "name": "requiredRoles",
+      "type": "string[]",
+      "description": "Array of roles required to access the resource"
+    },
+    {
+      "name": "options",
+      "type": "UseRoleGuardOptions",
+      "description": "Configuration options for the role guard",
+      "optional": true,
+      "properties": {
+        "user": {
+          "type": "User | null",
+          "description": "User object with id and roles array",
+          "optional": true
+        },
+        "redirectTo": {
+          "type": "string",
+          "description": "URL to redirect to when unauthorized (default: '/unauthorized')",
+          "optional": true
+        },
+        "onUnauthorized": {
+          "type": "() => void",
+          "description": "Callback function to execute when user is unauthorized",
+          "optional": true
+        },
+        "sessionKey": {
+          "type": "string",
+          "description": "Session storage key for user data (default: 'user')",
+          "optional": true
+        }
+      }
+    }
+  ],
+  "returns": {
+    "type": "UseRoleGuardReturn",
+    "description": "An object containing access control utilities and state",
+    "properties": {
+      "hasAccess": {
+        "type": "boolean",
+        "description": "Whether the user has access to the current resource"
+      },
+      "hasAnyRole": {
+        "type": "(roles: string[]) => boolean",
+        "description": "Function to check if user has any of the specified roles"
+      },
+      "hasAllRoles": {
+        "type": "(roles: string[]) => boolean",
+        "description": "Function to check if user has all of the specified roles"
+      },
+      "isLoading": {
+        "type": "boolean",
+        "description": "Whether the hook is currently loading user data"
+      },
+      "user": {
+        "type": "User | null",
+        "description": "Current user object with roles"
+      },
+      "checkAccess": {
+        "type": "(requiredRoles: string[]) => boolean",
+        "description": "Function to check access for specific roles"
+      },
+      "redirect": {
+        "type": "() => void",
+        "description": "Function to manually trigger redirect"
+      }
+    }
+  },
+  "example": {
+    "title": "Role-based component protection",
+    "code": "import { useRoleGuard } from '@usehooks.io/use-role-guard';\n\nfunction AdminPanel() {\n  const { hasAccess, isLoading, user, hasAnyRole } = useRoleGuard(\n    ['admin', 'moderator'],\n    {\n      redirectTo: '/login',\n      onUnauthorized: () => console.log('Access denied')\n    }\n  );\n\n  if (isLoading) {\n    return <div>Loading...</div>;\n  }\n\n  if (!hasAccess) {\n    return <div>Access denied</div>;\n  }\n\n  return (\n    <div>\n      <h1>Admin Panel</h1>\n      <p>Welcome, {user?.id}</p>\n      {hasAnyRole(['admin']) && (\n        <button>Admin Only Action</button>\n      )}\n    </div>\n  );\n}"
+  },
+  "dependencies": ["react"],
+  "notes": [
+    "Automatically redirects unauthorized users if redirectTo is provided",
+    "Loads user data from session storage if no user is provided",
+    "Uses hasAnyRole logic for access checking by default",
+    "Handles loading state while retrieving user data from session"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "name": "useDebounce",
+  "description": "A React hook for debouncing values to delay updates until after a specified delay period. Useful for optimizing performance in search inputs, API calls, and other scenarios where you want to limit the frequency of updates.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "value",
+      "type": "T",
+      "description": "The value to debounce"
+    },
+    {
+      "name": "delay",
+      "type": "number",
+      "description": "The delay in milliseconds before the value is updated"
+    }
+  ],
+  "returnType": "T",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of the value being debounced"
+    }
+  ],
+  "returnValue": [
+    {
+      "name": "debouncedValue",
+      "type": "T",
+      "description": "The debounced value that updates after the specified delay"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Search Input Debouncing",
+      "description": "Debouncing user input for search functionality",
+      "code": "const [searchTerm, setSearchTerm] = useState('');\nconst debouncedSearchTerm = useDebounce(searchTerm, 300);\n\n// Effect runs only when debounced value changes\nuseEffect(() => {\n  if (debouncedSearchTerm) {\n    // Perform search API call\n    searchAPI(debouncedSearchTerm);\n  }\n}, [debouncedSearchTerm]);\n\nreturn (\n  <input\n    value={searchTerm}\n    onChange={(e) => setSearchTerm(e.target.value)}\n    placeholder=\"Search...\"\n  />\n);"
+    },
+    {
+      "title": "API Call Optimization",
+      "description": "Preventing excessive API calls during rapid state changes",
+      "code": "const [filters, setFilters] = useState({ category: '', price: 0 });\nconst debouncedFilters = useDebounce(filters, 500);\n\nuseEffect(() => {\n  // API call only happens after user stops changing filters\n  fetchProducts(debouncedFilters);\n}, [debouncedFilters]);\n\nconst updateFilter = (key: string, value: any) => {\n  setFilters(prev => ({ ...prev, [key]: value }));\n};"
+    },
+    {
+      "title": "Window Resize Debouncing",
+      "description": "Debouncing window resize events for performance",
+      "code": "const [windowSize, setWindowSize] = useState({\n  width: window.innerWidth,\n  height: window.innerHeight\n});\nconst debouncedWindowSize = useDebounce(windowSize, 250);\n\nuseEffect(() => {\n  const handleResize = () => {\n    setWindowSize({\n      width: window.innerWidth,\n      height: window.innerHeight\n    });\n  };\n\n  window.addEventListener('resize', handleResize);\n  return () => window.removeEventListener('resize', handleResize);\n}, []);\n\n// Use debouncedWindowSize for expensive calculations\nuseEffect(() => {\n  performExpensiveLayout(debouncedWindowSize);\n}, [debouncedWindowSize]);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect } from 'react';"
+  ],
+  "notes": [
+    "The debounced value will only update after the specified delay has passed since the last change",
+    "Useful for optimizing performance when dealing with rapid state changes",
+    "Commonly used with search inputs, form validation, and API calls",
+    "The delay is reset every time the input value changes",
+    "Uses setTimeout internally and properly cleans up on unmount"
+  ]
+}

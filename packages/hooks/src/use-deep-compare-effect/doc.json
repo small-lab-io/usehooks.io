@@ -1,0 +1,49 @@
+{
+  "name": "useDeepCompareEffect",
+  "description": "A React hook that works like useEffect but performs deep comparison on dependencies instead of shallow comparison. Useful when dependencies are objects or arrays that might be recreated on each render.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "effect",
+      "type": "React.EffectCallback",
+      "description": "The effect function to run when dependencies change"
+    },
+    {
+      "name": "deps",
+      "type": "React.DependencyList",
+      "optional": true,
+      "description": "Array of dependencies to deep compare"
+    }
+  ],
+  "returnType": "void",
+  "examples": [
+    {
+      "title": "Object Dependencies",
+      "description": "Using with object dependencies that are recreated on each render",
+      "code": "const [user, setUser] = useState({ name: 'John', age: 30 });\nconst [settings, setSettings] = useState({ theme: 'dark', lang: 'en' });\n\n// This would run on every render with regular useEffect\n// because objects are recreated each time\nuseDeepCompareEffect(() => {\n  console.log('User or settings changed');\n  updateUserProfile(user, settings);\n}, [user, settings]);\n\n// Only runs when the actual content of user or settings changes\n// not when the object references change"
+    },
+    {
+      "title": "Array Dependencies",
+      "description": "Preventing unnecessary effects with array dependencies",
+      "code": "const [filters, setFilters] = useState(['active', 'verified']);\nconst [sortOrder, setSortOrder] = useState(['name', 'asc']);\n\nuseDeepCompareEffect(() => {\n  // This effect only runs when the actual array contents change\n  // not when new array instances are created\n  fetchFilteredData(filters, sortOrder);\n}, [filters, sortOrder]);\n\nconst addFilter = (newFilter) => {\n  // Even though this creates a new array, the effect won't run\n  // if the content is the same\n  setFilters(prev => [...prev, newFilter]);\n};"
+    },
+    {
+      "title": "Complex Nested Objects",
+      "description": "Deep comparison with nested object structures",
+      "code": "const [config, setConfig] = useState({\n  api: {\n    baseUrl: 'https://api.example.com',\n    timeout: 5000,\n    headers: { 'Content-Type': 'application/json' }\n  },\n  features: {\n    darkMode: true,\n    notifications: ['email', 'push']\n  }\n});\n\nuseDeepCompareEffect(() => {\n  // Only runs when the actual configuration values change\n  // not when the config object is recreated\n  initializeApp(config);\n  \n  return () => {\n    cleanupApp();\n  };\n}, [config]);\n\n// This won't trigger the effect if the values are the same\nconst updateConfig = () => {\n  setConfig({\n    api: {\n      baseUrl: 'https://api.example.com', // same value\n      timeout: 5000, // same value\n      headers: { 'Content-Type': 'application/json' } // same value\n    },\n    features: {\n      darkMode: true, // same value\n      notifications: ['email', 'push'] // same array content\n    }\n  });\n};"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useEffect, useRef } from 'react';"
+  ],
+  "notes": [
+    "Performs deep equality comparison on all dependency values",
+    "More expensive than regular useEffect due to deep comparison overhead",
+    "Use only when necessary - prefer restructuring to avoid object/array dependencies",
+    "Handles nested objects, arrays, and primitive values correctly",
+    "Comparison includes checking object keys, array lengths, and recursive value comparison",
+    "Memoizes dependencies to prevent unnecessary re-computations"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "usePrevious",
+  "description": "A React hook that returns the previous value of a state or prop. Useful for comparing current and previous values in effects or for implementing undo functionality.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "value",
+      "type": "T",
+      "description": "The current value to track"
+    }
+  ],
+  "returnType": "T | undefined",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of the value being tracked"
+    }
+  ],
+  "returnValue": [
+    {
+      "name": "previousValue",
+      "type": "T | undefined",
+      "description": "The previous value, or undefined on first render"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Comparing Previous and Current Values",
+      "description": "Detecting changes between renders",
+      "code": "const [count, setCount] = useState(0);\nconst previousCount = usePrevious(count);\n\nuseEffect(() => {\n  if (previousCount !== undefined) {\n    console.log(`Count changed from ${previousCount} to ${count}`);\n    \n    if (count > previousCount) {\n      console.log('Count increased');\n    } else if (count < previousCount) {\n      console.log('Count decreased');\n    }\n  }\n}, [count, previousCount]);"
+    },
+    {
+      "title": "Conditional Effects",
+      "description": "Running effects only when specific changes occur",
+      "code": "const [user, setUser] = useState(null);\nconst previousUser = usePrevious(user);\n\nuseEffect(() => {\n  // Only run when user actually changes (not on initial load)\n  if (previousUser && user?.id !== previousUser?.id) {\n    // User switched - clear cache, update analytics, etc.\n    clearUserCache();\n    trackUserSwitch(previousUser.id, user.id);\n  }\n}, [user, previousUser]);"
+    },
+    {
+      "title": "Animation Triggers",
+      "description": "Triggering animations based on value changes",
+      "code": "const [status, setStatus] = useState('idle');\nconst previousStatus = usePrevious(status);\nconst [shouldAnimate, setShouldAnimate] = useState(false);\n\nuseEffect(() => {\n  if (previousStatus && previousStatus !== status) {\n    setShouldAnimate(true);\n    \n    // Reset animation flag after animation completes\n    const timer = setTimeout(() => setShouldAnimate(false), 300);\n    return () => clearTimeout(timer);\n  }\n}, [status, previousStatus]);\n\nreturn (\n  <div className={shouldAnimate ? 'animate-pulse' : ''}>\n    Status: {status}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useRef, useEffect } from 'react';"
+  ],
+  "notes": [
+    "Returns undefined on the first render since there's no previous value",
+    "Uses useRef to store the previous value without causing re-renders",
+    "The previous value is updated after the current render completes",
+    "Useful for implementing undo functionality or change detection",
+    "Works with any type of value including objects, arrays, and primitives"
+  ]
+}

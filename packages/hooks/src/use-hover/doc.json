@@ -1,0 +1,84 @@
+{
+  "name": "useHover",
+  "description": "A React hook for detecting when an element is being hovered with optional callbacks, delay support, and TypeScript generics for element types.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "UseHoverOptions",
+      "optional": true,
+      "default": "{}",
+      "description": "Configuration options for hover behavior"
+    }
+  ],
+  "returnType": "UseHoverReturn<T>",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of HTML element to attach hover detection to (extends HTMLElement)"
+    }
+  ],
+  "methods": [
+    {
+      "name": "isHovered",
+      "type": "boolean",
+      "description": "Whether the element is currently being hovered",
+      "category": "state"
+    },
+    {
+      "name": "ref",
+      "type": "React.RefObject<T>",
+      "description": "Ref to attach to the element you want to detect hover on",
+      "category": "ref"
+    }
+  ],
+  "interfaces": [
+    {
+      "name": "UseHoverOptions",
+      "properties": [
+        {
+          "name": "onHoverStart",
+          "type": "() => void",
+          "optional": true,
+          "description": "Callback fired when hover starts"
+        },
+        {
+          "name": "onHoverEnd",
+          "type": "() => void",
+          "optional": true,
+          "description": "Callback fired when hover ends"
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "optional": true,
+          "default": "0",
+          "description": "Delay in milliseconds before hover state becomes true"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Hover Detection",
+      "description": "Simple hover state detection",
+      "code": "const { isHovered, ref } = useHover();\n\nreturn (\n  <div\n    ref={ref}\n    style={{\n      padding: '20px',\n      backgroundColor: isHovered ? 'lightblue' : 'lightgray'\n    }}\n  >\n    {isHovered ? 'Hovered!' : 'Hover me'}\n  </div>\n);"
+    },
+    {
+      "title": "With Callbacks and Delay",
+      "description": "Using hover with callbacks and delay",
+      "code": "const { isHovered, ref } = useHover({\n  onHoverStart: () => console.log('Hover started'),\n  onHoverEnd: () => console.log('Hover ended'),\n  delay: 300 // 300ms delay\n});\n\nreturn (\n  <button ref={ref}>\n    {isHovered ? 'Hovering...' : 'Hover me (with delay)'}\n  </button>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback, useRef, useEffect } from 'react';"
+  ],
+  "notes": [
+    "Automatically cleans up event listeners on unmount",
+    "Supports delay for hover start but immediate hover end",
+    "Uses TypeScript generics for type-safe element references",
+    "Handles timeout cleanup to prevent memory leaks"
+  ]
+}

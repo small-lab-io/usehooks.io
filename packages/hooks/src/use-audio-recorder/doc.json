@@ -1,0 +1,156 @@
+{
+  "name": "useAudioRecorder",
+  "description": "A comprehensive hook for audio recording with real-time analysis using getUserMedia, MediaRecorder, and Web Audio APIs. Provides full control over audio recording including pause/resume, duration tracking, and optional real-time frequency analysis.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "UseAudioRecorderOptions",
+      "optional": true,
+      "description": "Configuration options for the audio recorder",
+      "properties": [
+        {
+          "name": "audioBitsPerSecond",
+          "type": "number",
+          "optional": true,
+          "description": "Audio bitrate in bits per second (default: 128000)"
+        },
+        {
+          "name": "mimeType",
+          "type": "string",
+          "optional": true,
+          "description": "MIME type for the recording (default: 'audio/webm')"
+        },
+        {
+          "name": "timeslice",
+          "type": "number",
+          "optional": true,
+          "description": "Time interval for data chunks in milliseconds"
+        },
+        {
+          "name": "enableAnalysis",
+          "type": "boolean",
+          "optional": true,
+          "description": "Enable real-time audio analysis (default: false)"
+        },
+        {
+          "name": "fftSize",
+          "type": "number",
+          "optional": true,
+          "description": "FFT size for audio analysis (default: 2048)"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseAudioRecorderReturn",
+    "properties": [
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether audio recording is supported in the current browser"
+      },
+      {
+        "name": "isRecording",
+        "type": "boolean",
+        "description": "Whether audio is currently being recorded"
+      },
+      {
+        "name": "isPaused",
+        "type": "boolean",
+        "description": "Whether recording is currently paused"
+      },
+      {
+        "name": "stream",
+        "type": "MediaStream | null",
+        "description": "The current media stream from getUserMedia"
+      },
+      {
+        "name": "mediaRecorder",
+        "type": "MediaRecorder | null",
+        "description": "The MediaRecorder instance"
+      },
+      {
+        "name": "audioBlob",
+        "type": "Blob | null",
+        "description": "The recorded audio as a Blob"
+      },
+      {
+        "name": "audioUrl",
+        "type": "string | null",
+        "description": "Object URL for the recorded audio"
+      },
+      {
+        "name": "duration",
+        "type": "number",
+        "description": "Recording duration in seconds"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if any operation failed"
+      },
+      {
+        "name": "analysisData",
+        "type": "AudioAnalysisData | null",
+        "description": "Real-time audio analysis data (frequency, time domain, volume)"
+      },
+      {
+        "name": "startRecording",
+        "type": "() => Promise<void>",
+        "description": "Start audio recording"
+      },
+      {
+        "name": "stopRecording",
+        "type": "() => void",
+        "description": "Stop audio recording"
+      },
+      {
+        "name": "pauseRecording",
+        "type": "() => void",
+        "description": "Pause audio recording"
+      },
+      {
+        "name": "resumeRecording",
+        "type": "() => void",
+        "description": "Resume paused recording"
+      },
+      {
+        "name": "clearRecording",
+        "type": "() => void",
+        "description": "Clear the current recording data"
+      },
+      {
+        "name": "downloadRecording",
+        "type": "(filename?: string) => void",
+        "description": "Download the recorded audio file"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Audio Recording",
+      "description": "Simple audio recording with start/stop functionality",
+      "code": "import { useAudioRecorder } from '@usehooks/use-audio-recorder';\n\nfunction AudioRecorder() {\n  const {\n    isSupported,\n    isRecording,\n    audioUrl,\n    duration,\n    startRecording,\n    stopRecording,\n    downloadRecording\n  } = useAudioRecorder();\n\n  if (!isSupported) {\n    return <div>Audio recording not supported</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={startRecording} disabled={isRecording}>\n        Start Recording\n      </button>\n      <button onClick={stopRecording} disabled={!isRecording}>\n        Stop Recording\n      </button>\n      <p>Duration: {duration}s</p>\n      {audioUrl && (\n        <div>\n          <audio src={audioUrl} controls />\n          <button onClick={() => downloadRecording('my-recording.webm')}>\n            Download\n          </button>\n        </div>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Recording with Pause/Resume",
+      "description": "Audio recording with pause and resume functionality",
+      "code": "import { useAudioRecorder } from '@usehooks/use-audio-recorder';\n\nfunction AdvancedRecorder() {\n  const {\n    isRecording,\n    isPaused,\n    duration,\n    startRecording,\n    stopRecording,\n    pauseRecording,\n    resumeRecording,\n    clearRecording\n  } = useAudioRecorder();\n\n  return (\n    <div>\n      <button onClick={startRecording} disabled={isRecording}>\n        Start\n      </button>\n      <button onClick={pauseRecording} disabled={!isRecording || isPaused}>\n        Pause\n      </button>\n      <button onClick={resumeRecording} disabled={!isPaused}>\n        Resume\n      </button>\n      <button onClick={stopRecording} disabled={!isRecording}>\n        Stop\n      </button>\n      <button onClick={clearRecording}>\n        Clear\n      </button>\n      <p>Status: {isRecording ? (isPaused ? 'Paused' : 'Recording') : 'Stopped'}</p>\n      <p>Duration: {duration}s</p>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Real-time Audio Analysis",
+      "description": "Recording with real-time frequency analysis and volume monitoring",
+      "code": "import { useAudioRecorder } from '@usehooks/use-audio-recorder';\n\nfunction AudioAnalyzer() {\n  const {\n    isRecording,\n    analysisData,\n    startRecording,\n    stopRecording\n  } = useAudioRecorder({\n    enableAnalysis: true,\n    fftSize: 1024\n  });\n\n  return (\n    <div>\n      <button onClick={startRecording} disabled={isRecording}>\n        Start Analysis\n      </button>\n      <button onClick={stopRecording} disabled={!isRecording}>\n        Stop\n      </button>\n      \n      {analysisData && (\n        <div>\n          <p>Volume: {(analysisData.volume * 100).toFixed(1)}%</p>\n          <div>\n            Frequency Data: {analysisData.frequencyData.length} bins\n          </div>\n          <div>\n            Time Domain: {analysisData.timeData.length} samples\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Requires user permission to access microphone",
+    "Browser support varies for different MIME types",
+    "Real-time analysis may impact performance on lower-end devices",
+    "Audio context is automatically cleaned up on component unmount",
+    "Recording automatically stops when component unmounts"
+  ]
+}

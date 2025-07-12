@@ -1,0 +1,76 @@
+{
+  "name": "useCounter",
+  "description": "A simple and efficient React hook for managing counter state with increment, decrement, reset, and set operations.",
+  "category": "state",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "initialValue",
+      "type": "number",
+      "optional": true,
+      "default": "0",
+      "description": "The initial value for the counter"
+    }
+  ],
+  "returnType": "UseCounterReturn",
+  "methods": [
+    {
+      "name": "count",
+      "type": "number",
+      "description": "The current counter value",
+      "category": "state"
+    },
+    {
+      "name": "increment",
+      "type": "() => void",
+      "description": "Increment the counter by 1",
+      "category": "mutation"
+    },
+    {
+      "name": "decrement",
+      "type": "() => void",
+      "description": "Decrement the counter by 1",
+      "category": "mutation"
+    },
+    {
+      "name": "reset",
+      "type": "() => void",
+      "description": "Reset the counter to its initial value",
+      "category": "mutation"
+    },
+    {
+      "name": "set",
+      "type": "(value: number) => void",
+      "description": "Set the counter to a specific value",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "number",
+          "description": "The value to set the counter to"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Simple counter with increment and decrement",
+      "code": "const { count, increment, decrement, reset } = useCounter(0);\n\nreturn (\n  <div>\n    <p>Count: {count}</p>\n    <button onClick={increment}>+</button>\n    <button onClick={decrement}>-</button>\n    <button onClick={reset}>Reset</button>\n  </div>\n);"
+    },
+    {
+      "title": "With Initial Value",
+      "description": "Counter starting from a specific value",
+      "code": "const { count, increment, set } = useCounter(10);\n\n// Set to specific value\nconst handleSetToHundred = () => set(100);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback } from 'react';"
+  ],
+  "notes": [
+    "All mutation methods are memoized with useCallback for optimal performance",
+    "The reset function remembers the initial value passed to the hook",
+    "Safe to use in concurrent mode as it uses functional state updates"
+  ]
+}

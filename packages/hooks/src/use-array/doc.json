@@ -1,0 +1,287 @@
+{
+  "name": "useArray",
+  "description": "A powerful React hook that provides helper methods for working with array state, including push, pop, filter, sort, and other common array operations with optimized performance using useCallback.",
+  "category": "state",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "initialArray",
+      "type": "T[]",
+      "optional": true,
+      "default": "[]",
+      "description": "The initial array value to start with"
+    }
+  ],
+  "returnType": "UseArrayReturn<T>",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of elements in the array"
+    }
+  ],
+  "methods": [
+    {
+      "name": "array",
+      "type": "T[]",
+      "description": "The current array state",
+      "category": "state"
+    },
+    {
+      "name": "set",
+      "type": "(newArray: T[]) => void",
+      "description": "Replace the entire array with a new array",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "newArray",
+          "type": "T[]",
+          "description": "The new array to set"
+        }
+      ]
+    },
+    {
+      "name": "push",
+      "type": "(...items: T[]) => void",
+      "description": "Add one or more items to the end of the array",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "items",
+          "type": "...T[]",
+          "description": "Items to add to the end of the array"
+        }
+      ]
+    },
+    {
+      "name": "pop",
+      "type": "() => T | undefined",
+      "description": "Remove and return the last item from the array",
+      "category": "mutation",
+      "returns": "The removed item or undefined if array is empty"
+    },
+    {
+      "name": "shift",
+      "type": "() => T | undefined",
+      "description": "Remove and return the first item from the array",
+      "category": "mutation",
+      "returns": "The removed item or undefined if array is empty"
+    },
+    {
+      "name": "unshift",
+      "type": "(...items: T[]) => void",
+      "description": "Add one or more items to the beginning of the array",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "items",
+          "type": "...T[]",
+          "description": "Items to add to the beginning of the array"
+        }
+      ]
+    },
+    {
+      "name": "insert",
+      "type": "(index: number, ...items: T[]) => void",
+      "description": "Insert one or more items at a specific index",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "index",
+          "type": "number",
+          "description": "The index where to insert the items"
+        },
+        {
+          "name": "items",
+          "type": "...T[]",
+          "description": "Items to insert"
+        }
+      ]
+    },
+    {
+      "name": "remove",
+      "type": "(index: number) => void",
+      "description": "Remove an item at a specific index",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "index",
+          "type": "number",
+          "description": "The index of the item to remove"
+        }
+      ]
+    },
+    {
+      "name": "removeById",
+      "type": "(id: any, key?: keyof T) => void",
+      "description": "Remove an item by its ID or specified key",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "any",
+          "description": "The ID value to match"
+        },
+        {
+          "name": "key",
+          "type": "keyof T",
+          "optional": true,
+          "default": "'id'",
+          "description": "The key to use for comparison (defaults to 'id')"
+        }
+      ]
+    },
+    {
+      "name": "update",
+      "type": "(index: number, item: T) => void",
+      "description": "Update an item at a specific index",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "index",
+          "type": "number",
+          "description": "The index of the item to update"
+        },
+        {
+          "name": "item",
+          "type": "T",
+          "description": "The new item to replace the existing one"
+        }
+      ]
+    },
+    {
+      "name": "updateById",
+      "type": "(id: any, updates: Partial<T>, key?: keyof T) => void",
+      "description": "Update an item by its ID or specified key with partial updates",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "id",
+          "type": "any",
+          "description": "The ID value to match"
+        },
+        {
+          "name": "updates",
+          "type": "Partial<T>",
+          "description": "Partial object with properties to update"
+        },
+        {
+          "name": "key",
+          "type": "keyof T",
+          "optional": true,
+          "default": "'id'",
+          "description": "The key to use for comparison (defaults to 'id')"
+        }
+      ]
+    },
+    {
+      "name": "clear",
+      "type": "() => void",
+      "description": "Remove all items from the array",
+      "category": "mutation"
+    },
+    {
+      "name": "filter",
+      "type": "(predicate: (item: T, index: number) => boolean) => void",
+      "description": "Filter the array in place using a predicate function",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "predicate",
+          "type": "(item: T, index: number) => boolean",
+          "description": "Function that returns true for items to keep"
+        }
+      ]
+    },
+    {
+      "name": "sort",
+      "type": "(compareFn?: (a: T, b: T) => number) => void",
+      "description": "Sort the array in place",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "compareFn",
+          "type": "(a: T, b: T) => number",
+          "optional": true,
+          "description": "Optional comparison function for custom sorting"
+        }
+      ]
+    },
+    {
+      "name": "reverse",
+      "type": "() => void",
+      "description": "Reverse the order of items in the array",
+      "category": "mutation"
+    },
+    {
+      "name": "replace",
+      "type": "(oldItem: T, newItem: T) => void",
+      "description": "Replace the first occurrence of an item with a new item",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "oldItem",
+          "type": "T",
+          "description": "The item to replace"
+        },
+        {
+          "name": "newItem",
+          "type": "T",
+          "description": "The new item to replace with"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "(item: T) => void",
+      "description": "Add an item if it doesn't exist, or remove it if it does",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "item",
+          "type": "T",
+          "description": "The item to toggle"
+        }
+      ]
+    },
+    {
+      "name": "isEmpty",
+      "type": "boolean",
+      "description": "Whether the array is empty",
+      "category": "computed"
+    },
+    {
+      "name": "length",
+      "type": "number",
+      "description": "The current length of the array",
+      "category": "computed"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Simple array manipulation with numbers",
+      "code": "const { array, push, pop, clear, isEmpty, length } = useArray([1, 2, 3]);\n\n// Add items\npush(4, 5);\n\n// Remove last item\nconst lastItem = pop();\n\n// Clear array\nclear();\n\n// Check if empty\nconsole.log(isEmpty); // true\nconsole.log(length); // 0"
+    },
+    {
+      "title": "Working with Objects",
+      "description": "Managing an array of user objects",
+      "code": "interface User {\n  id: number;\n  name: string;\n  email: string;\n}\n\nconst { array: users, push, removeById, updateById } = useArray<User>([]);\n\n// Add users\npush({ id: 1, name: 'John', email: 'john@example.com' });\npush({ id: 2, name: 'Jane', email: 'jane@example.com' });\n\n// Update user by ID\nupdateById(1, { email: 'john.doe@example.com' });\n\n// Remove user by ID\nremoveById(2);"
+    },
+    {
+      "title": "Array Operations",
+      "description": "Filtering, sorting, and other operations",
+      "code": "const { array, set, filter, sort, reverse, toggle } = useArray(['apple', 'banana', 'cherry']);\n\n// Filter items\nfilter(item => item.length > 5);\n\n// Sort alphabetically\nsort();\n\n// Reverse order\nreverse();\n\n// Toggle item (add if not present, remove if present)\ntoggle('date');"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback } from 'react';"
+  ],
+  "notes": [
+    "All mutation methods are memoized with useCallback for optimal performance",
+    "The hook is fully typed with TypeScript generics",
+    "Methods that modify the array return void, except pop() and shift() which return the removed item",
+    "Index-based operations include bounds checking to prevent errors",
+    "The removeById and updateById methods default to using 'id' as the key but accept custom keys"
+  ]
+}

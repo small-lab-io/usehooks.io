@@ -1,0 +1,112 @@
+{
+  "name": "useGeolocation",
+  "description": "A React hook for accessing the user's geolocation with support for both one-time position requests and continuous position watching, including comprehensive error handling and configuration options.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "GeolocationOptions",
+      "optional": true,
+      "default": "{ enableHighAccuracy: false, timeout: Infinity, maximumAge: 0 }",
+      "description": "Geolocation API options for accuracy, timeout, and cache settings"
+    }
+  ],
+  "returnType": "GeolocationState & { getCurrentPosition: () => void, startWatching: () => void, stopWatching: () => void }",
+  "methods": [
+    {
+      "name": "loading",
+      "type": "boolean",
+      "description": "True when requesting location data"
+    },
+    {
+      "name": "latitude",
+      "type": "number | null",
+      "description": "Current latitude coordinate"
+    },
+    {
+      "name": "longitude",
+      "type": "number | null",
+      "description": "Current longitude coordinate"
+    },
+    {
+      "name": "accuracy",
+      "type": "number | null",
+      "description": "Accuracy of the position in meters"
+    },
+    {
+      "name": "altitude",
+      "type": "number | null",
+      "description": "Altitude above sea level in meters"
+    },
+    {
+      "name": "altitudeAccuracy",
+      "type": "number | null",
+      "description": "Accuracy of altitude measurement in meters"
+    },
+    {
+      "name": "heading",
+      "type": "number | null",
+      "description": "Direction of travel in degrees (0-360)"
+    },
+    {
+      "name": "speed",
+      "type": "number | null",
+      "description": "Current speed in meters per second"
+    },
+    {
+      "name": "timestamp",
+      "type": "number | null",
+      "description": "Timestamp when position was acquired"
+    },
+    {
+      "name": "error",
+      "type": "GeolocationPositionError | null",
+      "description": "Error object if geolocation failed"
+    },
+    {
+      "name": "getCurrentPosition",
+      "type": "() => void",
+      "description": "Get current position once"
+    },
+    {
+      "name": "startWatching",
+      "type": "() => void",
+      "description": "Start continuously watching position changes"
+    },
+    {
+      "name": "stopWatching",
+      "type": "() => void",
+      "description": "Stop watching position changes"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Current Location Display",
+      "description": "Getting and displaying the user's current location",
+      "code": "const { \n  latitude, \n  longitude, \n  accuracy, \n  loading, \n  error, \n  getCurrentPosition \n} = useGeolocation({\n  enableHighAccuracy: true,\n  timeout: 10000\n});\n\nreturn (\n  <div>\n    <button onClick={getCurrentPosition} disabled={loading}>\n      {loading ? 'Getting Location...' : 'Get My Location'}\n    </button>\n    \n    {error && (\n      <div className=\"error\">\n        Error: {error.message}\n      </div>\n    )}\n    \n    {latitude && longitude && (\n      <div className=\"location-info\">\n        <p>Latitude: {latitude.toFixed(6)}</p>\n        <p>Longitude: {longitude.toFixed(6)}</p>\n        <p>Accuracy: ±{accuracy?.toFixed(0)}m</p>\n      </div>\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Live Location Tracking",
+      "description": "Continuously tracking user's position for navigation",
+      "code": "const { \n  latitude, \n  longitude, \n  speed, \n  heading, \n  loading, \n  error,\n  startWatching, \n  stopWatching \n} = useGeolocation({\n  enableHighAccuracy: true,\n  timeout: 5000,\n  maximumAge: 1000\n});\n\nconst [isTracking, setIsTracking] = useState(false);\n\nconst toggleTracking = () => {\n  if (isTracking) {\n    stopWatching();\n    setIsTracking(false);\n  } else {\n    startWatching();\n    setIsTracking(true);\n  }\n};\n\nreturn (\n  <div>\n    <button onClick={toggleTracking}>\n      {isTracking ? 'Stop Tracking' : 'Start Tracking'}\n    </button>\n    \n    {loading && <div>📍 Getting location...</div>}\n    \n    {latitude && longitude && (\n      <div className=\"tracking-info\">\n        <h3>Current Position</h3>\n        <p>📍 {latitude.toFixed(6)}, {longitude.toFixed(6)}</p>\n        {speed && <p>🏃 Speed: {(speed * 3.6).toFixed(1)} km/h</p>}\n        {heading && <p>🧭 Heading: {heading.toFixed(0)}°</p>}\n      </div>\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Distance Calculator",
+      "description": "Calculating distance between user and a target location",
+      "code": "const { latitude, longitude, error, getCurrentPosition } = useGeolocation();\nconst [targetLocation] = useState({ lat: 40.7128, lng: -74.0060 }); // NYC\nconst [distance, setDistance] = useState(null);\n\n// Haversine formula for distance calculation\nconst calculateDistance = (lat1, lon1, lat2, lon2) => {\n  const R = 6371; // Earth's radius in km\n  const dLat = (lat2 - lat1) * Math.PI / 180;\n  const dLon = (lon2 - lon1) * Math.PI / 180;\n  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +\n    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *\n    Math.sin(dLon/2) * Math.sin(dLon/2);\n  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));\n  return R * c;\n};\n\nuseEffect(() => {\n  if (latitude && longitude) {\n    const dist = calculateDistance(\n      latitude, longitude,\n      targetLocation.lat, targetLocation.lng\n    );\n    setDistance(dist);\n  }\n}, [latitude, longitude, targetLocation]);\n\nreturn (\n  <div>\n    <button onClick={getCurrentPosition}>\n      Calculate Distance to NYC\n    </button>\n    \n    {error && <div>Error: {error.message}</div>}\n    \n    {distance && (\n      <div>\n        <p>Distance to New York City:</p>\n        <p><strong>{distance.toFixed(2)} km</strong></p>\n      </div>\n    )}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect, useCallback, useRef } from 'react';"
+  ],
+  "notes": [
+    "Requires user permission to access location data",
+    "Works only in secure contexts (HTTPS) in most browsers",
+    "Automatically cleans up watch positions on component unmount",
+    "Provides comprehensive position data including altitude, speed, and heading",
+    "Supports both one-time position requests and continuous watching",
+    "Handles browser compatibility and provides meaningful error messages"
+  ]
+}

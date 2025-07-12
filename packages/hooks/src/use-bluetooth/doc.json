@@ -1,0 +1,125 @@
+{
+  "name": "useBluetooth",
+  "description": "A comprehensive hook for interacting with Bluetooth Low Energy devices using the Web Bluetooth API. Provides device discovery, connection management, and GATT characteristic operations.",
+  "category": "browser",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "UseBluetoothOptions",
+      "optional": true,
+      "description": "Default options for device requests",
+      "properties": [
+        {
+          "name": "filters",
+          "type": "BluetoothLEScanFilter[]",
+          "optional": true,
+          "description": "Filters to apply when scanning for devices"
+        },
+        {
+          "name": "optionalServices",
+          "type": "BluetoothServiceUUID[]",
+          "optional": true,
+          "description": "Optional services to access on the device"
+        },
+        {
+          "name": "acceptAllDevices",
+          "type": "boolean",
+          "optional": true,
+          "description": "Whether to accept all devices (used when no filters specified)"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseBluetoothReturn",
+    "properties": [
+      {
+        "name": "device",
+        "type": "BluetoothDeviceInfo | null",
+        "description": "Information about the currently selected device"
+      },
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether Web Bluetooth API is supported"
+      },
+      {
+        "name": "isAvailable",
+        "type": "boolean | null",
+        "description": "Whether Bluetooth is available on the device"
+      },
+      {
+        "name": "isConnecting",
+        "type": "boolean",
+        "description": "Whether a connection attempt is in progress"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if any operation failed"
+      },
+      {
+        "name": "requestDevice",
+        "type": "(options?: BluetoothRequestDeviceOptions) => Promise<BluetoothDeviceInfo | null>",
+        "description": "Request access to a Bluetooth device"
+      },
+      {
+        "name": "connect",
+        "type": "() => Promise<boolean>",
+        "description": "Connect to the selected device"
+      },
+      {
+        "name": "disconnect",
+        "type": "() => Promise<void>",
+        "description": "Disconnect from the current device"
+      },
+      {
+        "name": "readCharacteristic",
+        "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothServiceUUID) => Promise<DataView | null>",
+        "description": "Read a value from a GATT characteristic"
+      },
+      {
+        "name": "writeCharacteristic",
+        "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothServiceUUID, value: BufferSource) => Promise<boolean>",
+        "description": "Write a value to a GATT characteristic"
+      },
+      {
+        "name": "startNotifications",
+        "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothServiceUUID, callback: (value: DataView) => void) => Promise<boolean>",
+        "description": "Start receiving notifications from a characteristic"
+      },
+      {
+        "name": "stopNotifications",
+        "type": "(serviceUuid: BluetoothServiceUUID, characteristicUuid: BluetoothServiceUUID) => Promise<boolean>",
+        "description": "Stop receiving notifications from a characteristic"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Device Connection",
+      "description": "Connect to a Bluetooth device and check connection status",
+      "code": "import { useBluetooth } from '@usehooks/use-bluetooth';\n\nfunction BluetoothConnector() {\n  const {\n    device,\n    isSupported,\n    isConnecting,\n    error,\n    requestDevice,\n    connect,\n    disconnect\n  } = useBluetooth();\n\n  const handleRequestDevice = async () => {\n    await requestDevice({\n      acceptAllDevices: true\n    });\n  };\n\n  const handleConnect = async () => {\n    const success = await connect();\n    if (success) {\n      console.log('Connected successfully');\n    }\n  };\n\n  if (!isSupported) {\n    return <div>Web Bluetooth not supported</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={handleRequestDevice} disabled={isConnecting}>\n        Select Device\n      </button>\n      \n      {device && (\n        <div>\n          <p>Device: {device.name || 'Unknown'}</p>\n          <p>Status: {device.connected ? 'Connected' : 'Disconnected'}</p>\n          \n          {!device.connected ? (\n            <button onClick={handleConnect} disabled={isConnecting}>\n              {isConnecting ? 'Connecting...' : 'Connect'}\n            </button>\n          ) : (\n            <button onClick={disconnect}>Disconnect</button>\n          )}\n        </div>\n      )}\n      \n      {error && <p>Error: {error}</p>}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Heart Rate Monitor",
+      "description": "Connect to a heart rate monitor and read heart rate data",
+      "code": "import { useBluetooth } from '@usehooks/use-bluetooth';\nimport { useState, useEffect } from 'react';\n\nfunction HeartRateMonitor() {\n  const {\n    device,\n    requestDevice,\n    connect,\n    readCharacteristic,\n    startNotifications\n  } = useBluetooth();\n  const [heartRate, setHeartRate] = useState<number | null>(null);\n\n  const connectToHeartRateMonitor = async () => {\n    // Request heart rate monitor\n    await requestDevice({\n      filters: [{ services: ['heart_rate'] }]\n    });\n  };\n\n  useEffect(() => {\n    if (device?.connected) {\n      // Start heart rate notifications\n      startNotifications(\n        'heart_rate',\n        'heart_rate_measurement',\n        (value) => {\n          // Parse heart rate value (first byte after flags)\n          const rate = value.getUint8(1);\n          setHeartRate(rate);\n        }\n      );\n    }\n  }, [device?.connected, startNotifications]);\n\n  return (\n    <div>\n      <button onClick={connectToHeartRateMonitor}>\n        Connect Heart Rate Monitor\n      </button>\n      \n      {device && (\n        <div>\n          <p>Device: {device.name}</p>\n          {!device.connected ? (\n            <button onClick={connect}>Connect</button>\n          ) : (\n            <div>\n              <p>Status: Connected</p>\n              {heartRate && (\n                <p>Heart Rate: {heartRate} BPM</p>\n              )}\n            </div>\n          )}\n        </div>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Custom Service Communication",
+      "description": "Read from and write to custom GATT characteristics",
+      "code": "import { useBluetooth } from '@usehooks/use-bluetooth';\nimport { useState } from 'react';\n\nfunction CustomDeviceController() {\n  const {\n    device,\n    requestDevice,\n    connect,\n    readCharacteristic,\n    writeCharacteristic\n  } = useBluetooth();\n  const [data, setData] = useState<string>('');\n  const [inputValue, setInputValue] = useState('');\n\n  const SERVICE_UUID = '12345678-1234-1234-1234-123456789abc';\n  const READ_CHAR_UUID = '87654321-4321-4321-4321-cba987654321';\n  const WRITE_CHAR_UUID = '11111111-2222-3333-4444-555555555555';\n\n  const connectToDevice = async () => {\n    await requestDevice({\n      filters: [{ services: [SERVICE_UUID] }],\n      optionalServices: [SERVICE_UUID]\n    });\n  };\n\n  const readData = async () => {\n    const value = await readCharacteristic(SERVICE_UUID, READ_CHAR_UUID);\n    if (value) {\n      const decoder = new TextDecoder();\n      const text = decoder.decode(value);\n      setData(text);\n    }\n  };\n\n  const writeData = async () => {\n    const encoder = new TextEncoder();\n    const data = encoder.encode(inputValue);\n    const success = await writeCharacteristic(SERVICE_UUID, WRITE_CHAR_UUID, data);\n    if (success) {\n      console.log('Data written successfully');\n      setInputValue('');\n    }\n  };\n\n  return (\n    <div>\n      <button onClick={connectToDevice}>Select Device</button>\n      \n      {device && !device.connected && (\n        <button onClick={connect}>Connect</button>\n      )}\n      \n      {device?.connected && (\n        <div>\n          <button onClick={readData}>Read Data</button>\n          <p>Read Value: {data}</p>\n          \n          <div>\n            <input\n              value={inputValue}\n              onChange={(e) => setInputValue(e.target.value)}\n              placeholder=\"Enter data to write\"\n            />\n            <button onClick={writeData}>Write Data</button>\n          </div>\n        </div>\n      )}\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Only available in browsers that support Web Bluetooth API (Chrome 56+, Edge 79+)",
+    "Requires HTTPS in production environments",
+    "User gesture required to initiate device requests",
+    "Device permissions are persistent across sessions",
+    "Automatically handles disconnection events and cleanup",
+    "GATT characteristics are cached for performance"
+  ]
+}

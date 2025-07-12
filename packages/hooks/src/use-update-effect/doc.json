@@ -1,0 +1,49 @@
+{
+  "name": "useUpdateEffect",
+  "description": "A React hook that works like useEffect but skips the first render. Only runs the effect on subsequent updates, not on component mount.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "effect",
+      "type": "React.EffectCallback",
+      "description": "The effect function to run on updates (not on mount)"
+    },
+    {
+      "name": "deps",
+      "type": "React.DependencyList",
+      "optional": true,
+      "description": "Array of dependencies to watch for changes"
+    }
+  ],
+  "returnType": "void",
+  "examples": [
+    {
+      "title": "Skip Initial API Call",
+      "description": "Only making API calls on updates, not on initial mount",
+      "code": "const [userId, setUserId] = useState(1);\nconst [userData, setUserData] = useState(null);\n\n// Regular useEffect - runs on mount and updates\nuseEffect(() => {\n  // Initial data load\n  fetchUserData(userId).then(setUserData);\n}, [userId]);\n\n// Update effect - only runs when userId changes after mount\nuseUpdateEffect(() => {\n  // This won't run on the initial render\n  console.log('User changed, updating data...');\n  fetchUserData(userId).then(setUserData);\n  \n  // Show loading indicator for updates only\n  setIsUpdating(true);\n}, [userId]);"
+    },
+    {
+      "title": "Form Validation on Changes",
+      "description": "Validating form only after user starts making changes",
+      "code": "const [formData, setFormData] = useState({\n  email: '',\n  password: '',\n  confirmPassword: ''\n});\nconst [errors, setErrors] = useState({});\n\n// Don't validate on initial render, only when user changes form\nuseUpdateEffect(() => {\n  const newErrors = validateForm(formData);\n  setErrors(newErrors);\n  \n  // Show validation messages only after user interaction\n  if (Object.keys(newErrors).length > 0) {\n    showValidationToast('Please fix the errors');\n  }\n}, [formData]);\n\nconst handleInputChange = (field, value) => {\n  setFormData(prev => ({ ...prev, [field]: value }));\n};"
+    },
+    {
+      "title": "Analytics Tracking",
+      "description": "Tracking user interactions without counting initial page load",
+      "code": "const [currentPage, setCurrentPage] = useState('home');\nconst [searchQuery, setSearchQuery] = useState('');\nconst [filters, setFilters] = useState([]);\n\n// Track page changes (excluding initial page load)\nuseUpdateEffect(() => {\n  analytics.track('page_changed', {\n    from: previousPage,\n    to: currentPage,\n    timestamp: Date.now()\n  });\n}, [currentPage]);\n\n// Track search behavior (excluding initial empty state)\nuseUpdateEffect(() => {\n  if (searchQuery.trim()) {\n    analytics.track('search_performed', {\n      query: searchQuery,\n      filters: filters,\n      resultsCount: searchResults.length\n    });\n  }\n}, [searchQuery, filters]);\n\n// Track filter usage (excluding initial empty filters)\nuseUpdateEffect(() => {\n  analytics.track('filters_applied', {\n    filters: filters,\n    count: filters.length\n  });\n}, [filters]);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useEffect, useRef } from 'react';"
+  ],
+  "notes": [
+    "Skips execution on the first render (component mount)",
+    "Useful for avoiding unwanted side effects during initial component setup",
+    "Commonly used for analytics, validation, and update-specific logic",
+    "Uses a ref to track whether it's the first render",
+    "Behaves exactly like useEffect for all subsequent renders",
+    "Cleanup function works the same as regular useEffect"
+  ]
+}

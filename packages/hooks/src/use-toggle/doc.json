@@ -1,0 +1,76 @@
+{
+  "name": "useToggle",
+  "description": "A React hook for managing boolean toggle state with convenient methods for setting, toggling, and controlling the state.",
+  "category": "state",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "initialValue",
+      "type": "boolean",
+      "optional": true,
+      "default": "false",
+      "description": "The initial boolean value for the toggle"
+    }
+  ],
+  "returnType": "UseToggleOutput",
+  "methods": [
+    {
+      "name": "isOn",
+      "type": "boolean",
+      "description": "The current toggle state",
+      "category": "state"
+    },
+    {
+      "name": "toggle",
+      "type": "() => void",
+      "description": "Toggle the current state (true becomes false, false becomes true)",
+      "category": "mutation"
+    },
+    {
+      "name": "setOn",
+      "type": "() => void",
+      "description": "Set the state to true",
+      "category": "mutation"
+    },
+    {
+      "name": "setOff",
+      "type": "() => void",
+      "description": "Set the state to false",
+      "category": "mutation"
+    },
+    {
+      "name": "set",
+      "type": "(value: boolean) => void",
+      "description": "Set the state to a specific boolean value",
+      "category": "mutation",
+      "parameters": [
+        {
+          "name": "value",
+          "type": "boolean",
+          "description": "The boolean value to set"
+        }
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Toggle",
+      "description": "Simple on/off toggle functionality",
+      "code": "const { isOn, toggle, setOn, setOff } = useToggle();\n\nreturn (\n  <div>\n    <p>Status: {isOn ? 'ON' : 'OFF'}</p>\n    <button onClick={toggle}>Toggle</button>\n    <button onClick={setOn}>Turn On</button>\n    <button onClick={setOff}>Turn Off</button>\n  </div>\n);"
+    },
+    {
+      "title": "Modal Visibility",
+      "description": "Using toggle for modal show/hide",
+      "code": "const { isOn: isModalOpen, toggle: toggleModal, setOff: closeModal } = useToggle();\n\nreturn (\n  <>\n    <button onClick={toggleModal}>Open Modal</button>\n    {isModalOpen && (\n      <Modal onClose={closeModal}>\n        <p>Modal content</p>\n      </Modal>\n    )}\n  </>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback } from 'react';"
+  ],
+  "notes": [
+    "All methods are memoized with useCallback for optimal performance",
+    "Perfect for managing UI state like modals, dropdowns, and toggles",
+    "Can be used with custom initial values for different default states"
+  ]
+}

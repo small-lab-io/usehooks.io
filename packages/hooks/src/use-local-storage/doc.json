@@ -1,0 +1,69 @@
+{
+  "name": "useLocalStorage",
+  "description": "A React hook for managing localStorage with automatic JSON serialization/deserialization and React state synchronization.",
+  "category": "state",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "key",
+      "type": "string",
+      "description": "The localStorage key to use for storing the value"
+    },
+    {
+      "name": "initialValue",
+      "type": "T",
+      "description": "The initial value to use if no value exists in localStorage"
+    }
+  ],
+  "returnType": "[T, (value: SetValue<T>) => void]",
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of value to store in localStorage"
+    }
+  ],
+  "returnValue": [
+    {
+      "index": 0,
+      "name": "storedValue",
+      "type": "T",
+      "description": "The current value from localStorage or initial value"
+    },
+    {
+      "index": 1,
+      "name": "setValue",
+      "type": "(value: SetValue<T>) => void",
+      "description": "Function to update the value in both state and localStorage"
+    }
+  ],
+  "types": [
+    {
+      "name": "SetValue<T>",
+      "definition": "T | ((val: T) => T)",
+      "description": "Value can be either the new value directly or a function that receives the current value and returns the new value"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Storing and retrieving a simple value",
+      "code": "const [name, setName] = useLocalStorage('user-name', 'Anonymous');\n\nreturn (\n  <div>\n    <p>Hello, {name}!</p>\n    <input\n      value={name}\n      onChange={(e) => setName(e.target.value)}\n      placeholder=\"Enter your name\"\n    />\n  </div>\n);"
+    },
+    {
+      "title": "Complex Object Storage",
+      "description": "Storing and updating complex objects",
+      "code": "interface UserSettings {\n  theme: 'light' | 'dark';\n  notifications: boolean;\n}\n\nconst [settings, setSettings] = useLocalStorage<UserSettings>('user-settings', {\n  theme: 'light',\n  notifications: true\n});\n\n// Update using function\nconst toggleTheme = () => {\n  setSettings(prev => ({\n    ...prev,\n    theme: prev.theme === 'light' ? 'dark' : 'light'\n  }));\n};"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState } from 'react';"
+  ],
+  "notes": [
+    "Automatically handles JSON serialization and deserialization",
+    "Gracefully handles localStorage errors (e.g., in private browsing mode)",
+    "Supports functional updates like useState",
+    "Initial value is used as fallback when localStorage is unavailable or parsing fails",
+    "Works with any JSON-serializable data type"
+  ]
+}

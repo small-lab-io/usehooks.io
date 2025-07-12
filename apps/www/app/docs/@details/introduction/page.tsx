@@ -3,7 +3,6 @@ import { Separator } from "@workspace/ui/components/separator";
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 
-// Simple Callout component
 function Callout({
   children,
   className,
@@ -22,7 +21,6 @@ function Callout({
   );
 }
 
-// Simple Terminal component
 function Terminal({
   children,
   className,

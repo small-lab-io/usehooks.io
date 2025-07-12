@@ -1,0 +1,66 @@
+{
+  "name": "useUserMedia",
+  "description": "A React hook for accessing user media devices (camera and microphone) using the getUserMedia API. Provides comprehensive error handling and stream management.",
+  "parameters": [
+    {
+      "name": "initialConstraints",
+      "type": "UseUserMediaConstraints",
+      "description": "Initial media constraints for video and audio",
+      "optional": true,
+      "properties": {
+        "video": {
+          "type": "boolean | MediaTrackConstraints",
+          "description": "Video constraints or boolean to enable/disable video",
+          "optional": true
+        },
+        "audio": {
+          "type": "boolean | MediaTrackConstraints",
+          "description": "Audio constraints or boolean to enable/disable audio",
+          "optional": true
+        }
+      }
+    }
+  ],
+  "returns": {
+    "type": "UseUserMediaReturn",
+    "description": "An object containing media stream and control functions",
+    "properties": {
+      "stream": {
+        "type": "MediaStream | null",
+        "description": "Current media stream from user devices"
+      },
+      "error": {
+        "type": "string | null",
+        "description": "Error message if media access failed"
+      },
+      "isLoading": {
+        "type": "boolean",
+        "description": "Whether currently requesting media access"
+      },
+      "isSupported": {
+        "type": "boolean",
+        "description": "Whether getUserMedia is supported in the browser"
+      },
+      "startCapture": {
+        "type": "(constraints?: UseUserMediaConstraints) => Promise<void>",
+        "description": "Function to start media capture with optional constraints"
+      },
+      "stopCapture": {
+        "type": "() => void",
+        "description": "Function to stop media capture and release devices"
+      }
+    }
+  },
+  "example": {
+    "title": "Video chat component",
+    "code": "import { useUserMedia } from '@usehooks.io/use-user-media';\nimport { useRef, useEffect } from 'react';\n\nfunction VideoChat() {\n  const videoRef = useRef<HTMLVideoElement>(null);\n  const {\n    stream,\n    error,\n    isLoading,\n    isSupported,\n    startCapture,\n    stopCapture\n  } = useUserMedia({ video: true, audio: true });\n\n  useEffect(() => {\n    if (videoRef.current && stream) {\n      videoRef.current.srcObject = stream;\n    }\n  }, [stream]);\n\n  if (!isSupported) {\n    return <div>getUserMedia not supported</div>;\n  }\n\n  return (\n    <div>\n      <video ref={videoRef} autoPlay muted />\n      \n      {error && <p style={{ color: 'red' }}>Error: {error}</p>}\n      \n      <button onClick={() => startCapture()} disabled={isLoading}>\n        {isLoading ? 'Starting...' : 'Start Camera'}\n      </button>\n      \n      <button onClick={stopCapture}>\n        Stop Camera\n      </button>\n    </div>\n  );\n}"
+  },
+  "dependencies": ["react"],
+  "notes": [
+    "Automatically stops previous streams when starting new capture",
+    "Provides detailed error messages for different failure scenarios",
+    "Requires HTTPS in production for security reasons",
+    "Automatically cleans up streams on component unmount",
+    "Supports both boolean and detailed MediaTrackConstraints"
+  ]
+}

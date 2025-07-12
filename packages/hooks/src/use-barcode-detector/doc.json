@@ -1,0 +1,77 @@
+{
+  "name": "useBarcodeDetector",
+  "description": "A hook for detecting barcodes in images using the Web Barcode Detection API. Supports various barcode formats including QR codes, Code 128, EAN, and more.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "options",
+      "type": "UseBarcodeDetectorOptions",
+      "optional": true,
+      "description": "Configuration options for barcode detection",
+      "properties": [
+        {
+          "name": "formats",
+          "type": "string[]",
+          "optional": true,
+          "description": "Array of barcode formats to detect (defaults to all supported formats)"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseBarcodeDetectorReturn",
+    "properties": [
+      {
+        "name": "detect",
+        "type": "(source: ImageBitmapSource) => Promise<DetectedBarcode[]>",
+        "description": "Detect barcodes in the provided image source"
+      },
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether the Barcode Detection API is supported"
+      },
+      {
+        "name": "supportedFormats",
+        "type": "string[]",
+        "description": "Array of supported barcode formats"
+      },
+      {
+        "name": "isDetecting",
+        "type": "boolean",
+        "description": "Whether detection is currently in progress"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if detection failed"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Barcode Detection",
+      "description": "Detect barcodes from an image file input",
+      "code": "import { useBarcodeDetector } from '@usehooks/use-barcode-detector';\nimport { useRef } from 'react';\n\nfunction BarcodeScanner() {\n  const { detect, isSupported, isDetecting, error } = useBarcodeDetector();\n  const fileInputRef = useRef<HTMLInputElement>(null);\n\n  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {\n    const file = event.target.files?.[0];\n    if (!file) return;\n\n    try {\n      const barcodes = await detect(file);\n      console.log('Detected barcodes:', barcodes);\n      barcodes.forEach(barcode => {\n        console.log(`Format: ${barcode.format}, Value: ${barcode.rawValue}`);\n      });\n    } catch (err) {\n      console.error('Detection failed:', err);\n    }\n  };\n\n  if (!isSupported) {\n    return <div>Barcode detection not supported</div>;\n  }\n\n  return (\n    <div>\n      <input\n        ref={fileInputRef}\n        type=\"file\"\n        accept=\"image/*\"\n        onChange={handleFileSelect}\n        disabled={isDetecting}\n      />\n      {isDetecting && <p>Detecting...</p>}\n      {error && <p>Error: {error}</p>}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "QR Code Detection",
+      "description": "Detect only QR codes from camera stream",
+      "code": "import { useBarcodeDetector } from '@usehooks/use-barcode-detector';\nimport { useRef, useEffect } from 'react';\n\nfunction QRScanner() {\n  const { detect, isSupported } = useBarcodeDetector({\n    formats: ['qr_code']\n  });\n  const videoRef = useRef<HTMLVideoElement>(null);\n  const canvasRef = useRef<HTMLCanvasElement>(null);\n\n  useEffect(() => {\n    let stream: MediaStream;\n\n    const startCamera = async () => {\n      try {\n        stream = await navigator.mediaDevices.getUserMedia({ video: true });\n        if (videoRef.current) {\n          videoRef.current.srcObject = stream;\n        }\n      } catch (err) {\n        console.error('Camera access failed:', err);\n      }\n    };\n\n    startCamera();\n\n    return () => {\n      if (stream) {\n        stream.getTracks().forEach(track => track.stop());\n      }\n    };\n  }, []);\n\n  const scanFrame = async () => {\n    if (!videoRef.current || !canvasRef.current) return;\n\n    const canvas = canvasRef.current;\n    const video = videoRef.current;\n    const ctx = canvas.getContext('2d');\n\n    if (ctx) {\n      canvas.width = video.videoWidth;\n      canvas.height = video.videoHeight;\n      ctx.drawImage(video, 0, 0);\n\n      try {\n        const barcodes = await detect(canvas);\n        if (barcodes.length > 0) {\n          console.log('QR Code detected:', barcodes[0].rawValue);\n        }\n      } catch (err) {\n        console.error('Scan failed:', err);\n      }\n    }\n\n    requestAnimationFrame(scanFrame);\n  };\n\n  if (!isSupported) {\n    return <div>Barcode detection not supported</div>;\n  }\n\n  return (\n    <div>\n      <video ref={videoRef} autoPlay muted onLoadedMetadata={scanFrame} />\n      <canvas ref={canvasRef} style={{ display: 'none' }} />\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Multiple Format Detection",
+      "description": "Detect multiple barcode formats with detailed information",
+      "code": "import { useBarcodeDetector } from '@usehooks/use-barcode-detector';\nimport { useState } from 'react';\n\nfunction MultiBarcodeScanner() {\n  const { detect, supportedFormats, isDetecting } = useBarcodeDetector();\n  const [results, setResults] = useState<any[]>([]);\n\n  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {\n    const file = event.target.files?.[0];\n    if (!file) return;\n\n    try {\n      const barcodes = await detect(file);\n      setResults(barcodes);\n    } catch (err) {\n      console.error('Detection failed:', err);\n      setResults([]);\n    }\n  };\n\n  return (\n    <div>\n      <div>\n        <h3>Supported Formats:</h3>\n        <ul>\n          {supportedFormats.map(format => (\n            <li key={format}>{format}</li>\n          ))}\n        </ul>\n      </div>\n\n      <input\n        type=\"file\"\n        accept=\"image/*\"\n        onChange={handleImageUpload}\n        disabled={isDetecting}\n      />\n\n      {results.length > 0 && (\n        <div>\n          <h3>Detected Barcodes:</h3>\n          {results.map((barcode, index) => (\n            <div key={index}>\n              <p><strong>Format:</strong> {barcode.format}</p>\n              <p><strong>Value:</strong> {barcode.rawValue}</p>\n              <p><strong>Bounding Box:</strong> {JSON.stringify(barcode.boundingBox)}</p>\n            </div>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Only available in browsers that support the Barcode Detection API (Chrome 83+)",
+    "Requires HTTPS in production environments",
+    "Supported formats vary by browser and platform",
+    "Image sources can be HTMLImageElement, HTMLVideoElement, HTMLCanvasElement, ImageBitmap, or File",
+    "Detection accuracy depends on image quality and barcode visibility"
+  ]
+}

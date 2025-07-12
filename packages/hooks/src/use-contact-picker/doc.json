@@ -1,0 +1,78 @@
+{
+  "name": "useContactPicker",
+  "description": "A hook for accessing the Contact Picker API to select contacts with user permission. Allows web applications to access contact information from the user's device with explicit consent.",
+  "category": "browser",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": {
+    "type": "UseContactPickerReturn",
+    "properties": [
+      {
+        "name": "contacts",
+        "type": "Contact[]",
+        "description": "Array of selected contacts"
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "description": "Whether contact selection is in progress"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if contact selection failed"
+      },
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether the Contact Picker API is supported"
+      },
+      {
+        "name": "availableProperties",
+        "type": "ContactProperty[]",
+        "description": "Array of available contact properties that can be requested"
+      },
+      {
+        "name": "selectContacts",
+        "type": "(properties: ContactProperty[], options?: UseContactPickerOptions) => Promise<Contact[]>",
+        "description": "Select contacts with specified properties"
+      },
+      {
+        "name": "getAvailableProperties",
+        "type": "() => Promise<ContactProperty[]>",
+        "description": "Get available contact properties that can be requested"
+      },
+      {
+        "name": "clearContacts",
+        "type": "() => void",
+        "description": "Clear the selected contacts"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Contact Selection",
+      "description": "Select contacts with name and email properties",
+      "code": "import { useContactPicker } from '@usehooks/use-contact-picker';\n\nfunction ContactSelector() {\n  const {\n    contacts,\n    isLoading,\n    error,\n    isSupported,\n    selectContacts,\n    clearContacts\n  } = useContactPicker();\n\n  const handleSelectContacts = async () => {\n    try {\n      await selectContacts(['name', 'email']);\n    } catch (err) {\n      console.error('Failed to select contacts:', err);\n    }\n  };\n\n  if (!isSupported) {\n    return <div>Contact Picker API not supported</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={handleSelectContacts} disabled={isLoading}>\n        {isLoading ? 'Selecting...' : 'Select Contacts'}\n      </button>\n      \n      <button onClick={clearContacts}>Clear</button>\n      \n      {error && <p>Error: {error}</p>}\n      \n      {contacts.length > 0 && (\n        <div>\n          <h3>Selected Contacts:</h3>\n          {contacts.map((contact, index) => (\n            <div key={index}>\n              <p>Name: {contact.name?.[0] || 'N/A'}</p>\n              <p>Email: {contact.email?.[0] || 'N/A'}</p>\n            </div>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Multiple Contact Selection",
+      "description": "Select multiple contacts with various properties",
+      "code": "import { useContactPicker } from '@usehooks/use-contact-picker';\n\nfunction MultiContactSelector() {\n  const {\n    contacts,\n    isLoading,\n    selectContacts,\n    getAvailableProperties,\n    availableProperties\n  } = useContactPicker();\n\n  const handleSelectMultiple = async () => {\n    await selectContacts(['name', 'email', 'tel'], { multiple: true });\n  };\n\n  const handleGetProperties = async () => {\n    await getAvailableProperties();\n  };\n\n  return (\n    <div>\n      <button onClick={handleGetProperties}>\n        Get Available Properties\n      </button>\n      \n      <button onClick={handleSelectMultiple} disabled={isLoading}>\n        Select Multiple Contacts\n      </button>\n      \n      {availableProperties.length > 0 && (\n        <div>\n          <h3>Available Properties:</h3>\n          <ul>\n            {availableProperties.map(prop => (\n              <li key={prop}>{prop}</li>\n            ))}\n          </ul>\n        </div>\n      )}\n      \n      {contacts.length > 0 && (\n        <div>\n          <h3>Selected Contacts ({contacts.length}):</h3>\n          {contacts.map((contact, index) => (\n            <div key={index} style={{ border: '1px solid #ccc', padding: '10px', margin: '5px' }}>\n              <p><strong>Name:</strong> {contact.name?.join(', ') || 'N/A'}</p>\n              <p><strong>Email:</strong> {contact.email?.join(', ') || 'N/A'}</p>\n              <p><strong>Phone:</strong> {contact.tel?.join(', ') || 'N/A'}</p>\n            </div>\n          ))}\n        </div>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Contact with Address",
+      "description": "Select contacts including address information",
+      "code": "import { useContactPicker } from '@usehooks/use-contact-picker';\n\nfunction AddressContactSelector() {\n  const { contacts, selectContacts, isLoading } = useContactPicker();\n\n  const handleSelectWithAddress = async () => {\n    await selectContacts(['name', 'email', 'tel', 'address']);\n  };\n\n  return (\n    <div>\n      <button onClick={handleSelectWithAddress} disabled={isLoading}>\n        Select Contact with Address\n      </button>\n      \n      {contacts.map((contact, index) => (\n        <div key={index} style={{ border: '1px solid #ddd', padding: '15px', margin: '10px' }}>\n          <h4>{contact.name?.[0] || 'Unknown Contact'}</h4>\n          \n          {contact.email && (\n            <p><strong>Email:</strong> {contact.email.join(', ')}</p>\n          )}\n          \n          {contact.tel && (\n            <p><strong>Phone:</strong> {contact.tel.join(', ')}</p>\n          )}\n          \n          {contact.address && contact.address.length > 0 && (\n            <div>\n              <strong>Address:</strong>\n              {contact.address.map((addr, addrIndex) => (\n                <div key={addrIndex} style={{ marginLeft: '10px' }}>\n                  {addr.addressLine && <p>{addr.addressLine.join(', ')}</p>}\n                  {addr.city && <p>{addr.city}, {addr.region} {addr.postalCode}</p>}\n                  {addr.country && <p>{addr.country}</p>}\n                </div>\n              ))}\n            </div>\n          )}\n        </div>\n      ))}\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Only available in browsers that support the Contact Picker API (Chrome 80+, Edge 80+)",
+    "Requires user gesture to initiate contact selection",
+    "Requires HTTPS in production environments",
+    "Available properties vary by platform and browser",
+    "User has full control over which contacts and properties to share",
+    "Contact data is not persisted and must be requested each time"
+  ]
+}

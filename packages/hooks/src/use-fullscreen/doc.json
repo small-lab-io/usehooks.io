@@ -1,0 +1,101 @@
+{
+  "name": "useFullscreen",
+  "description": "A hook for managing fullscreen mode using the Fullscreen API. Provides cross-browser support for entering and exiting fullscreen mode with callback options.",
+  "category": "dom",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "targetRef",
+      "type": "React.RefObject<Element>",
+      "optional": true,
+      "description": "Reference to the element to make fullscreen (defaults to document.documentElement)"
+    },
+    {
+      "name": "options",
+      "type": "UseFullscreenOptions",
+      "optional": true,
+      "description": "Configuration options for fullscreen behavior",
+      "properties": [
+        {
+          "name": "onEnter",
+          "type": "() => void",
+          "optional": true,
+          "description": "Callback fired when entering fullscreen mode"
+        },
+        {
+          "name": "onExit",
+          "type": "() => void",
+          "optional": true,
+          "description": "Callback fired when exiting fullscreen mode"
+        },
+        {
+          "name": "onError",
+          "type": "(error: Error) => void",
+          "optional": true,
+          "description": "Callback fired when fullscreen operation fails"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseFullscreenReturn",
+    "properties": [
+      {
+        "name": "isFullscreen",
+        "type": "boolean",
+        "description": "Whether currently in fullscreen mode"
+      },
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether the Fullscreen API is supported"
+      },
+      {
+        "name": "enter",
+        "type": "(element?: Element) => Promise<void>",
+        "description": "Enter fullscreen mode for the specified element"
+      },
+      {
+        "name": "exit",
+        "type": "() => Promise<void>",
+        "description": "Exit fullscreen mode"
+      },
+      {
+        "name": "toggle",
+        "type": "(element?: Element) => Promise<void>",
+        "description": "Toggle fullscreen mode"
+      },
+      {
+        "name": "element",
+        "type": "Element | null",
+        "description": "The current fullscreen element"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Fullscreen Toggle",
+      "description": "Simple fullscreen toggle for the entire page",
+      "code": "import { useFullscreen } from '@usehooks/use-fullscreen';\n\nfunction FullscreenDemo() {\n  const {\n    isFullscreen,\n    isSupported,\n    enter,\n    exit,\n    toggle\n  } = useFullscreen();\n\n  if (!isSupported) {\n    return <div>Fullscreen not supported</div>;\n  }\n\n  return (\n    <div style={{ padding: '20px' }}>\n      <h2>Fullscreen Demo</h2>\n      <p>Status: {isFullscreen ? 'Fullscreen' : 'Normal'}</p>\n      \n      <div>\n        <button onClick={() => enter()}>Enter Fullscreen</button>\n        <button onClick={() => exit()}>Exit Fullscreen</button>\n        <button onClick={() => toggle()}>Toggle Fullscreen</button>\n      </div>\n      \n      {isFullscreen && (\n        <div style={{\n          position: 'fixed',\n          top: 0,\n          left: 0,\n          right: 0,\n          bottom: 0,\n          backgroundColor: 'black',\n          color: 'white',\n          display: 'flex',\n          alignItems: 'center',\n          justifyContent: 'center',\n          flexDirection: 'column'\n        }}>\n          <h1>Fullscreen Mode</h1>\n          <button onClick={() => exit()}>Exit Fullscreen</button>\n        </div>\n      )}\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Element-specific Fullscreen",
+      "description": "Make a specific element fullscreen with ref",
+      "code": "import { useFullscreen } from '@usehooks/use-fullscreen';\nimport { useRef } from 'react';\n\nfunction VideoPlayer() {\n  const videoRef = useRef<HTMLVideoElement>(null);\n  const {\n    isFullscreen,\n    enter,\n    exit,\n    toggle\n  } = useFullscreen(videoRef, {\n    onEnter: () => console.log('Video entered fullscreen'),\n    onExit: () => console.log('Video exited fullscreen'),\n    onError: (error) => console.error('Fullscreen error:', error)\n  });\n\n  return (\n    <div>\n      <video\n        ref={videoRef}\n        width=\"400\"\n        height=\"300\"\n        controls\n        style={{\n          border: isFullscreen ? 'none' : '2px solid #ccc',\n          backgroundColor: 'black'\n        }}\n      >\n        <source src=\"/sample-video.mp4\" type=\"video/mp4\" />\n        Your browser does not support the video tag.\n      </video>\n      \n      <div style={{ marginTop: '10px' }}>\n        <button onClick={() => toggle()}>\n          {isFullscreen ? 'Exit' : 'Enter'} Fullscreen\n        </button>\n        <p>Video is {isFullscreen ? 'fullscreen' : 'normal'}</p>\n      </div>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Image Gallery Fullscreen",
+      "description": "Fullscreen image viewer with navigation",
+      "code": "import { useFullscreen } from '@usehooks/use-fullscreen';\nimport { useRef, useState } from 'react';\n\nfunction ImageGallery() {\n  const imageRef = useRef<HTMLDivElement>(null);\n  const [currentImage, setCurrentImage] = useState(0);\n  const {\n    isFullscreen,\n    enter,\n    exit\n  } = useFullscreen(imageRef);\n\n  const images = [\n    '/image1.jpg',\n    '/image2.jpg',\n    '/image3.jpg'\n  ];\n\n  const nextImage = () => {\n    setCurrentImage((prev) => (prev + 1) % images.length);\n  };\n\n  const prevImage = () => {\n    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);\n  };\n\n  const handleImageClick = () => {\n    if (!isFullscreen) {\n      enter();\n    }\n  };\n\n  return (\n    <div>\n      <div\n        ref={imageRef}\n        style={{\n          position: 'relative',\n          width: isFullscreen ? '100vw' : '400px',\n          height: isFullscreen ? '100vh' : '300px',\n          backgroundColor: 'black',\n          display: 'flex',\n          alignItems: 'center',\n          justifyContent: 'center',\n          cursor: isFullscreen ? 'default' : 'pointer'\n        }}\n        onClick={handleImageClick}\n      >\n        <img\n          src={images[currentImage]}\n          alt={`Image ${currentImage + 1}`}\n          style={{\n            maxWidth: '100%',\n            maxHeight: '100%',\n            objectFit: 'contain'\n          }}\n        />\n        \n        {isFullscreen && (\n          <>\n            <button\n              onClick={(e) => {\n                e.stopPropagation();\n                prevImage();\n              }}\n              style={{\n                position: 'absolute',\n                left: '20px',\n                top: '50%',\n                transform: 'translateY(-50%)',\n                fontSize: '24px',\n                padding: '10px'\n              }}\n            >\n              ←\n            </button>\n            \n            <button\n              onClick={(e) => {\n                e.stopPropagation();\n                nextImage();\n              }}\n              style={{\n                position: 'absolute',\n                right: '20px',\n                top: '50%',\n                transform: 'translateY(-50%)',\n                fontSize: '24px',\n                padding: '10px'\n              }}\n            >\n              →\n            </button>\n            \n            <button\n              onClick={(e) => {\n                e.stopPropagation();\n                exit();\n              }}\n              style={{\n                position: 'absolute',\n                top: '20px',\n                right: '20px',\n                fontSize: '18px',\n                padding: '10px'\n              }}\n            >\n              ✕\n            </button>\n          </>\n        )}\n      </div>\n      \n      {!isFullscreen && (\n        <div style={{ marginTop: '10px' }}>\n          <button onClick={prevImage}>Previous</button>\n          <span style={{ margin: '0 10px' }}>\n            {currentImage + 1} of {images.length}\n          </span>\n          <button onClick={nextImage}>Next</button>\n          <p>Click image to view fullscreen</p>\n        </div>\n      )}\n    </div>\n  );\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "notes": [
+    "Requires user gesture to enter fullscreen mode",
+    "Cross-browser support for webkit, moz, and ms prefixes",
+    "Automatically handles fullscreen change events",
+    "Cleans up event listeners on component unmount",
+    "Some browsers may have restrictions on which elements can be fullscreen",
+    "Fullscreen mode may be blocked by browser settings or extensions"
+  ]
+}
