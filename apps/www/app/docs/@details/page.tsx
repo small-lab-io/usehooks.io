@@ -4,7 +4,7 @@ export default async function HooksPage() {
   const hooks = await getHooks();
 
   return (
-    <div className="pb-20 px-20">
+    <div className="pb-20 px-20 max-w-4xl">
       <h1 className="text-4xl font-bold mb-6">React Hooks Collection</h1>
       <p className="text-lg text-gray-600 mb-8">
         A comprehensive collection of {hooks.length} custom React hooks to
