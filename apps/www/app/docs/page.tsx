@@ -4,7 +4,7 @@ export default async function HooksPage() {
   const hooks = await getHooks();
 
   return (
-    <div className="flex-1">
+    <div className="container mx-auto">
       <div className="max-w-4xl">
         <h1 className="text-4xl font-bold mb-6">React Hooks Collection</h1>
         <p className="text-lg text-gray-600 mb-8">

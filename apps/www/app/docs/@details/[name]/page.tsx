@@ -71,7 +71,7 @@ export default async function HookPage({
   const sourceCode = await getHookSource(name);
 
   return (
-    <div className="flex-1">
+    <div className="pb-20 space-y-10 px-20 container mx-auto">
       <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
       <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
         {hook.category}

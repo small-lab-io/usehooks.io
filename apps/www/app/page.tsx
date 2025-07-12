@@ -18,9 +18,9 @@ export default async function HomePage() {
 
   return (
     <ScrollArea className="h-[calc(100vh-64px)]">
-      <div className="min-h-screen container mx-auto px-4 md:px-0">
+      <div className="min-h-screen container mx-auto p-2 md:px-0">
         <div className="flex items-center gap-2 justify-center mt-20 animate-in fade-in-0 slide-in-from-top-4 duration-1000 w-full ">
-          <Anchor className="w-20 h-20" />
+          <Anchor className="w-10 h-10 md:w-20 md:h-20" />
           <span className="text-3xl md:text-8xl font-black tracking-tighter animate-in fade-in-0 duration-1000 w-fit">
             <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
               use<span className="font-light italic">Hooks.</span>io
@@ -33,7 +33,7 @@ export default async function HomePage() {
         </div>
 
         <div className="flex flex-col items-center justify-center py-20 md:py-60 text-center">
-          <h1 className="text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
+          <h1 className="text-3xl md:text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
             Modern React Hooks
           </h1>
           <p className="mt-4 text-xl text-muted-foreground animate-in fade-in-0 duration-1000">
@@ -53,7 +53,7 @@ export default async function HomePage() {
         </div>
 
         <div className="flex flex-col items-center justify-center py-10 md:py-60 text-center">
-          <h1 className="text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
+          <h1 className="text-3xl md:text-6xl font-bold tracking-tighter animate-in fade-in-0 duration-1000">
             Install Hooks via CLI
           </h1>
           <p className="mt-4 text-xl text-muted-foreground animate-in fade-in-0 duration-1000">

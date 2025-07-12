@@ -43,7 +43,7 @@ function Terminal({
 
 export default function IntroductionPage() {
   return (
-    <div className="w-full space-y-8">
+    <div className="pb-20 space-y-10 px-20 container mx-auto">
       <div className="space-y-4">
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">
           Introduction

@@ -9,6 +9,10 @@ import { GithubIcon } from "@/components/github-icon";
 import { Button } from "@workspace/ui/components/button";
 import { CommandMenu } from "@/components/command-menu";
 import "@workspace/ui/globals.css";
+import {
+  SidebarProvider,
+  SidebarTrigger,
+} from "@workspace/ui/components/sidebar";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -31,7 +35,7 @@ export const metadata: Metadata = {
     template: "%s | useHooks.io",
   },
   description:
-    "Collection of modern, server-safe React hooks for your next project. Similar to shadcn/ui but for hooks - no package dependencies, just install the source code you need.",
+    "Collection of modern, server-safe Rea<SidebarTrigger />ct hooks for your next project. Similar to shadcn/ui but for hooks - no package dependencies, just install the source code you need.",
 };
 
 export default function RootLayout({ children }: Readonly<LayoutProps>) {
@@ -40,17 +44,20 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased overflow-hidden`}
       >
-        <Providers>
-          <>
+        <SidebarProvider className="flex flex-col h-screen">
+          <Providers>
             <header className="h-16 flex justify-between items-center container mx-auto px-2 md:px-0">
-              <Link href="/" className="flex items-center gap-2">
-                <Anchor className="w-4 h-4" />
-                <span className="text-lg font-black tracking-tighter animate-in fade-in-0 duration-1000 cursor-pointer">
-                  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                    use<span className="font-light italic">Hooks.</span>io
+              <div className="flex items-center gap-2">
+                <Anchor className="w-4 h-4 hidden md:block" />
+                <SidebarTrigger className="md:hidden" />
+                <Link href="/">
+                  <span className="text-lg font-black tracking-tighter animate-in fade-in-0 duration-1000 cursor-pointer">
+                    <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                      use<span className="font-light italic">Hooks.</span>io
+                    </span>
                   </span>
-                </span>
-              </Link>
+                </Link>
+              </div>
               <div className="flex items-center gap-2">
                 <div className="hidden sm:block">
                   <CommandMenu />
@@ -70,8 +77,8 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
               {children}
               <Analytics />
             </main>
-          </>
-        </Providers>
+          </Providers>
+        </SidebarProvider>
       </body>
     </html>
   );
