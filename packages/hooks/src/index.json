@@ -373,7 +373,7 @@
     "name": "use-window-size",
     "title": "useWindowSize",
     "description": "A hook that tracks the current window dimensions and updates on resize.",
-    "category": "Browser",
+    "category": "browser",
     "dependencies": [],
     "devDependencies": [],
     "files": [
