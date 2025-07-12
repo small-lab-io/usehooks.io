@@ -18,28 +18,21 @@ import Link from "next/link";
 
 type HookMeta = {
   name: string;
+  title: string;
   description: string;
   category: string;
 };
 
-const data = {
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-  ],
-};
+const navMain = [
+  {
+    title: "Introduction",
+    url: "/docs/introduction",
+  },
+  {
+    title: "CLI",
+    url: "/docs/cli",
+  },
+];
 
 export async function AppSidebar() {
   const hooks = await getHooks();
@@ -48,19 +41,23 @@ export async function AppSidebar() {
   if (!Array.isArray(hooks)) {
     console.log("Data is not an array:", hooks);
     return (
-      <Sidebar variant="floating" collapsible="none">
-        <SidebarHeader />
-        <SidebarGroup>
-          <SidebarContent className="sticky top-16">
-            <SidebarGroupLabel>Hooks</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <div className="p-4 text-sm text-yellow-600">
-                Data loaded but not in expected format. Check console.
-              </div>
-            </SidebarGroupContent>
-          </SidebarContent>
-        </SidebarGroup>
-      </Sidebar>
+      <div className="sticky top-16">
+        <ScrollArea>
+          <Sidebar variant="floating" collapsible="none">
+            <SidebarHeader />
+            <SidebarGroup>
+              <SidebarContent>
+                <SidebarGroupLabel>Hooks</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <div className="p-4 text-sm text-yellow-600">
+                    Data loaded but not in expected format. Check console.
+                  </div>
+                </SidebarGroupContent>
+              </SidebarContent>
+            </SidebarGroup>
+          </Sidebar>
+        </ScrollArea>
+      </div>
     );
   }
 
@@ -79,81 +76,82 @@ export async function AppSidebar() {
   // Check if we have no categories
   if (Object.keys(hooksByCategory).length === 0) {
     return (
-      <Sidebar variant="floating" collapsible="none">
-        <SidebarHeader />
-        <SidebarGroup>
-          <SidebarContent className="sticky top-16">
-            <SidebarGroupLabel>Hooks</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <div className="p-4 text-sm text-gray-500">
-                No hooks found in any category.
-              </div>
-            </SidebarGroupContent>
-          </SidebarContent>
-        </SidebarGroup>
-      </Sidebar>
+      <div className="sticky top-16">
+        <ScrollArea>
+          <Sidebar variant="floating" collapsible="none">
+            <SidebarHeader />
+            <SidebarGroup>
+              <SidebarContent>
+                <SidebarGroupLabel>Hooks</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <div className="p-4 text-sm text-gray-500">
+                    No hooks found in any category.
+                  </div>
+                </SidebarGroupContent>
+              </SidebarContent>
+            </SidebarGroup>
+          </Sidebar>
+        </ScrollArea>
+      </div>
     );
   }
 
   return (
     <div className="sticky top-16">
-      <ScrollArea>
+      <ScrollArea className="h-[calc(100vh-4rem)]">
         <Sidebar
           variant="floating"
           collapsible="none"
           className="bg-transparent"
         >
-          <SidebarContent>
+          <SidebarContent className="gap-0">
+            <SidebarGroupLabel>Get Started</SidebarGroupLabel>
             <SidebarGroup>
-              <SidebarMenu className="gap-2">
-                {data.navMain.map((item) => (
+              <SidebarMenu className="gap-0">
+                {navMain.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a href={item.url} className="font-medium">
+                      <Link href={item.url} className="font-medium">
                         {item.title}
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
-                    {item.items?.length ? (
-                      <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
-                        {item.items.map((item) => (
-                          <SidebarMenuSubItem key={item.title}>
-                            <SidebarMenuSubButton asChild>
-                              <a href={item.url}>{item.title}</a>
-                            </SidebarMenuSubButton>
-                          </SidebarMenuSubItem>
-                        ))}
-                      </SidebarMenuSub>
-                    ) : null}
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
-          <SidebarContent>
+
+          <SidebarContent className="gap-0">
+            <SidebarGroupLabel>Hooks</SidebarGroupLabel>
             <SidebarGroup>
-              <SidebarGroupLabel>Hooks ({hooks.length})</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {Object.entries(hooksByCategory).map(
-                    ([category, categoryHooks]) => (
-                      <div key={category} className="mt-4">
-                        <h3 className="text-lg font-medium text-gray-500 capitalize">
-                          {category} ({categoryHooks.length})
-                        </h3>
+              <SidebarMenu className="gap-0">
+                {Object.entries(hooksByCategory).map(
+                  ([category, categoryHooks]) => (
+                    <SidebarMenuItem key={category}>
+                      <SidebarMenuButton asChild>
+                        <span className="font-medium capitalize">
+                          {category}
+                        </span>
+                      </SidebarMenuButton>
+                      <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
                         {categoryHooks.map((hook) => (
-                          <Link
-                            key={hook.name}
-                            href={`/docs/${hook.name.toLowerCase()}`}
-                            className="block py-2 text-sm text-gray-600 hover:underline"
-                          >
-                            {hook.name}
-                          </Link>
+                          <SidebarMenuSubItem key={hook.name}>
+                            <SidebarMenuSubButton asChild>
+                              <Link
+                                key={hook.name}
+                                href={`/docs/${hook.name.toLowerCase()}`}
+                                className="block py-2 text-sm text-gray-600 hover:underline"
+                              >
+                                {hook.title}
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
                         ))}
-                      </div>
-                    )
-                  )}
-                </SidebarMenu>
-              </SidebarGroupContent>
+                      </SidebarMenuSub>
+                    </SidebarMenuItem>
+                  )
+                )}
+              </SidebarMenu>
             </SidebarGroup>
           </SidebarContent>
         </Sidebar>

@@ -15,8 +15,8 @@ export default async function HooksPage() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {hooks.map((hook) => (
             <div className="container mx-auto py-12 px-4" key={hook.name}>
-              <h1 className="text-4xl font-bold mb-2">{hook.name}</h1>
-              <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8">
+              <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
+              <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 capitalize">
                 {hook.category}
               </span>
 

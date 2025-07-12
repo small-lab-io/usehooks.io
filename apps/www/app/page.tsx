@@ -133,7 +133,9 @@ export default async function HomePage() {
         {Array.from(new Set(hooks.map((hook) => hook.category))).map(
           (category) => (
             <div key={category} id={category}>
-              <h3 className="text-2xl font-bold mt-16 mb-8">{category}</h3>
+              <h3 className="text-2xl font-bold mt-16 mb-8 capitalize">
+                {category}
+              </h3>
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {hooks
                   .filter((hook) => hook.category === category)
@@ -153,7 +155,7 @@ export default async function HomePage() {
                           {hook.title}
                         </h1>
                       </Link>
-                      <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 transition-all duration-200 hover:bg-primary/20">
+                      <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 transition-all duration-200 hover:bg-primary/20 capitalize">
                         {hook.category}
                       </span>
 

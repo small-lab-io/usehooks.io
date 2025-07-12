@@ -87,9 +87,12 @@ export function CommandMenu() {
                     router.push(`/docs/${hook.name}`);
                     setOpen(false);
                   }}
+                  className="flex flex-col items-start"
                 >
-                  <span>{hook.name}</span>
-                  <CommandShortcut> {hook.category}</CommandShortcut>
+                  <span className="text-lg font-medium">{hook.title}</span>
+                  <span className="text-sm text-muted-foreground italic">
+                    {hook.description}
+                  </span>
                 </CommandItem>
               ))
             ) : (

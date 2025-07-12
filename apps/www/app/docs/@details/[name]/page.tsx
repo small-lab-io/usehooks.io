@@ -61,8 +61,8 @@ export default async function HookPage({
     return (
       <div className="container mx-auto py-12 px-4">
         <h1 className="text-4xl font-bold mb-8">Hook not found</h1>
-        <Link href="/hooks" className="text-blue-500 hover:underline">
-          Back to hooks
+        <Link href="/docs" className="text-blue-500 hover:underline">
+          Back to docs
         </Link>
       </div>
     );
@@ -72,7 +72,7 @@ export default async function HookPage({
 
   return (
     <div className="flex-1">
-      <h1 className="text-4xl font-bold mb-2">{hook.name}</h1>
+      <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
       <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
         {hook.category}
       </span>
