@@ -14,7 +14,7 @@ export default function DocsLayout({
       <ScrollArea className="h-[calc(100vh-64px)] container">
         <>{details}</>
       </ScrollArea>
-      {aside}
+      <div>{aside}</div>
     </div>
   );
 }
