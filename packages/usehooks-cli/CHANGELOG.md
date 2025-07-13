@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 4.0.2
+
+### Patch Changes
+
+- Add missing use-clipboard
+
 ## 4.0.1
 
 ### Patch Changes
