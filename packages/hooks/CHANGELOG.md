@@ -1,5 +1,11 @@
 # @workspace/hooks
 
+## 0.2.0
+
+### Minor Changes
+
+- Fix hooks order index.json
+
 ## 0.1.0
 
 ### Minor Changes
