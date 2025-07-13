@@ -2,6 +2,7 @@ import fetch from "node-fetch";
 
 export interface HookMeta {
   name: string;
+  title?: string;
   description: string;
   category?: string;
   dependencies?: string[];

@@ -16,7 +16,6 @@ export const configSchema = z.object({
     .optional(),
   aliases: z.object({
     hooks: z.string().default("./hooks"),
-    utils: z.string().default("./lib/utils"),
   }),
 });
 

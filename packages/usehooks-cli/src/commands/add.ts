@@ -5,6 +5,7 @@ import ora from "ora";
 import prompts from "prompts";
 import { getConfig } from "../utils/config";
 import { getHook, getAllHooks } from "../utils/registry";
+import { installDependencies } from "../utils/dependencies";
 
 interface AddOptions {
   yes?: boolean;
@@ -57,6 +58,24 @@ export async function addCommand(hooks: string[], options: AddOptions) {
   const spinner = ora("Adding hooks...").start();
 
   try {
+    for (const hookName of hooks) {
+      const hook = await getHook(hookName);
+
+      // Install dependencies if any
+      if (hook?.dependencies?.length) {
+        const { installDeps } = await prompts({
+          type: "confirm",
+          name: "installDeps",
+          message: `Install dependencies: ${hook.dependencies.join(", ")}?`,
+          initial: true,
+        });
+
+        if (installDeps) {
+          await installDependencies(hook.dependencies, cwd);
+        }
+      }
+    }
+
     for (const hookName of hooks) {
       const hook = await getHook(hookName);
       if (!hook) {
