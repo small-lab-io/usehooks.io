@@ -4,6 +4,7 @@ import { Separator } from "@workspace/ui/components/separator";
 import { Badge } from "@workspace/ui/components/badge";
 import { Terminal } from "@/components/terminal";
 import { getCliVersion } from "@/lib/get-cli-version";
+import { CopyToClipboard } from "@/components/copy-to-clipboard";
 
 export default async function CliPage() {
   const cliVersion = await getCliVersion();
@@ -47,7 +48,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest init</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest init</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest init"
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
       </section>
 
@@ -63,7 +70,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest add [hooks...]</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest add [hooks...]</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest add "
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -132,7 +145,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest update [hooks...]</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest update [hooks...]</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest update "
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -192,7 +211,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest remove [hooks...]</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest remove [hooks...]</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest remove "
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -252,7 +277,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest list</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest list</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest list"
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
       </section>
 
@@ -269,7 +300,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest search &lt;query&gt;</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest search &lt;query&gt;</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest search "
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
 
         <div className="space-y-4">
@@ -330,7 +367,13 @@ export default async function CliPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Usage</h3>
-          <Terminal>npx usehooks-cli@latest info &lt;hook-name&gt;</Terminal>
+          <div className="relative">
+            <Terminal>npx usehooks-cli@latest info &lt;hook-name&gt;</Terminal>
+            <CopyToClipboard
+              text="npx usehooks-cli@latest info "
+              className="absolute top-0 right-0"
+            />
+          </div>
         </div>
 
         <div className="space-y-4">
