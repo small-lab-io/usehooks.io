@@ -1,6 +1,8 @@
 import { cn } from "@workspace/ui/lib/utils";
 import { Separator } from "@workspace/ui/components/separator";
+import { Badge } from "@workspace/ui/components/badge";
 import { Terminal } from "@/components/terminal";
+import { getCliVersion } from "@/lib/get-cli-version";
 
 function Callout({
   children,
@@ -41,11 +43,18 @@ function Step({
   );
 }
 
-export default function CliPage() {
+export default async function CliPage() {
+  const cliVersion = await getCliVersion();
+
   return (
     <div className="pb-20 space-y-10 px-20 w-full">
       <div className="space-y-4">
-        <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">CLI</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">CLI</h1>
+          <Badge asChild variant="outline">
+            <>v{cliVersion}</>
+          </Badge>
+        </div>
         <p className="text-xl text-muted-foreground">
           A powerful command-line interface tool for seamlessly integrating
           React hooks into your projects.
