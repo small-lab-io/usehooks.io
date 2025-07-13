@@ -1,3 +1,7 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { getHooks } from "@/lib/get-hooks";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import {
@@ -15,6 +19,7 @@ import {
   SidebarMenuSubItem,
 } from "@workspace/ui/components/sidebar";
 import Link from "next/link";
+import { cn } from "@workspace/ui/lib/utils";
 
 type HookMeta = {
   name: string;
@@ -34,10 +39,36 @@ const navMain = [
   },
 ];
 
-export async function AppSidebar() {
-  const hooks = await getHooks();
+export function AppSidebar() {
+  const pathname = usePathname();
+  const [hooks, setHooks] = useState<HookMeta[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Check if we have data but it's not an array
+  useEffect(() => {
+    async function fetchHooks() {
+      try {
+        const hooksData = await getHooks();
+        setHooks(hooksData);
+      } catch (error) {
+        console.error("Error fetching hooks:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchHooks();
+  }, []);
+
+  const hooksByCategory = hooks.reduce(
+    (acc: Record<string, HookMeta[]>, hook: HookMeta) => {
+      if (!acc[hook.category]) {
+        acc[hook.category] = [];
+      }
+      acc[hook.category]?.push(hook);
+      return acc;
+    },
+    {}
+  );
+
   if (!Array.isArray(hooks)) {
     console.log("Data is not an array:", hooks);
     return (
@@ -61,19 +92,6 @@ export async function AppSidebar() {
     );
   }
 
-  // Process the hooks data
-  const hooksByCategory = hooks.reduce(
-    (acc: Record<string, HookMeta[]>, hook: HookMeta) => {
-      if (!acc[hook.category]) {
-        acc[hook.category] = [];
-      }
-      acc[hook.category]?.push(hook);
-      return acc;
-    },
-    {}
-  );
-
-  // Check if we have no categories
   if (Object.keys(hooksByCategory).length === 0) {
     return (
       <div className="sticky top-16">
@@ -106,15 +124,24 @@ export async function AppSidebar() {
         <SidebarGroupLabel>Get Started</SidebarGroupLabel>
         <SidebarGroup>
           <SidebarMenu className="gap-0">
-            {navMain.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.url} className="font-medium">
-                    {item.title}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
+            {navMain.map((item) => {
+              const isActive = pathname === item.url;
+              return (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={isActive}>
+                    <Link
+                      href={item.url}
+                      className={cn(
+                        "font-medium",
+                        isActive && "bg-accent text-accent-foreground"
+                      )}
+                    >
+                      {item.title}
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
         <SidebarGroupLabel>Hooks</SidebarGroupLabel>
@@ -127,19 +154,26 @@ export async function AppSidebar() {
                     <span className="font-medium capitalize">{category}</span>
                   </SidebarMenuButton>
                   <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
-                    {categoryHooks.map((hook) => (
-                      <SidebarMenuSubItem key={hook.name}>
-                        <SidebarMenuSubButton asChild>
-                          <Link
-                            key={hook.name}
-                            href={`/docs/${hook.name.toLowerCase()}`}
-                            className="block py-2 text-sm text-gray-600 hover:underline"
-                          >
-                            {hook.title}
-                          </Link>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
+                    {categoryHooks.map((hook) => {
+                      const hookPath = `/docs/${hook.name.toLowerCase()}`;
+                      const isActive = pathname === hookPath;
+                      return (
+                        <SidebarMenuSubItem key={hook.name}>
+                          <SidebarMenuSubButton asChild isActive={isActive}>
+                            <Link
+                              href={hookPath}
+                              className={cn(
+                                "block py-2 text-sm text-gray-600 hover:underline",
+                                isActive &&
+                                  "bg-accent text-accent-foreground font-medium"
+                              )}
+                            >
+                              {hook.title}
+                            </Link>
+                          </SidebarMenuSubButton>
+                        </SidebarMenuSubItem>
+                      );
+                    })}
                   </SidebarMenuSub>
                 </SidebarMenuItem>
               )
