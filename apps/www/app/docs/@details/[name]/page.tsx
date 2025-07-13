@@ -131,7 +131,7 @@ export default async function HookPage({
   const hookDoc = await getHookDoc(name);
 
   return (
-    <div className="pb-20 space-y-10 px-20 max-w-4xl">
+    <div className="pb-20 space-y-10 px-20 max-w-full">
       <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
       <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
         {hook.category}

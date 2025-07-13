@@ -60,7 +60,7 @@ function Step({
 
 export default function CliPage() {
   return (
-    <div className="pb-20 space-y-10 px-20 max-w-4xl">
+    <div className="pb-20 space-y-10 px-20 w-full">
       <div className="space-y-4">
         <h1 className="scroll-m-20 text-4xl font-bold tracking-tight">CLI</h1>
         <p className="text-xl text-muted-foreground">
