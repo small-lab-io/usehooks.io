@@ -1,6 +1,6 @@
 {
   "name": "usehooks-cli",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A CLI for adding React hooks to your project",
   "type": "module",
   "private": false,

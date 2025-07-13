@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 4.0.1
+
+### Patch Changes
+
+- Update README
+
 ## 4.0.0
 
 ### Major Changes
