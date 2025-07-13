@@ -297,14 +297,20 @@ export default async function HookPage({
                       {example.title}
                     </h3>
                     <p className="mb-4">{example.description}</p>
-                    <SyntaxHighlighter
-                      language="typescript"
-                      style={oneDark}
-                      PreTag="div"
-                      showLineNumbers
-                    >
-                      {example.code}
-                    </SyntaxHighlighter>
+                    <div className="relative">
+                      <SyntaxHighlighter
+                        language="typescript"
+                        style={oneDark}
+                        PreTag="div"
+                        showLineNumbers
+                      >
+                        {example.code}
+                      </SyntaxHighlighter>
+                      <CopyToClipboard
+                        text={example.code}
+                        className="absolute top-2 right-2"
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -347,7 +353,7 @@ export default async function HookPage({
 
       <div>
         <h2 className="text-2xl font-bold mb-4">Implementation</h2>
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto relative">
           <SyntaxHighlighter
             language="typescript"
             style={oneDark}
@@ -361,6 +367,10 @@ export default async function HookPage({
           >
             {sourceCode}
           </SyntaxHighlighter>
+          <CopyToClipboard
+            text={sourceCode}
+            className="absolute top-4 right-2"
+          />
         </div>
       </div>
 
