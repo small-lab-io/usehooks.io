@@ -129,11 +129,15 @@ export default async function HookPage({
     );
   }
 
+  // Find current hook index and get previous/next hooks
+  const currentIndex = hooks.findIndex((h) => h.name === name);
+  const previousHook = currentIndex > 0 ? hooks[currentIndex - 1] : null;
+  const nextHook = currentIndex < hooks.length - 1 ? hooks[currentIndex + 1] : null;
+
   const sourceCode = await getHookSource(name);
   const hookDoc = await getHookDoc(name);
 
   return (
-    // Replace line 134
     <div className="pb-20 space-y-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
       <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
@@ -385,6 +389,54 @@ export default async function HookPage({
           ))}
         </div>
       )}
+
+      {/* Replace the navigation section at the end */}
+      <div className="border-t pt-8">
+        <div className="flex justify-between items-center">
+          <div className="flex-1">
+            {previousHook && (
+              <Link 
+                href={`/docs/${previousHook.name}`}
+                className="group flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                <div className="text-left">
+                  <div className="text-xs uppercase tracking-wide">Previous</div>
+                  <div className="font-medium group-hover:underline">{previousHook.title}</div>
+                </div>
+              </Link>
+            )}
+          </div>
+          
+          <div className="flex space-x-4">
+            <Link href="/docs/cli" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              CLI Docs
+            </Link>
+            <Link href="/docs" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              All Hooks
+            </Link>
+          </div>
+          
+          <div className="flex-1 flex justify-end">
+            {nextHook && (
+              <Link 
+                href={`/docs/${nextHook.name}`}
+                className="group flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <div className="text-right">
+                  <div className="text-xs uppercase tracking-wide">Next</div>
+                  <div className="font-medium group-hover:underline">{nextHook.title}</div>
+                </div>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
