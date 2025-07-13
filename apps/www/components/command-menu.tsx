@@ -51,12 +51,12 @@ export function CommandMenu() {
   return (
     <>
       <Button
-        className="bg-slate-100 hover:bg-slate-200 text-surface-foreground/60 dark:bg-slate-800 relative h-8 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64 cursor-pointer"
+        className="bg-slate-100 hover:bg-slate-200 text-surface-foreground/60 items-center flex dark:bg-slate-800 hover:dark:bg-slate-700 relative h-9 w-full justify-start pl-2.5 font-normal shadow-none sm:pr-12 md:w-40 lg:w-56 xl:w-64 cursor-pointer"
         onClick={() => setOpen((open) => !open)}
       >
         <span className="hidden lg:inline-flex">Search documentation...</span>
         <span className="inline-flex lg:hidden">Search...</span>
-        <div className="absolute top-1.5 right-1.5 hidden gap-1 sm:flex">
+        <div className="absolute top-2 right-1.5 hidden gap-1 sm:flex">
           <kbd className="bg-background text-muted-foreground pointer-events-none flex h-5 items-center justify-center gap-1 rounded border px-1 font-sans text-[0.7rem] font-medium select-none">
             ⌘
           </kbd>

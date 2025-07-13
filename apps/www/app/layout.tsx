@@ -8,11 +8,11 @@ import { ModeToggle } from "@/components/toogle-theme";
 import { GithubIcon } from "@/components/github-icon";
 import { Button } from "@workspace/ui/components/button";
 import { CommandMenu } from "@/components/command-menu";
-import "@workspace/ui/globals.css";
 import {
   SidebarProvider,
   SidebarTrigger,
 } from "@workspace/ui/components/sidebar";
+import "@workspace/ui/globals.css";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -63,7 +63,11 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
                   <CommandMenu />
                 </div>
                 <ModeToggle />
-                <Button asChild variant="ghost">
+                <Button
+                  asChild
+                  variant="ghost"
+                  className="hover:dark:bg-slate-700"
+                >
                   <Link
                     href={"https://github.com/small-lab-io/usehooks.io"}
                     target="_blank"
