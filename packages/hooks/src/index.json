@@ -20,6 +20,74 @@
     ]
   },
   {
+    "name": "use-counter",
+    "title": "useCounter",
+    "description": "A hook for managing counter state with increment, decrement, and reset",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-local-storage",
+    "title": "useLocalStorage",
+    "description": "A hook for managing localStorage with React state",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic localStorage usage"
+      }
+    ]
+  },
+  {
+    "name": "use-set",
+    "title": "useSet",
+    "description": "A hook for managing and manipulating Set data structure with comprehensive methods for set operations, filtering, and state management",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic Set manipulation and operations"
+      }
+    ]
+  },
+  {
+    "name": "use-toggle",
+    "title": "useToggle",
+    "description": "A hook for managing toggle state with toggle and reset",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
     "name": "use-audio-recorder",
     "title": "useAudioRecorder",
     "description": "A comprehensive hook for audio recording with real-time analysis using getUserMedia, MediaRecorder, and Web Audio APIs",
@@ -50,6 +118,122 @@
       {
         "name": "index.ts",
         "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-device-orientation",
+    "title": "useDeviceOrientation",
+    "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic device orientation monitoring"
+      }
+    ]
+  },
+  {
+    "name": "use-hover",
+    "title": "useHover",
+    "description": "A hook for detecting when an element is being hovered with optional callbacks and delay",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic hover detection"
+      }
+    ]
+  },
+  {
+    "name": "use-media-session",
+    "title": "useMediaSession",
+    "description": "A hook for customizing media notifications and handling media control actions using the Media Session API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-network-information",
+    "title": "useNetworkInformation",
+    "description": "A hook for accessing network connection information and monitoring network changes",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-user-media",
+    "title": "useUserMedia",
+    "description": "A hook for accessing camera and microphone using the getUserMedia API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-vibration",
+    "title": "useVibration",
+    "description": "A hook for controlling device vibration using the Vibration API",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-geolocation",
+    "title": "useGeolocation",
+    "description": "A hook for accessing the Geolocation API to get user's location",
+    "category": "sensors",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic geolocation usage"
       }
     ]
   },
@@ -114,180 +298,6 @@
     ]
   },
   {
-    "name": "use-counter",
-    "title": "useCounter",
-    "description": "A hook for managing counter state with increment, decrement, and reset",
-    "category": "state",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-debounce",
-    "title": "useDebounce",
-    "description": "A hook for debouncing values to delay updates until after a specified delay period",
-    "category": "utility",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "example.tsx",
-        "description": "Basic debounce usage"
-      }
-    ]
-  },
-  {
-    "name": "use-device-orientation",
-    "title": "useDeviceOrientation",
-    "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic device orientation monitoring"
-      }
-    ]
-  },
-  {
-    "name": "use-hover",
-    "title": "useHover",
-    "description": "A hook for detecting when an element is being hovered with optional callbacks and delay",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic hover detection"
-      }
-    ]
-  },
-  {
-    "name": "use-local-storage",
-    "title": "useLocalStorage",
-    "description": "A hook for managing localStorage with React state",
-    "category": "state",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic localStorage usage"
-      }
-    ]
-  },
-  {
-    "name": "use-media-session",
-    "title": "useMediaSession",
-    "description": "A hook for customizing media notifications and handling media control actions using the Media Session API",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-network-information",
-    "title": "useNetworkInformation",
-    "description": "A hook for accessing network connection information and monitoring network changes",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-previous",
-    "title": "usePrevious",
-    "description": "A hook that returns the previous value of a state or prop",
-    "category": "utility",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-role-guard",
-    "title": "useRoleGuard",
-    "description": "A hook for role-based access control that redirects or hides content based on user roles",
-    "category": "auth",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      },
-      {
-        "name": "basic-usage.tsx",
-        "type": "example"
-      }
-    ]
-  },
-  {
-    "name": "use-set",
-    "title": "useSet",
-    "description": "A hook for managing and manipulating Set data structure with comprehensive methods for set operations, filtering, and state management",
-    "category": "state",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic Set manipulation and operations"
-      }
-    ]
-  },
-  {
     "name": "use-storage",
     "title": "useStorage",
     "description": "A hook for managing browser storage quotas, usage estimation, and persistence using the Storage API",
@@ -304,68 +314,6 @@
       {
         "name": "basic-usage.tsx",
         "description": "Basic storage estimation and persistence management"
-      }
-    ]
-  },
-  {
-    "name": "use-throttle",
-    "title": "useThrottle",
-    "description": "A hook for throttling values to limit updates to at most once per specified delay period",
-    "category": "utility",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic throttling usage"
-      }
-    ]
-  },
-  {
-    "name": "use-toggle",
-    "title": "useToggle",
-    "description": "A hook for managing toggle state with toggle and reset",
-    "category": "state",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-user-media",
-    "title": "useUserMedia",
-    "description": "A hook for accessing camera and microphone using the getUserMedia API",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ]
-  },
-  {
-    "name": "use-vibration",
-    "title": "useVibration",
-    "description": "A hook for controlling device vibration using the Vibration API",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
       }
     ]
   },
@@ -409,6 +357,98 @@
     ]
   },
   {
+    "name": "use-debounce",
+    "title": "useDebounce",
+    "description": "A hook for debouncing values to delay updates until after a specified delay period",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "example.tsx",
+        "description": "Basic debounce usage"
+      }
+    ]
+  },
+  {
+    "name": "use-previous",
+    "title": "usePrevious",
+    "description": "A hook that returns the previous value of a state or prop",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
+    "name": "use-throttle",
+    "title": "useThrottle",
+    "description": "A hook for throttling values to limit updates to at most once per specified delay period",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic throttling usage"
+      }
+    ]
+  },
+  {
+    "name": "use-is-mounted",
+    "title": "useIsMounted",
+    "description": "A hook that returns whether the component is currently mounted",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic mount status checking"
+      }
+    ]
+  },
+  {
+    "name": "use-role-guard",
+    "title": "useRoleGuard",
+    "description": "A hook for role-based access control that redirects or hides content based on user roles",
+    "category": "auth",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      },
+      {
+        "name": "basic-usage.tsx",
+        "type": "example"
+      }
+    ]
+  },
+  {
     "name": "use-deep-compare-effect",
     "title": "useDeepCompareEffect",
     "description": "Like useEffect but with deep equality check for dependencies",
@@ -425,6 +465,26 @@
       {
         "name": "basic-usage.tsx",
         "description": "Basic deep compare effect usage"
+      }
+    ]
+  },
+  {
+    "name": "use-update-effect",
+    "title": "useUpdateEffect",
+    "description": "Like useEffect but skips the initial render",
+    "category": "lifecycle",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic useUpdateEffect usage"
       }
     ]
   },
@@ -469,46 +529,6 @@
     ]
   },
   {
-    "name": "use-geolocation",
-    "title": "useGeolocation",
-    "description": "A hook for accessing the Geolocation API to get user's location",
-    "category": "sensors",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic geolocation usage"
-      }
-    ]
-  },
-  {
-    "name": "use-is-mounted",
-    "title": "useIsMounted",
-    "description": "A hook that returns whether the component is currently mounted",
-    "category": "utility",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic mount status checking"
-      }
-    ]
-  },
-  {
     "name": "use-timeout",
     "title": "useTimeout",
     "description": "A hook for managing timeouts with start, stop, and reset functionality",
@@ -525,26 +545,6 @@
       {
         "name": "basic-usage.tsx",
         "description": "Basic timeout usage with controls"
-      }
-    ]
-  },
-  {
-    "name": "use-update-effect",
-    "title": "useUpdateEffect",
-    "description": "Like useEffect but skips the initial render",
-    "category": "lifecycle",
-    "dependencies": [],
-    "devDependencies": [],
-    "files": [
-      {
-        "name": "index.ts",
-        "type": "hook"
-      }
-    ],
-    "examples": [
-      {
-        "name": "basic-usage.tsx",
-        "description": "Basic useUpdateEffect usage"
       }
     ]
   }
