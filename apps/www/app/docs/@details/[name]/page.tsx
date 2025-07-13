@@ -131,7 +131,8 @@ export default async function HookPage({
   const hookDoc = await getHookDoc(name);
 
   return (
-    <div className="pb-20 space-y-10 px-20 max-w-full">
+    // Replace line 134
+    <div className="pb-20 space-y-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
       <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
       <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
         {hook.category}
@@ -154,7 +155,7 @@ export default async function HookPage({
             <div className="mb-8">
               <h2 className="text-2xl font-bold mb-4">Parameters</h2>
               <div className="overflow-x-auto">
-                <table className="min-w-full">
+                <table className="w-full min-w-[600px]">
                   <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>
                       <th className="px-4 py-2 text-left border-b">Name</th>
@@ -333,14 +334,21 @@ export default async function HookPage({
 
       <div className="mb-8">
         <h2 className="text-2xl font-bold mb-4">Implementation</h2>
-        <SyntaxHighlighter
-          language="typescript"
-          style={oneDark}
-          PreTag="div"
-          showLineNumbers
-        >
-          {sourceCode}
-        </SyntaxHighlighter>
+        <div className="overflow-x-auto">
+          <SyntaxHighlighter
+            language="typescript"
+            style={oneDark}
+            PreTag="div"
+            showLineNumbers
+            wrapLongLines={true}
+            customStyle={{
+              maxWidth: "100%",
+              fontSize: "14px",
+            }}
+          >
+            {sourceCode}
+          </SyntaxHighlighter>
+        </div>
       </div>
 
       {hook.examples && hook.examples.length > 0 && !hookDoc?.examples && (
