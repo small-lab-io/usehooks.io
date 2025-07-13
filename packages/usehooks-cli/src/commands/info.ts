@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import fetch from "node-fetch";
+import ora from "ora";
 import { getHook } from "../utils/registry";
 
 interface InfoOptions {
@@ -89,7 +90,7 @@ export async function infoCommand(hookName: string, options: InfoOptions = {}) {
     return;
   }
 
-  const spinner = require("ora")("Loading hook information...").start();
+  const spinner = ora("Loading hook information...").start();
 
   try {
     // Get basic hook metadata

@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import prompts from "prompts";
+import ora from "ora";
 import { getAllHooks } from "../utils/registry";
 import { addCommand } from "./add";
 
@@ -74,7 +75,7 @@ export async function searchCommand(
     return;
   }
 
-  const spinner = require("ora")("Searching hooks...").start();
+  const spinner = ora("Searching hooks...").start();
 
   try {
     const allHooks = await getAllHooks();
