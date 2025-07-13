@@ -12,6 +12,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@workspace/ui/components/sidebar";
+import { Badge } from "@workspace/ui/components/badge";
+import { getCliVersion } from "@/lib/get-cli-version";
 import "@workspace/ui/globals.css";
 
 const fontSans = Geist({
@@ -38,7 +40,9 @@ export const metadata: Metadata = {
     "Collection of modern, server-safe Rea<SidebarTrigger />ct hooks for your next project. Similar to shadcn/ui but for hooks - no package dependencies, just install the source code you need.",
 };
 
-export default function RootLayout({ children }: Readonly<LayoutProps>) {
+export default async function RootLayout({ children }: Readonly<LayoutProps>) {
+  const cliVersion = await getCliVersion();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -57,6 +61,9 @@ export default function RootLayout({ children }: Readonly<LayoutProps>) {
                     </span>
                   </span>
                 </Link>
+                <Badge asChild variant="outline">
+                  <>v{cliVersion}</>
+                </Badge>
               </div>
               <div className="flex items-center gap-2">
                 <div className="hidden sm:block">
