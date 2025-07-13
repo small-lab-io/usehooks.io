@@ -74,6 +74,26 @@
     ]
   },
   {
+    "name": "use-clipboard",
+    "title": "useClipboard",
+    "description": "A hook for interacting with the clipboard API to copy text content with state management",
+    "category": "browser",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic clipboard copy operations"
+      }
+    ]
+  },
+  {
     "name": "use-contact-picker",
     "title": "useContactPicker",
     "description": "A hook for accessing the Contact Picker API to select contacts with user permission",

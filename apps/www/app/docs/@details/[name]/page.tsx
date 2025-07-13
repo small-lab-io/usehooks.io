@@ -11,6 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import { Terminal } from "@/components/terminal";
+import { CopyToClipboard } from "@/components/copy-to-clipboard";
 
 interface DocMethod {
   name: string;
@@ -138,12 +140,23 @@ export default async function HookPage({
         {hook.category}
       </span>
 
-      <div className="mb-8">
+      <div>
+        <h1 className="text-4xl font-bold mb-2">Installation</h1>
+        <div className="relative">
+          <Terminal>npx usehooks-cli@latest add {hook.name}</Terminal>
+          <CopyToClipboard
+            text={`npx usehooks-cli@latest add ${hook.title}`}
+            className="absolute top-2 right-2"
+          />
+        </div>
+      </div>
+
+      <div>
         <h2 className="text-2xl font-bold mb-4">Description</h2>
         <p className="text-lg">{hookDoc?.description || hook.description}</p>
       </div>
 
-      <div className="mb-8">
+      <div>
         <h2 className="text-2xl font-bold mb-4">Description</h2>
         <p className="text-lg">{hookDoc?.description || hook.description}</p>
       </div>
@@ -152,7 +165,7 @@ export default async function HookPage({
         <>
           {/* Parameters Section */}
           {hookDoc.parameters && hookDoc.parameters.length > 0 && (
-            <div className="mb-8">
+            <div>
               <h2 className="text-2xl font-bold mb-4">Parameters</h2>
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[600px]">
@@ -192,7 +205,7 @@ export default async function HookPage({
 
           {/* Methods Section */}
           {hookDoc.methods && hookDoc.methods.length > 0 && (
-            <div className="mb-8">
+            <div>
               <h2 className="text-2xl font-bold mb-4">Methods & Properties</h2>
               <div className="space-y-4">
                 {hookDoc.methods.map((method, index) => (
@@ -275,7 +288,7 @@ export default async function HookPage({
 
           {/* Examples Section */}
           {hookDoc.examples && hookDoc.examples.length > 0 && (
-            <div className="mb-8">
+            <div>
               <h2 className="text-2xl font-bold mb-4">Examples</h2>
               <div className="space-y-6">
                 {hookDoc.examples.map((example, index) => (
@@ -300,7 +313,7 @@ export default async function HookPage({
 
           {/* Dependencies Section */}
           {hookDoc.dependencies && hookDoc.dependencies.length > 0 && (
-            <div className="mb-8">
+            <div>
               <h2 className="text-2xl font-bold mb-4">Dependencies</h2>
               <div className="flex flex-wrap gap-2">
                 {hookDoc.dependencies.map((dep, index) => (
@@ -317,7 +330,7 @@ export default async function HookPage({
 
           {/* Notes Section */}
           {hookDoc.notes && hookDoc.notes.length > 0 && (
-            <div className="mb-8">
+            <div>
               <h2 className="text-2xl font-bold mb-4">Notes</h2>
               <ul className="space-y-2">
                 {hookDoc.notes.map((note, index) => (
@@ -332,7 +345,7 @@ export default async function HookPage({
         </>
       )}
 
-      <div className="mb-8">
+      <div>
         <h2 className="text-2xl font-bold mb-4">Implementation</h2>
         <div className="overflow-x-auto">
           <SyntaxHighlighter
@@ -352,7 +365,7 @@ export default async function HookPage({
       </div>
 
       {hook.examples && hook.examples.length > 0 && !hookDoc?.examples && (
-        <div className="mb-8">
+        <div>
           <h2 className="text-2xl font-bold mb-4">Examples</h2>
           {hook.examples.map((example) => (
             <div key={example.name} className="mb-4">
