@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 4.0.0
+
+### Major Changes
+
+- Add new commands, remove, update, search
+
 ## 3.1.1
 
 ### Patch Changes
