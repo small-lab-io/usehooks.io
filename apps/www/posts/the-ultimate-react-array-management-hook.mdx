@@ -1,0 +1,270 @@
+---
+title: "The Ultimate React Array Management Hook: useArray"
+date: "2024-01-15"
+author: "Olivier Colonna"
+description: "A comprehensive React hook that provides helper methods for working with array state, including all common array operations optimized with useCallback for performance."
+tags: ["use-array", "state", "operations"]
+---
+
+Managing array state in React can be cumbersome when you need to perform common operations like adding, removing, updating, or sorting items. The `useArray` hook provides a powerful solution that encapsulates all these operations with optimized performance.
+
+## What is useArray?
+
+The [useArray](/docs/use-array) hook is a comprehensive React hook that provides helper methods for working with array state. It includes all the common array operations you'd expect - push, pop, filter, sort, and many more - all optimized with useCallback for performance.
+
+## Key Features
+
+### 🚀 Complete Array Operations
+
+The hook provides methods for:
+
+- Adding items : push , unshift , insert
+- Removing items : pop , shift , remove , removeById
+- Updating items : update , updateById , replace
+- Array manipulation : filter , sort , reverse , clear
+- Utility operations : toggle (add/remove based on existence)
+
+### ⚡ Performance Optimized
+
+All mutation methods are memoized with useCallback , preventing unnecessary re-renders in child components.
+
+### 🎯 Type Safe
+
+Built with TypeScript generics, providing full type safety for your array elements.
+
+### 📊 Convenient Properties
+
+Includes helpful properties like isEmpty and length for easy state checking.
+
+## Basic Usage
+
+```typescript
+import { useArray } from "@usehooks-io/hooks";
+
+function BasicExample() {
+  const { array, push, pop, clear } = useArray([1, 2, 3]);
+
+  return (
+    <div>
+      <p>Array: {JSON.stringify(array)}</p>
+      <button onClick={() => push(4)}>Push 4</button>
+      <button onClick={pop}>Pop</button>
+      <button onClick={clear}>Clear</button>
+    </div>
+  );
+}
+```
+
+## Advanced Operations
+
+### ID-Based Operations
+
+The hook provides convenient methods for working with objects that have unique identifiers:
+
+```tsx
+import { useArray } from "@usehooks-io/hooks";
+
+interface User {
+  id: number;
+  name: string;
+}
+
+function UserList() {
+  const {
+    array: users,
+    removeById,
+    updateById,
+  } = useArray<User>([
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" },
+  ]);
+
+  return (
+    <div>
+      {users.map((user) => (
+        <div key={user.id}>
+          {user.name}
+          <button onClick={() => removeById(user.id)}>Remove</button>
+          <button
+            onClick={() =>
+              updateById(user.id, { name: user.name + " Updated" })
+            }
+          >
+            Update
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Array Manipulation
+
+```tsx
+import { useArray } from "@usehooks-io/hooks";
+
+function ManipulationExample() {
+  const { array, insert, remove, replace } = useArray(["a", "b", "c"]);
+
+  return (
+    <div>
+      <p>Array: {JSON.stringify(array)}</p>
+      <button onClick={() => insert(1, "x")}>Insert 'x' at index 1</button>
+      <button onClick={() => remove(0)}>Remove first item</button>
+      <button onClick={() => replace("b", "y")}>Replace 'b' with 'y'</button>
+    </div>
+  );
+}
+```
+
+### Toggle Functionality
+
+Perfect for managing selections or favorites:
+
+```tsx
+import { useArray } from "@usehooks-io/hooks";
+
+function ToggleExample() {
+  const { array: selectedItems, toggle } = useArray<string>(["apple"]);
+  const items = ["apple", "banana", "orange"];
+
+  return (
+    <div>
+      <p>Selected: {JSON.stringify(selectedItems)}</p>
+      {items.map((item) => (
+        <button
+          key={item}
+          onClick={() => toggle(item)}
+          style={{
+            backgroundColor: selectedItems.includes(item)
+              ? "lightblue"
+              : "white",
+          }}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+## API Reference
+
+### Parameters
+
+- initialArray (optional): The initial array value (defaults to empty array)
+
+### Return Value
+
+The hook returns an object with:
+State
+
+- array : The current array state
+- isEmpty : Boolean indicating if array is empty
+- length : Current array length Mutation Methods
+- set(newArray) : Replace entire array
+- push(...items) : Add items to end
+- pop() : Remove and return last item
+- shift() : Remove and return first item
+- unshift(...items) : Add items to beginning
+- insert(index, ...items) : Insert items at specific index
+- remove(index) : Remove item at index
+- removeById(id, key?) : Remove item by ID
+- update(index, item) : Update item at index
+- updateById(id, updates, key?) : Update item by ID
+- clear() : Remove all items
+- filter(predicate) : Filter array in place
+- sort(compareFn?) : Sort array in place
+- reverse() : Reverse array
+- replace(oldItem, newItem) : Replace specific item
+- toggle(item) : Add/remove item based on existence
+
+## Why Use useArray?
+
+### 1. Reduced Boilerplate
+
+Instead of writing custom state management logic for each array operation, you get them all out of the box.
+
+### 2. Performance Benefits
+
+All methods are memoized, preventing unnecessary re-renders and improving app performance.
+
+### 3. Type Safety
+
+Full TypeScript support ensures you catch errors at compile time.
+
+### 4. Consistent API
+
+All array operations follow a consistent pattern, making your code more predictable and maintainable.
+
+### 5. Flexibility
+
+Supports both index-based and ID-based operations, covering most real-world use cases.
+
+## Real-World Examples
+
+### Shopping Cart
+
+```tsx
+import { useArray } from "@usehooks-io/hooks";
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+function ShoppingCart() {
+  const {
+    array: cartItems,
+    push,
+    removeById,
+    updateById,
+    clear,
+  } = useArray<Product>([]);
+
+  const addProduct = (product: Omit<Product, "quantity">) => {
+    const existingItem = cartItems.find((item) => item.id === product.id);
+    if (existingItem) {
+      updateById(product.id, { quantity: existingItem.quantity + 1 });
+    } else {
+      push({ ...product, quantity: 1 });
+    }
+  };
+
+  const total = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  return (
+    <div>
+      <h2>Shopping Cart</h2>
+      {cartItems.map((item) => (
+        <div key={item.id}>
+          {item.name} - Qty: {item.quantity} - ${item.price * item.quantity}
+          <button onClick={() => removeById(item.id)}>Remove</button>
+        </div>
+      ))}
+      <p>Total: ${total.toFixed(2)}</p>
+      <button
+        onClick={() => addProduct({ id: 1, name: "Laptop", price: 1200 })}
+      >
+        Add Laptop
+      </button>
+      <button onClick={clear}>Clear Cart</button>
+    </div>
+  );
+}
+```
+
+## Conclusion
+
+The useArray hook is a powerful tool that simplifies array state management in React applications. By providing a comprehensive set of optimized methods, it reduces boilerplate code while improving performance and maintainability.
+
+Whether you're building a simple todo list or a complex data management interface, useArray provides the tools you need to handle array operations efficiently and elegantly.
+
+Try it out in your next React project and experience the difference it makes in your development workflow!

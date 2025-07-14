@@ -1,0 +1,185 @@
+---
+title: "Building Better Counters: A Deep Dive into the useCounter Hook"
+date: "2024-01-16"
+description: "Explore the useCounter hook - a simple yet powerful React hook for managing counter state with increment, decrement, reset, and set operations."
+author: "Olivier Colonna"
+tags: ["react", "hooks", "state-management", "counter", "tutorial"]
+featured: true
+---
+
+Counters are one of the most fundamental UI patterns in web development. Whether you're building a shopping cart, a like button, or a pagination component, you'll often need to manage numeric state that can be incremented, decremented, or reset. Today, we'll explore the [`useCounter`](/docs/use-counter) hook - a simple yet powerful solution for all your counting needs.
+
+## What is useCounter?
+
+The `useCounter` hook is a custom React hook that provides a clean, efficient way to manage counter state. It encapsulates all the common counter operations you need:
+
+- **Increment**: Add 1 to the current value
+- **Decrement**: Subtract 1 from the current value
+- **Reset**: Return to the initial value
+- **Set**: Jump to any specific value
+
+## The Implementation
+
+Let's look at how this hook is implemented:
+
+```typescript
+"use client";
+
+import { useState, useCallback } from "react";
+
+interface UseCounterReturn {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+  reset: () => void;
+  set: (value: number) => void;
+}
+
+export function useCounter(initialValue: number = 0): UseCounterReturn {
+  const [count, setCount] = useState(initialValue);
+
+  const increment = useCallback(() => setCount((x) => x + 1), []);
+  const decrement = useCallback(() => setCount((x) => x - 1), []);
+  const reset = useCallback(() => setCount(initialValue), [initialValue]);
+  const set = useCallback((value: number) => setCount(value), []);
+
+  return {
+    count,
+    increment,
+    decrement,
+    reset,
+    set,
+  };
+}
+```
+
+## Key Features
+
+### 🚀 Performance Optimized
+
+All mutation methods are wrapped with useCallback to prevent unnecessary re-renders. This means your components will only re-render when the count value actually changes, not when the functions are recreated.
+
+### 🔄 Functional State Updates
+
+The hook uses functional state updates ( setCount(x => x + 1) ) which makes it safe to use in React's concurrent mode and prevents stale closure issues.
+
+### 💾 Initial Value Memory
+
+The reset function remembers the initial value passed to the hook, so you can always return to your starting point regardless of how the counter has been modified.
+
+## Basic Usage
+
+Here's how you can use the useCounter hook in your components:
+
+```tsx
+import { useCounter } from "@/hooks/useCounter";
+
+function CounterExample() {
+  const { count, increment, decrement, reset } = useCounter(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  );
+}
+```
+
+## Advanced Usage
+
+### Starting with a Custom Initial Value
+
+```tsx
+function ScoreCounter() {
+  const { count, increment, set } = useCounter(10);
+
+  const handleSetToHundred = () => set(100);
+  const handleBonus = () => set(count + 50);
+
+  return (
+    <div>
+      <p>Score:{count}</p>
+      <button onClick={increment}>+1 Point</button>
+      <button onClick={handleBonus}>+50 Bonus</button>
+      <button onClick={handleSetToHundred}>Set to 100</button>
+    </div>
+  );
+}
+```
+
+### Building a Shopping Cart Counter
+
+```tsx
+function CartItem({ productId, initialQuantity = 1 }) {
+  const { count, increment, decrement, set } = useCounter(initialQuantity);
+  const handleQuantityChange = (e) => {
+    const newQuantity = parseInt(e.target.value) || 0;
+    set(Math.max(0, newQuantity)); // Ensure non-negative
+  };
+
+  return (
+    <div className="cart-item">
+      <button onClick={decrement} disabled={count <= 0}>
+        -
+      </button>
+      <input
+        type="number"
+        value={count}
+        onChange={handleQuantityChange}
+        min="0"
+      />
+      <button onClick={increment}>+</button>
+    </div>
+  );
+}
+```
+
+## Real-World Applications
+
+The useCounter hook shines in many scenarios:
+
+1. E-commerce : Product quantity selectors, cart item counts
+2. Social Media : Like counters, comment counts, follower numbers
+3. Gaming : Score tracking, lives remaining, level progression
+4. Forms : Step counters in multi-step forms
+5. Analytics : View counters, download counts
+
+## Why Choose useCounter?
+
+### ✅ Simplicity
+
+No need to write repetitive counter logic in every component.
+
+### ✅ Consistency
+
+Standardized counter behavior across your entire application.
+
+### ✅ Performance
+
+Optimized with useCallback to prevent unnecessary re-renders.
+
+### ✅ Flexibility
+
+Supports any initial value and provides both relative (increment/decrement) and absolute (set) operations.
+
+### ✅ Type Safety
+
+Fully typed with TypeScript for better developer experience.
+
+## Best Practices
+
+1. Use meaningful initial values : Start your counter with a value that makes sense for your use case.
+2. Combine with validation : When using the set function, consider adding validation to ensure the value meets your requirements.
+3. Handle edge cases : Consider what should happen when the counter reaches certain limits (negative numbers, maximum values, etc.).
+4. Persist when needed : For counters that should survive page refreshes, combine with localStorage or other persistence mechanisms.
+
+## Conclusion
+
+The useCounter hook demonstrates how a simple, well-designed custom hook can eliminate boilerplate code while providing a robust, reusable solution. By encapsulating counter logic with performance optimizations and a clean API, it becomes a valuable tool in any React developer's toolkit.
+
+Whether you're building a simple like button or a complex shopping cart, useCounter provides the foundation you need to manage numeric state effectively. Its simplicity doesn't compromise on power - you get all the counter operations you need with optimal performance out of the box.
+
+Try incorporating useCounter into your next React project and experience the difference that well-crafted custom hooks can make!

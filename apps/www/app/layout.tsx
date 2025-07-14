@@ -17,6 +17,7 @@ import { getCliVersion } from "@/lib/get-cli-version";
 import { StructuredData } from "@/components/structured-data";
 import "@workspace/ui/globals.css";
 import { Toaster } from "@workspace/ui/components/sonner";
+import { Separator } from "@workspace/ui/components/separator";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -126,7 +127,19 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
                   <>v{cliVersion}</>
                 </Badge>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/docs"
+                  className="hover:underline underline-offset-2"
+                >
+                  Docs
+                </Link>
+                <Link
+                  href="/blog"
+                  className="hover:underline underline-offset-2"
+                >
+                  Blog
+                </Link>
                 <div className="hidden sm:block">
                   <CommandMenu />
                 </div>
