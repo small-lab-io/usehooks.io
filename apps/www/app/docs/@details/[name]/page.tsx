@@ -13,6 +13,7 @@ import { CopyToClipboard } from "@/components/copy-to-clipboard";
 import { getHooks } from "@/lib/get-hooks";
 import { getHookSource } from "@/lib/get-hook-source";
 import { getHookDoc } from "@/lib/get-hook-doc";
+import { getHooksByCategory } from "@/lib/get-hooks-by-category";
 
 export async function generateMetadata({
   params,
@@ -63,14 +64,62 @@ export default async function HookPage({
       </div>
     );
   }
-
-  const currentIndex = hooks.findIndex((h) => h.name === name);
-  const previousHook = currentIndex > 0 ? hooks[currentIndex - 1] : null;
-  const nextHook =
-    currentIndex < hooks.length - 1 ? hooks[currentIndex + 1] : null;
-
   const sourceCode = await getHookSource(name);
   const hookDoc = await getHookDoc(name);
+
+  const hooksByCategory = getHooksByCategory(hooks);
+
+  // Find current hook's category and position within that category
+  const currentCategory = hook.category;
+  const hooksInCategory = hooksByCategory[currentCategory] || [];
+  const currentIndexInCategory = hooksInCategory.findIndex(
+    (h) => h.name === name
+  );
+
+  // Get all categories in order
+  const categories = Object.keys(hooksByCategory);
+  const currentCategoryIndex = categories.indexOf(currentCategory);
+
+  // Function to get previous hook
+  const getPreviousHook = () => {
+    // If not the first hook in current category, get previous in same category
+    if (currentIndexInCategory > 0) {
+      return hooksInCategory[currentIndexInCategory - 1];
+    }
+
+    // If first hook in category, get last hook from previous category
+    if (currentCategoryIndex > 0) {
+      const previousCategory = categories[currentCategoryIndex - 1];
+      const previousCategoryHooks =
+        hooksByCategory[previousCategory as keyof typeof hooksByCategory];
+      return previousCategoryHooks
+        ? previousCategoryHooks[previousCategoryHooks.length - 1]
+        : null;
+    }
+
+    return null; // First hook overall
+  };
+
+  // Function to get next hook
+  const getNextHook = () => {
+    // If not the last hook in current category, get next in same category
+    if (currentIndexInCategory < hooksInCategory.length - 1) {
+      return hooksInCategory[currentIndexInCategory + 1];
+    }
+
+    // If last hook in category, get first hook from next category
+    if (currentCategoryIndex < categories.length - 1) {
+      const nextCategory = categories[currentCategoryIndex + 1];
+      const nextCategoryHooks =
+        hooksByCategory[nextCategory as keyof typeof hooksByCategory];
+      return nextCategoryHooks ? nextCategoryHooks[0] : null;
+    }
+
+    return null; // Last hook overall
+  };
+
+  const previousHook = getPreviousHook();
+  const nextHook = getNextHook();
 
   return (
     <div className="pb-20 space-y-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">

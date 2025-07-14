@@ -20,13 +20,8 @@ import {
 } from "@workspace/ui/components/sidebar";
 import Link from "next/link";
 import { cn } from "@workspace/ui/lib/utils";
-
-type HookMeta = {
-  name: string;
-  title: string;
-  description: string;
-  category: string;
-};
+import { getHooksByCategory } from "@/lib/get-hooks-by-category";
+import { HookMeta } from "@/lib/types";
 
 const navMain = [
   {
@@ -42,7 +37,7 @@ const navMain = [
 export function AppSidebar() {
   const pathname = usePathname();
   const [hooks, setHooks] = useState<HookMeta[]>([]);
-  const [loading, setLoading] = useState(true);
+  const hooksByCategory = getHooksByCategory(hooks);
 
   useEffect(() => {
     async function fetchHooks() {
@@ -51,26 +46,12 @@ export function AppSidebar() {
         setHooks(hooksData);
       } catch (error) {
         console.error("Error fetching hooks:", error);
-      } finally {
-        setLoading(false);
       }
     }
     fetchHooks();
   }, []);
 
-  const hooksByCategory = hooks.reduce(
-    (acc: Record<string, HookMeta[]>, hook: HookMeta) => {
-      if (!acc[hook.category]) {
-        acc[hook.category] = [];
-      }
-      acc[hook.category]?.push(hook);
-      return acc;
-    },
-    {}
-  );
-
   if (!Array.isArray(hooks)) {
-    console.log("Data is not an array:", hooks);
     return (
       <div className="sticky top-16">
         <ScrollArea className="scrollbar-hide">
