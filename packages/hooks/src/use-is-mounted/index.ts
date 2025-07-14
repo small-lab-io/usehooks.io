@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 
 export function useIsMounted(): () => boolean {
@@ -5,7 +7,7 @@ export function useIsMounted(): () => boolean {
 
   useEffect(() => {
     isMountedRef.current = true;
-    
+
     return () => {
       isMountedRef.current = false;
     };
