@@ -79,11 +79,7 @@ export const MDXComponents = {
     const child = children?.props;
     if (child?.className?.includes("language-")) {
       const language = child.className.replace("language-", "");
-      return (
-        <CodeBlock language={language} filename={props["data-filename"]}>
-          {child.children}
-        </CodeBlock>
-      );
+      return <CodeBlock language={language}>{child.children}</CodeBlock>;
     }
     return <pre {...props}>{children}</pre>;
   },
