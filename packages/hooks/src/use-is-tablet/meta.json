@@ -1,0 +1,13 @@
+{
+  "name": "use-is-tablet",
+  "description": "A hook for detecting tablet devices using media queries and user agent",
+  "category": "sensors",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

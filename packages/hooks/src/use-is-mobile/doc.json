@@ -1,0 +1,46 @@
+{
+  "name": "useIsMobile",
+  "description": "A React hook for detecting mobile devices using media queries and user agent detection. Provides real-time updates when the device orientation or window size changes.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": {
+    "type": "UseIsMobileReturn",
+    "properties": [
+      {
+        "name": "isMobile",
+        "type": "boolean",
+        "description": "Whether the current device is detected as mobile",
+        "category": "state"
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "description": "Whether the hook is still determining the device type",
+        "category": "state"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Mobile Detection",
+      "description": "Simple mobile device detection",
+      "code": "const { isMobile, isLoading } = useIsMobile();\n\nif (isLoading) {\n  return <div>Detecting device...</div>;\n}\n\nreturn (\n  <div>\n    <p>Device type: {isMobile ? 'Mobile' : 'Desktop'}</p>\n    {isMobile ? (\n      <MobileNavigation />\n    ) : (\n      <DesktopNavigation />\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Responsive Component",
+      "description": "Conditionally render components based on device type",
+      "code": "const { isMobile } = useIsMobile();\n\nreturn (\n  <div className={isMobile ? 'mobile-layout' : 'desktop-layout'}>\n    {isMobile ? (\n      <TouchFriendlyButton />\n    ) : (\n      <HoverButton />\n    )}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect } from 'react';"
+  ],
+  "notes": [
+    "Uses media query (max-width: 768px) as primary detection method",
+    "Falls back to user agent detection for additional accuracy",
+    "Automatically updates when window is resized or orientation changes",
+    "Provides loading state during initial detection"
+  ]
+}

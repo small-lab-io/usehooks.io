@@ -1,0 +1,47 @@
+{
+  "name": "useIsTablet",
+  "description": "A React hook for detecting tablet devices using media queries, user agent detection, and touch capability checks. Provides real-time updates when the device orientation or window size changes.",
+  "category": "sensors",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": {
+    "type": "UseIsTabletReturn",
+    "properties": [
+      {
+        "name": "isTablet",
+        "type": "boolean",
+        "description": "Whether the current device is detected as a tablet",
+        "category": "state"
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "description": "Whether the hook is still determining the device type",
+        "category": "state"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Tablet Detection",
+      "description": "Simple tablet device detection",
+      "code": "const { isTablet, isLoading } = useIsTablet();\n\nif (isLoading) {\n  return <div>Detecting device...</div>;\n}\n\nreturn (\n  <div>\n    <p>Device type: {isTablet ? 'Tablet' : 'Not Tablet'}</p>\n    {isTablet ? (\n      <TabletOptimizedLayout />\n    ) : (\n      <StandardLayout />\n    )}\n  </div>\n);"
+    },
+    {
+      "title": "Responsive Grid",
+      "description": "Adjust grid layout based on tablet detection",
+      "code": "const { isTablet } = useIsTablet();\n\nreturn (\n  <div \n    className={`grid ${\n      isTablet ? 'grid-cols-2 gap-4' : 'grid-cols-1 gap-2'\n    }`}\n  >\n    {items.map(item => (\n      <Card key={item.id} item={item} />\n    ))}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect } from 'react';"
+  ],
+  "notes": [
+    "Uses media query (769px - 1024px) as primary detection method",
+    "Includes user agent detection for tablet-specific devices",
+    "Special handling for iPad detection (including newer iPads that report as desktop)",
+    "Considers touch capability as additional detection factor",
+    "Automatically updates when window is resized or orientation changes"
+  ]
+}

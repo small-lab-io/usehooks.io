@@ -1,5 +1,11 @@
 # @workspace/hooks
 
+## 1.0.0
+
+### Major Changes
+
+- New hooks, useIsMobile and useIsTablette
+
 ## 0.2.0
 
 ### Minor Changes
