@@ -63,15 +63,17 @@ Our collection includes 30+ hooks organized by category:
 
 ### 📡 Sensors & Device APIs
 
-- useAudioRecorder - Audio recording with real-time analysis
-- useBarcodeDetector - Barcode and QR code detection
-- useDeviceOrientation - Device orientation data access
-- useGeolocation - User location with GPS tracking
-- useHover - Element hover detection with callbacks
-- useMediaSession - Media notifications and control actions
-- useNetworkInformation - Network connection monitoring
-- useUserMedia - Camera and microphone access
-- useVibration - Device vibration control
+- **useAudioRecorder** - Audio recording with real-time analysis
+- **useBarcodeDetector** - Barcode and QR code detection
+- **useDeviceOrientation** - Device orientation data access
+- **useGeolocation** - User location with GPS tracking
+- **useHover** - Element hover detection with callbacks
+- **useIsMobile** - Mobile device detection using media queries and user agent
+- **useIsTablet** - Tablet device detection with comprehensive device identification
+- **useMediaSession** - Media notifications and control actions
+- **useNetworkInformation** - Network connection monitoring
+- **useUserMedia** - Camera and microphone access
+- **useVibration** - Device vibration control
 
 ### 🌐 Browser APIs
 
@@ -120,7 +122,7 @@ Our powerful CLI tool makes it easy to discover, install, and manage hooks in yo
 
 ### Commands
 
-```
+```bash
 # Initialize project
 npx usehooks-cli@latest init
 
