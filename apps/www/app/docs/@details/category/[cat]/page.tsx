@@ -20,7 +20,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <>
       <StructuredData type="website" />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="pb-20 space-y-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
