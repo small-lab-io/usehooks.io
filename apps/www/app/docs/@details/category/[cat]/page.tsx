@@ -6,15 +6,16 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { StructuredData } from "@/components/structured-data";
 
 interface CategoryPageProps {
-  params: {
+  params: Promise<{
     cat: string;
-  };
+  }>;
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
+  const cat = (await params).cat;
   const hooks = await getHooks();
   const hooksByCategory = getHooksByCategory(hooks);
-  const categoryHooks = hooksByCategory[params.cat] || [];
+  const categoryHooks = hooksByCategory[cat] || [];
 
   return (
     <>
@@ -25,10 +26,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           items={[
             { label: "Home", href: "/" },
             { label: "Documentation", href: "/docs" },
-            { label: `${params.cat}` },
+            { label: `${cat}` },
           ]}
         />
-        <h1 className="text-3xl font-bold mb-4">Category: {params.cat}</h1>
+        <h1 className="text-3xl font-bold mb-4">Category: {cat}</h1>
 
         {categoryHooks.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -48,7 +49,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           </div>
         ) : (
           <div className="prose max-w-none">
-            <p>No hooks found in the {params.cat} category.</p>
+            <p>No hooks found in the {cat} category.</p>
           </div>
         )}
       </div>
