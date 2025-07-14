@@ -4,54 +4,56 @@
   "category": "browser",
   "version": "1.0.0",
   "parameters": [],
-  "returnType": "UseStorageReturn",
-  "methods": [
-    {
-      "name": "estimate",
-      "type": "StorageEstimate | null",
-      "description": "Current storage quota and usage information"
-    },
-    {
-      "name": "isLoading",
-      "type": "boolean",
-      "description": "True when fetching storage information"
-    },
-    {
-      "name": "error",
-      "type": "string | null",
-      "description": "Error message if storage operations fail"
-    },
-    {
-      "name": "isPersistent",
-      "type": "boolean | null",
-      "description": "Whether storage is persistent (won't be cleared under pressure)"
-    },
-    {
-      "name": "usagePercentage",
-      "type": "number | null",
-      "description": "Percentage of storage quota currently used"
-    },
-    {
-      "name": "isSupported",
-      "type": "boolean",
-      "description": "Whether the Storage API is supported in this browser"
-    },
-    {
-      "name": "getEstimate",
-      "type": "() => Promise<StorageEstimate | null>",
-      "description": "Manually refresh storage estimate"
-    },
-    {
-      "name": "requestPersistentStorage",
-      "type": "() => Promise<boolean>",
-      "description": "Request persistent storage permission from the browser"
-    },
-    {
-      "name": "checkPersistence",
-      "type": "() => Promise<boolean>",
-      "description": "Check if storage is currently persistent"
-    }
-  ],
+  "returnType": {
+    "type": "UseStorageReturn",
+    "properties": [
+      {
+        "name": "estimate",
+        "type": "StorageEstimate | null",
+        "description": "Current storage quota and usage information"
+      },
+      {
+        "name": "isLoading",
+        "type": "boolean",
+        "description": "True when fetching storage information"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if storage operations fail"
+      },
+      {
+        "name": "isPersistent",
+        "type": "boolean | null",
+        "description": "Whether storage is persistent (won't be cleared under pressure)"
+      },
+      {
+        "name": "usagePercentage",
+        "type": "number | null",
+        "description": "Percentage of storage quota currently used"
+      },
+      {
+        "name": "isSupported",
+        "type": "boolean",
+        "description": "Whether the Storage API is supported in this browser"
+      },
+      {
+        "name": "getEstimate",
+        "type": "() => Promise<StorageEstimate | null>",
+        "description": "Manually refresh storage estimate"
+      },
+      {
+        "name": "requestPersistentStorage",
+        "type": "() => Promise<boolean>",
+        "description": "Request persistent storage permission from the browser"
+      },
+      {
+        "name": "checkPersistence",
+        "type": "() => Promise<boolean>",
+        "description": "Check if storage is currently persistent"
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Storage Usage Monitor",

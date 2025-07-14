@@ -12,25 +12,27 @@
       "description": "Configuration options for hover behavior"
     }
   ],
-  "returnType": "UseHoverReturn<T>",
+  "returnType": {
+    "type": "UseHoverReturn<T>",
+    "properties": [
+      {
+        "name": "isHovered",
+        "type": "boolean",
+        "description": "Whether the element is currently being hovered",
+        "category": "state"
+      },
+      {
+        "name": "ref",
+        "type": "React.RefObject<T>",
+        "description": "Ref to attach to the element you want to detect hover on",
+        "category": "ref"
+      }
+    ]
+  },
   "genericTypes": [
     {
       "name": "T",
       "description": "The type of HTML element to attach hover detection to (extends HTMLElement)"
-    }
-  ],
-  "methods": [
-    {
-      "name": "isHovered",
-      "type": "boolean",
-      "description": "Whether the element is currently being hovered",
-      "category": "state"
-    },
-    {
-      "name": "ref",
-      "type": "React.RefObject<T>",
-      "description": "Ref to attach to the element you want to detect hover on",
-      "category": "ref"
     }
   ],
   "interfaces": [

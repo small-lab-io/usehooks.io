@@ -18,43 +18,45 @@
       "description": "Fetch options including immediate execution, callbacks, and RequestInit options"
     }
   ],
-  "returnType": "UseFetchReturn<T>",
+  "returnType": {
+    "type": "UseFetchReturn<T>",
+    "properties": [
+      {
+        "name": "data",
+        "type": "T | null",
+        "description": "The fetched data, null if no data or error occurred"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "True when a request is in progress"
+      },
+      {
+        "name": "error",
+        "type": "Error | null",
+        "description": "Error object if request failed, null otherwise"
+      },
+      {
+        "name": "execute",
+        "type": "(url?: string, options?: RequestInit) => Promise<T | null>",
+        "description": "Manually execute a fetch request with optional URL and options override"
+      },
+      {
+        "name": "abort",
+        "type": "() => void",
+        "description": "Abort the current request"
+      },
+      {
+        "name": "reset",
+        "type": "() => void",
+        "description": "Reset the state to initial values and abort any ongoing request"
+      }
+    ]
+  },
   "genericTypes": [
     {
       "name": "T",
       "description": "The expected type of the response data"
-    }
-  ],
-  "methods": [
-    {
-      "name": "data",
-      "type": "T | null",
-      "description": "The fetched data, null if no data or error occurred"
-    },
-    {
-      "name": "loading",
-      "type": "boolean",
-      "description": "True when a request is in progress"
-    },
-    {
-      "name": "error",
-      "type": "Error | null",
-      "description": "Error object if request failed, null otherwise"
-    },
-    {
-      "name": "execute",
-      "type": "(url?: string, options?: RequestInit) => Promise<T | null>",
-      "description": "Manually execute a fetch request with optional URL and options override"
-    },
-    {
-      "name": "abort",
-      "type": "() => void",
-      "description": "Abort the current request"
-    },
-    {
-      "name": "reset",
-      "type": "() => void",
-      "description": "Reset the state to initial values and abort any ongoing request"
     }
   ],
   "examples": [

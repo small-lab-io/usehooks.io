@@ -1,6 +1,8 @@
 {
   "name": "useSet",
   "description": "A React hook that provides a stateful Set with comprehensive methods for manipulation. Offers all standard Set operations plus additional utilities like filtering, set operations, and array conversion.",
+  "category": "state",
+  "version": "1.0.0",
   "parameters": [
     {
       "name": "initialValues",
@@ -9,92 +11,113 @@
       "optional": true
     }
   ],
-  "returns": {
+  "returnType": {
     "type": "UseSetReturn<T>",
     "description": "An object containing the Set and manipulation methods",
-    "properties": {
-      "set": {
+    "properties": [
+      {
+        "name": "set",
         "type": "Set<T>",
         "description": "The current Set instance"
       },
-      "add": {
+      {
+        "name": "add",
         "type": "(value: T) => void",
         "description": "Add a single value to the Set"
       },
-      "addMultiple": {
+      {
+        "name": "addMultiple",
         "type": "(...values: T[]) => void",
         "description": "Add multiple values to the Set"
       },
-      "remove": {
+      {
+        "name": "remove",
         "type": "(value: T) => boolean",
         "description": "Remove a value from the Set, returns true if removed"
       },
-      "removeMultiple": {
+      {
+        "name": "removeMultiple",
         "type": "(...values: T[]) => void",
         "description": "Remove multiple values from the Set"
       },
-      "clear": {
+      {
+        "name": "clear",
         "type": "() => void",
         "description": "Remove all values from the Set"
       },
-      "has": {
+      {
+        "name": "has",
         "type": "(value: T) => boolean",
         "description": "Check if the Set contains a value"
       },
-      "toggle": {
+      {
+        "name": "toggle",
         "type": "(value: T) => void",
         "description": "Add value if not present, remove if present"
       },
-      "replace": {
+      {
+        "name": "replace",
         "type": "(oldValue: T, newValue: T) => boolean",
         "description": "Replace an old value with a new value"
       },
-      "filter": {
+      {
+        "name": "filter",
         "type": "(predicate: (value: T) => boolean) => void",
         "description": "Filter the Set based on a predicate function"
       },
-      "union": {
+      {
+        "name": "union",
         "type": "(otherSet: Set<T> | T[]) => void",
         "description": "Add all values from another Set or array"
       },
-      "intersection": {
+      {
+        "name": "intersection",
         "type": "(otherSet: Set<T> | T[]) => void",
         "description": "Keep only values that exist in both Sets"
       },
-      "difference": {
+      {
+        "name": "difference",
         "type": "(otherSet: Set<T> | T[]) => void",
         "description": "Remove values that exist in another Set"
       },
-      "isSubsetOf": {
+      {
+        "name": "isSubsetOf",
         "type": "(otherSet: Set<T> | T[]) => boolean",
         "description": "Check if this Set is a subset of another"
       },
-      "isSupersetOf": {
+      {
+        "name": "isSupersetOf",
         "type": "(otherSet: Set<T> | T[]) => boolean",
         "description": "Check if this Set is a superset of another"
       },
-      "toArray": {
+      {
+        "name": "toArray",
         "type": "() => T[]",
         "description": "Convert the Set to an array"
       },
-      "reset": {
+      {
+        "name": "reset",
         "type": "() => void",
         "description": "Reset the Set to its initial values"
       },
-      "size": {
+      {
+        "name": "size",
         "type": "number",
         "description": "Current number of values in the Set"
       },
-      "isEmpty": {
+      {
+        "name": "isEmpty",
         "type": "boolean",
         "description": "Whether the Set is empty"
       }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Managing a Set of tags",
+      "code": "import { useSet } from '@usehooks.io/use-set';\n\nfunction TagManager() {\n  const {\n    set: tags,\n    add,\n    remove,\n    toggle,\n    clear,\n    has,\n    size,\n    isEmpty,\n    toArray\n  } = useSet(['react', 'typescript']);\n\n  return (\n    <div>\n      <p>Tags ({size}): {isEmpty ? 'None' : toArray().join(', ')}</p>\n      \n      <button onClick={() => add('javascript')}>\n        Add JavaScript\n      </button>\n      \n      <button onClick={() => toggle('vue')}>\n        Toggle Vue\n      </button>\n      \n      <button onClick={() => remove('react')}>\n        Remove React\n      </button>\n      \n      <button onClick={clear}>\n        Clear All\n      </button>\n      \n      <p>Has React: {has('react') ? 'Yes' : 'No'}</p>\n    </div>\n  );\n}"
     }
-  },
-  "example": {
-    "title": "Managing a Set of tags",
-    "code": "import { useSet } from '@usehooks.io/use-set';\n\nfunction TagManager() {\n  const {\n    set: tags,\n    add,\n    remove,\n    toggle,\n    clear,\n    has,\n    size,\n    isEmpty,\n    toArray\n  } = useSet(['react', 'typescript']);\n\n  return (\n    <div>\n      <p>Tags ({size}): {isEmpty ? 'None' : toArray().join(', ')}</p>\n      \n      <button onClick={() => add('javascript')}>\n        Add JavaScript\n      </button>\n      \n      <button onClick={() => toggle('vue')}>\n        Toggle Vue\n      </button>\n      \n      <button onClick={() => remove('react')}>\n        Remove React\n      </button>\n      \n      <button onClick={clear}>\n        Clear All\n      </button>\n      \n      <p>Has React: {has('react') ? 'Yes' : 'No'}</p>\n    </div>\n  );\n}"
-  },
+  ],
   "dependencies": ["react"],
   "notes": [
     "Optimizes re-renders by only updating state when Set actually changes",

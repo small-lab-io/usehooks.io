@@ -1,38 +1,62 @@
 {
   "name": "useNetworkInformation",
   "description": "A React hook that provides access to network connection information using the Network Information API. It tracks connection details like speed, type, and online status with real-time updates.",
+  "category": "network",
+  "version": "1.0.0",
   "parameters": [],
-  "returns": {
+  "returnType": {
     "type": "UseNetworkInformationReturn",
-    "description": "An object containing network information and utilities",
-    "properties": {
-      "networkInfo": {
+    "properties": [
+      {
+        "name": "networkInfo",
         "type": "NetworkInformation | null",
         "description": "Current network connection information including downlink, effectiveType, rtt, saveData, and type"
       },
-      "isOnline": {
+      {
+        "name": "isOnline",
         "type": "boolean",
         "description": "Whether the browser is currently online"
       },
-      "isSupported": {
+      {
+        "name": "isSupported",
         "type": "boolean",
         "description": "Whether the Network Information API is supported in the current browser"
       },
-      "refresh": {
+      {
+        "name": "refresh",
         "type": "() => void",
         "description": "Function to manually refresh the network information"
       }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Network Status",
+      "description": "Display current network connection information",
+      "code": "import { useNetworkInformation } from '@usehooks.io/use-network-information';\n\nfunction NetworkStatus() {\n  const { networkInfo, isOnline, isSupported, refresh } = useNetworkInformation();\n\n  if (!isSupported) {\n    return <div>Network Information API not supported</div>;\n  }\n\n  return (\n    <div>\n      <h3>Network Status</h3>\n      <p>Online: {isOnline ? 'Yes' : 'No'}</p>\n      \n      {networkInfo && (\n        <div>\n          <p>Connection Type: {networkInfo.type || 'Unknown'}</p>\n          <p>Effective Type: {networkInfo.effectiveType || 'Unknown'}</p>\n          <p>Downlink: {networkInfo.downlink ? `${networkInfo.downlink} Mbps` : 'Unknown'}</p>\n          <p>RTT: {networkInfo.rtt ? `${networkInfo.rtt} ms` : 'Unknown'}</p>\n          <p>Save Data: {networkInfo.saveData ? 'Enabled' : 'Disabled'}</p>\n        </div>\n      )}\n      \n      <button onClick={refresh}>Refresh Network Info</button>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Adaptive Content Loading",
+      "description": "Adjust content quality based on connection speed",
+      "code": "import { useNetworkInformation } from '@usehooks.io/use-network-information';\nimport { useState, useEffect } from 'react';\n\nfunction AdaptiveContent() {\n  const { networkInfo, isOnline } = useNetworkInformation();\n  const [imageQuality, setImageQuality] = useState('high');\n\n  useEffect(() => {\n    if (!networkInfo) return;\n\n    // Adjust quality based on effective connection type\n    switch (networkInfo.effectiveType) {\n      case 'slow-2g':\n      case '2g':\n        setImageQuality('low');\n        break;\n      case '3g':\n        setImageQuality('medium');\n        break;\n      case '4g':\n      default:\n        setImageQuality('high');\n        break;\n    }\n  }, [networkInfo]);\n\n  if (!isOnline) {\n    return <div>You are offline. Please check your connection.</div>;\n  }\n\n  return (\n    <div>\n      <h3>Adaptive Image Gallery</h3>\n      <p>Loading {imageQuality} quality images</p>\n      <p>Connection: {networkInfo?.effectiveType || 'Unknown'}</p>\n      \n      <div className=\"image-gallery\">\n        <img \n          src={`/api/image?quality=${imageQuality}`} \n          alt=\"Adaptive content\"\n          loading=\"lazy\"\n        />\n        {/* More adaptive content */}\n      </div>\n    </div>\n  );\n}"
+    },
+    {
+      "title": "Data Saver Mode",
+      "description": "Respect user's data saving preferences",
+      "code": "import { useNetworkInformation } from '@usehooks.io/use-network-information';\nimport { useState } from 'react';\n\nfunction DataSaverContent() {\n  const { networkInfo, isSupported } = useNetworkInformation();\n  const [showFullContent, setShowFullContent] = useState(false);\n\n  const isDataSaverEnabled = networkInfo?.saveData;\n  const isSlowConnection = ['slow-2g', '2g'].includes(networkInfo?.effectiveType || '');\n\n  const shouldLimitContent = isDataSaverEnabled || isSlowConnection;\n\n  if (!isSupported) {\n    return <div>Loading full content...</div>;\n  }\n\n  return (\n    <div>\n      <h3>Article Content</h3>\n      \n      {isDataSaverEnabled && (\n        <div className=\"data-saver-notice\">\n          📱 Data Saver mode detected - showing optimized content\n        </div>\n      )}\n      \n      {isSlowConnection && (\n        <div className=\"slow-connection-notice\">\n          🐌 Slow connection detected - content optimized for speed\n        </div>\n      )}\n      \n      <div className=\"article-preview\">\n        <p>Article preview content...</p>\n      </div>\n      \n      {shouldLimitContent && !showFullContent ? (\n        <button onClick={() => setShowFullContent(true)}>\n          Load Full Content\n        </button>\n      ) : (\n        <div className=\"full-content\">\n          <p>Full article content with images and videos...</p>\n          <video controls={!isDataSaverEnabled}>\n            <source src=\"/video.mp4\" type=\"video/mp4\" />\n          </video>\n        </div>\n      )}\n    </div>\n  );\n}"
     }
-  },
-  "example": {
-    "title": "Basic usage",
-    "code": "import { useNetworkInformation } from '@usehooks.io/use-network-information';\n\nfunction NetworkStatus() {\n  const { networkInfo, isOnline, isSupported, refresh } = useNetworkInformation();\n\n  if (!isSupported) {\n    return <div>Network Information API not supported</div>;\n  }\n\n  return (\n    <div>\n      <p>Online: {isOnline ? 'Yes' : 'No'}</p>\n      {networkInfo && (\n        <div>\n          <p>Connection Type: {networkInfo.type}</p>\n          <p>Effective Type: {networkInfo.effectiveType}</p>\n          <p>Downlink: {networkInfo.downlink} Mbps</p>\n          <p>RTT: {networkInfo.rtt} ms</p>\n          <p>Save Data: {networkInfo.saveData ? 'Yes' : 'No'}</p>\n        </div>\n      )}\n      <button onClick={refresh}>Refresh</button>\n    </div>\n  );\n}"
-  },
+  ],
   "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect, useCallback } from 'react';"
+  ],
   "notes": [
     "The Network Information API is experimental and may not be supported in all browsers",
     "Automatically listens for online/offline events and connection changes",
     "Returns null for networkInfo when the API is not supported",
-    "Cleans up event listeners on component unmount"
+    "Cleans up event listeners on component unmount",
+    "HTTPS required in production environments for security",
+    "Effective connection types: 'slow-2g', '2g', '3g', '4g'",
+    "Connection types include: 'bluetooth', 'cellular', 'ethernet', 'none', 'wifi', 'wimax', 'other', 'unknown'"
   ]
 }

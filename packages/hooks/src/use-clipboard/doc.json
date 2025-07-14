@@ -4,29 +4,31 @@
   "category": "browser",
   "version": "1.0.0",
   "parameters": [],
-  "returnType": "UseClipboardReturn",
-  "methods": [
-    {
-      "name": "value",
-      "type": "string | null",
-      "description": "The last successfully copied text value"
-    },
-    {
-      "name": "copy",
-      "type": "(text: string) => Promise<boolean>",
-      "description": "Copy text to clipboard, returns true if successful"
-    },
-    {
-      "name": "copied",
-      "type": "boolean",
-      "description": "True if text was recently copied (resets after 2 seconds)"
-    },
-    {
-      "name": "error",
-      "type": "string | null",
-      "description": "Error message if copy operation failed"
-    }
-  ],
+  "returnType": {
+    "type": "UseClipboardReturn",
+    "properties": [
+      {
+        "name": "value",
+        "type": "string | null",
+        "description": "The last successfully copied text value"
+      },
+      {
+        "name": "copy",
+        "type": "(text: string) => Promise<boolean>",
+        "description": "Copy text to clipboard, returns true if successful"
+      },
+      {
+        "name": "copied",
+        "type": "boolean",
+        "description": "True if text was recently copied (resets after 2 seconds)"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if copy operation failed"
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Copy Button with Feedback",

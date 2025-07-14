@@ -12,46 +12,48 @@
       "description": "The initial value for the counter"
     }
   ],
-  "returnType": "UseCounterReturn",
-  "methods": [
-    {
-      "name": "count",
-      "type": "number",
-      "description": "The current counter value",
-      "category": "state"
-    },
-    {
-      "name": "increment",
-      "type": "() => void",
-      "description": "Increment the counter by 1",
-      "category": "mutation"
-    },
-    {
-      "name": "decrement",
-      "type": "() => void",
-      "description": "Decrement the counter by 1",
-      "category": "mutation"
-    },
-    {
-      "name": "reset",
-      "type": "() => void",
-      "description": "Reset the counter to its initial value",
-      "category": "mutation"
-    },
-    {
-      "name": "set",
-      "type": "(value: number) => void",
-      "description": "Set the counter to a specific value",
-      "category": "mutation",
-      "parameters": [
-        {
-          "name": "value",
-          "type": "number",
-          "description": "The value to set the counter to"
-        }
-      ]
-    }
-  ],
+  "returnType": {
+    "type": "UseCounterReturn",
+    "properties": [
+      {
+        "name": "count",
+        "type": "number",
+        "description": "The current counter value",
+        "category": "state"
+      },
+      {
+        "name": "increment",
+        "type": "() => void",
+        "description": "Increment the counter by 1",
+        "category": "mutation"
+      },
+      {
+        "name": "decrement",
+        "type": "() => void",
+        "description": "Decrement the counter by 1",
+        "category": "mutation"
+      },
+      {
+        "name": "reset",
+        "type": "() => void",
+        "description": "Reset the counter to its initial value",
+        "category": "mutation"
+      },
+      {
+        "name": "set",
+        "type": "(value: number) => void",
+        "description": "Set the counter to a specific value",
+        "category": "mutation",
+        "parameters": [
+          {
+            "name": "value",
+            "type": "number",
+            "description": "The value to set the counter to"
+          }
+        ]
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Basic Usage",

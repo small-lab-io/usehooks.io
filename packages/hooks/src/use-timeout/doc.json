@@ -15,29 +15,31 @@
       "description": "The delay in milliseconds, or null to disable the timeout"
     }
   ],
-  "returnType": "UseTimeoutReturn",
-  "methods": [
-    {
-      "name": "start",
-      "type": "() => void",
-      "description": "Starts or restarts the timeout"
-    },
-    {
-      "name": "stop",
-      "type": "() => void",
-      "description": "Stops the timeout and prevents the callback from executing"
-    },
-    {
-      "name": "reset",
-      "type": "() => void",
-      "description": "Stops the current timeout and starts a new one"
-    },
-    {
-      "name": "isActive",
-      "type": "() => boolean",
-      "description": "Returns true if the timeout is currently active"
-    }
-  ],
+  "returnType": {
+    "type": "UseTimeoutReturn",
+    "properties": [
+      {
+        "name": "start",
+        "type": "() => void",
+        "description": "Starts or restarts the timeout"
+      },
+      {
+        "name": "stop",
+        "type": "() => void",
+        "description": "Stops the timeout and prevents the callback from executing"
+      },
+      {
+        "name": "reset",
+        "type": "() => void",
+        "description": "Stops the current timeout and starts a new one"
+      },
+      {
+        "name": "isActive",
+        "type": "() => boolean",
+        "description": "Returns true if the timeout is currently active"
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Auto-save Functionality",

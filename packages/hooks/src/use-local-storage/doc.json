@@ -15,25 +15,27 @@
       "description": "The initial value to use if no value exists in localStorage"
     }
   ],
-  "returnType": "[T, (value: SetValue<T>) => void]",
+  "returnType": {
+    "type": "[T, (value: SetValue<T>) => void]",
+    "properties": [
+      {
+        "name": "storedValue",
+        "type": "T",
+        "description": "The current value from localStorage or initial value",
+        "index": 0
+      },
+      {
+        "name": "setValue",
+        "type": "(value: SetValue<T>) => void",
+        "description": "Function to update the value in both state and localStorage",
+        "index": 1
+      }
+    ]
+  },
   "genericTypes": [
     {
       "name": "T",
       "description": "The type of value to store in localStorage"
-    }
-  ],
-  "returnValue": [
-    {
-      "index": 0,
-      "name": "storedValue",
-      "type": "T",
-      "description": "The current value from localStorage or initial value"
-    },
-    {
-      "index": 1,
-      "name": "setValue",
-      "type": "(value: SetValue<T>) => void",
-      "description": "Function to update the value in both state and localStorage"
     }
   ],
   "types": [

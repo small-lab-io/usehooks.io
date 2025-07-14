@@ -1,41 +1,51 @@
 {
   "name": "useWebShare",
   "description": "A React hook for sharing content using the Web Share API. Provides native sharing capabilities with comprehensive error handling and support detection.",
+  "category": "browser",
+  "version": "1.0.0",
   "parameters": [],
-  "returns": {
+  "returnType": {
     "type": "UseWebShareReturn",
-    "description": "An object containing sharing functionality and state",
-    "properties": {
-      "isLoading": {
+    "properties": [
+      {
+        "name": "isLoading",
         "type": "boolean",
         "description": "Whether a share operation is currently in progress"
       },
-      "error": {
+      {
+        "name": "error",
         "type": "string | null",
         "description": "Error message if sharing failed"
       },
-      "isSupported": {
+      {
+        "name": "isSupported",
         "type": "boolean",
         "description": "Whether the Web Share API is supported in the current browser"
       },
-      "share": {
+      {
+        "name": "share",
         "type": "(data: ShareData) => Promise<boolean>",
         "description": "Function to share content, returns true if successful"
       },
-      "canShare": {
+      {
+        "name": "canShare",
         "type": "(data?: ShareData) => boolean",
         "description": "Function to check if specific data can be shared"
       },
-      "clearError": {
+      {
+        "name": "clearError",
         "type": "() => void",
         "description": "Function to clear the current error state"
       }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Share article content",
+      "description": "Basic sharing functionality with error handling",
+      "code": "import { useWebShare } from '@usehooks.io/use-web-share';\n\nfunction ArticleShare() {\n  const { share, canShare, isLoading, error, isSupported, clearError } = useWebShare();\n\n  const shareArticle = async () => {\n    const shareData = {\n      title: 'Amazing Article',\n      text: 'Check out this amazing article!',\n      url: window.location.href\n    };\n\n    if (canShare(shareData)) {\n      const success = await share(shareData);\n      if (success) {\n        console.log('Article shared successfully!');\n      }\n    }\n  };\n\n  if (!isSupported) {\n    return <div>Web Share API not supported</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={shareArticle} disabled={isLoading}>\n        {isLoading ? 'Sharing...' : 'Share Article'}\n      </button>\n      \n      {error && (\n        <div style={{ color: 'red' }}>\n          Error: {error}\n          <button onClick={clearError}>Clear</button>\n        </div>\n      )}\n    </div>\n  );\n}"
     }
-  },
-  "example": {
-    "title": "Share article content",
-    "code": "import { useWebShare } from '@usehooks.io/use-web-share';\n\nfunction ArticleShare() {\n  const { share, canShare, isLoading, error, isSupported, clearError } = useWebShare();\n\n  const shareArticle = async () => {\n    const shareData = {\n      title: 'Amazing Article',\n      text: 'Check out this amazing article!',\n      url: window.location.href\n    };\n\n    if (canShare(shareData)) {\n      const success = await share(shareData);\n      if (success) {\n        console.log('Article shared successfully!');\n      }\n    }\n  };\n\n  const shareWithFiles = async () => {\n    const file = new File(['Hello World'], 'hello.txt', { type: 'text/plain' });\n    \n    const shareData = {\n      title: 'Shared File',\n      files: [file]\n    };\n\n    await share(shareData);\n  };\n\n  if (!isSupported) {\n    return <div>Web Share API not supported</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={shareArticle} disabled={isLoading}>\n        {isLoading ? 'Sharing...' : 'Share Article'}\n      </button>\n      \n      <button onClick={shareWithFiles} disabled={isLoading}>\n        Share File\n      </button>\n      \n      {error && (\n        <div style={{ color: 'red' }}>\n          Error: {error}\n          <button onClick={clearError}>Clear</button>\n        </div>\n      )}\n    </div>\n  );\n}"
-  },
+  ],
   "dependencies": ["react"],
   "notes": [
     "Web Share API requires user activation (user gesture) to work",

@@ -12,74 +12,76 @@
       "description": "Geolocation API options for accuracy, timeout, and cache settings"
     }
   ],
-  "returnType": "GeolocationState & { getCurrentPosition: () => void, startWatching: () => void, stopWatching: () => void }",
-  "methods": [
-    {
-      "name": "loading",
-      "type": "boolean",
-      "description": "True when requesting location data"
-    },
-    {
-      "name": "latitude",
-      "type": "number | null",
-      "description": "Current latitude coordinate"
-    },
-    {
-      "name": "longitude",
-      "type": "number | null",
-      "description": "Current longitude coordinate"
-    },
-    {
-      "name": "accuracy",
-      "type": "number | null",
-      "description": "Accuracy of the position in meters"
-    },
-    {
-      "name": "altitude",
-      "type": "number | null",
-      "description": "Altitude above sea level in meters"
-    },
-    {
-      "name": "altitudeAccuracy",
-      "type": "number | null",
-      "description": "Accuracy of altitude measurement in meters"
-    },
-    {
-      "name": "heading",
-      "type": "number | null",
-      "description": "Direction of travel in degrees (0-360)"
-    },
-    {
-      "name": "speed",
-      "type": "number | null",
-      "description": "Current speed in meters per second"
-    },
-    {
-      "name": "timestamp",
-      "type": "number | null",
-      "description": "Timestamp when position was acquired"
-    },
-    {
-      "name": "error",
-      "type": "GeolocationPositionError | null",
-      "description": "Error object if geolocation failed"
-    },
-    {
-      "name": "getCurrentPosition",
-      "type": "() => void",
-      "description": "Get current position once"
-    },
-    {
-      "name": "startWatching",
-      "type": "() => void",
-      "description": "Start continuously watching position changes"
-    },
-    {
-      "name": "stopWatching",
-      "type": "() => void",
-      "description": "Stop watching position changes"
-    }
-  ],
+  "returnType": {
+    "type": "GeolocationState & { getCurrentPosition: () => void, startWatching: () => void, stopWatching: () => void }",
+    "properties": [
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "True when requesting location data"
+      },
+      {
+        "name": "latitude",
+        "type": "number | null",
+        "description": "Current latitude coordinate"
+      },
+      {
+        "name": "longitude",
+        "type": "number | null",
+        "description": "Current longitude coordinate"
+      },
+      {
+        "name": "accuracy",
+        "type": "number | null",
+        "description": "Accuracy of the position in meters"
+      },
+      {
+        "name": "altitude",
+        "type": "number | null",
+        "description": "Altitude above sea level in meters"
+      },
+      {
+        "name": "altitudeAccuracy",
+        "type": "number | null",
+        "description": "Accuracy of altitude measurement in meters"
+      },
+      {
+        "name": "heading",
+        "type": "number | null",
+        "description": "Direction of travel in degrees (0-360)"
+      },
+      {
+        "name": "speed",
+        "type": "number | null",
+        "description": "Current speed in meters per second"
+      },
+      {
+        "name": "timestamp",
+        "type": "number | null",
+        "description": "Timestamp when position was acquired"
+      },
+      {
+        "name": "error",
+        "type": "GeolocationPositionError | null",
+        "description": "Error object if geolocation failed"
+      },
+      {
+        "name": "getCurrentPosition",
+        "type": "() => void",
+        "description": "Get current position once"
+      },
+      {
+        "name": "startWatching",
+        "type": "() => void",
+        "description": "Start continuously watching position changes"
+      },
+      {
+        "name": "stopWatching",
+        "type": "() => void",
+        "description": "Stop watching position changes"
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Current Location Display",

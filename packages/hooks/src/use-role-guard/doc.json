@@ -1,6 +1,8 @@
 {
   "name": "useRoleGuard",
   "description": "A React hook for role-based access control that checks user permissions against required roles. Provides utilities for authorization, redirection, and session management.",
+  "category": "auth",
+  "version": "1.0.0",
   "parameters": [
     {
       "name": "requiredRoles",
@@ -12,68 +14,81 @@
       "type": "UseRoleGuardOptions",
       "description": "Configuration options for the role guard",
       "optional": true,
-      "properties": {
-        "user": {
+      "properties": [
+        {
+          "name": "user",
           "type": "User | null",
           "description": "User object with id and roles array",
           "optional": true
         },
-        "redirectTo": {
+        {
+          "name": "redirectTo",
           "type": "string",
           "description": "URL to redirect to when unauthorized (default: '/unauthorized')",
           "optional": true
         },
-        "onUnauthorized": {
+        {
+          "name": "onUnauthorized",
           "type": "() => void",
           "description": "Callback function to execute when user is unauthorized",
           "optional": true
         },
-        "sessionKey": {
+        {
+          "name": "sessionKey",
           "type": "string",
           "description": "Session storage key for user data (default: 'user')",
           "optional": true
         }
-      }
+      ]
     }
   ],
-  "returns": {
+  "returnType": {
     "type": "UseRoleGuardReturn",
-    "description": "An object containing access control utilities and state",
-    "properties": {
-      "hasAccess": {
+    "properties": [
+      {
+        "name": "hasAccess",
         "type": "boolean",
         "description": "Whether the user has access to the current resource"
       },
-      "hasAnyRole": {
+      {
+        "name": "hasAnyRole",
         "type": "(roles: string[]) => boolean",
         "description": "Function to check if user has any of the specified roles"
       },
-      "hasAllRoles": {
+      {
+        "name": "hasAllRoles",
         "type": "(roles: string[]) => boolean",
         "description": "Function to check if user has all of the specified roles"
       },
-      "isLoading": {
+      {
+        "name": "isLoading",
         "type": "boolean",
         "description": "Whether the hook is currently loading user data"
       },
-      "user": {
+      {
+        "name": "user",
         "type": "User | null",
         "description": "Current user object with roles"
       },
-      "checkAccess": {
+      {
+        "name": "checkAccess",
         "type": "(requiredRoles: string[]) => boolean",
         "description": "Function to check access for specific roles"
       },
-      "redirect": {
+      {
+        "name": "redirect",
         "type": "() => void",
         "description": "Function to manually trigger redirect"
       }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Role-based component protection",
+      "description": "Protecting components based on user roles",
+      "code": "import { useRoleGuard } from '@usehooks.io/use-role-guard';\n\nfunction AdminPanel() {\n  const { hasAccess, isLoading, user, hasAnyRole } = useRoleGuard(\n    ['admin', 'moderator'],\n    {\n      redirectTo: '/login',\n      onUnauthorized: () => console.log('Access denied')\n    }\n  );\n\n  if (isLoading) {\n    return <div>Loading...</div>;\n  }\n\n  if (!hasAccess) {\n    return <div>Access denied</div>;\n  }\n\n  return (\n    <div>\n      <h1>Admin Panel</h1>\n      <p>Welcome, {user?.id}</p>\n      {hasAnyRole(['admin']) && (\n        <button>Admin Only Action</button>\n      )}\n    </div>\n  );\n}"
     }
-  },
-  "example": {
-    "title": "Role-based component protection",
-    "code": "import { useRoleGuard } from '@usehooks.io/use-role-guard';\n\nfunction AdminPanel() {\n  const { hasAccess, isLoading, user, hasAnyRole } = useRoleGuard(\n    ['admin', 'moderator'],\n    {\n      redirectTo: '/login',\n      onUnauthorized: () => console.log('Access denied')\n    }\n  );\n\n  if (isLoading) {\n    return <div>Loading...</div>;\n  }\n\n  if (!hasAccess) {\n    return <div>Access denied</div>;\n  }\n\n  return (\n    <div>\n      <h1>Admin Panel</h1>\n      <p>Welcome, {user?.id}</p>\n      {hasAnyRole(['admin']) && (\n        <button>Admin Only Action</button>\n      )}\n    </div>\n  );\n}"
-  },
+  ],
   "dependencies": ["react"],
   "notes": [
     "Automatically redirects unauthorized users if redirectTo is provided",

@@ -4,19 +4,21 @@
   "category": "dom",
   "version": "1.0.0",
   "parameters": [],
-  "returnType": "WindowSize",
-  "returnValue": [
-    {
-      "name": "width",
-      "type": "number",
-      "description": "Current window width in pixels"
-    },
-    {
-      "name": "height",
-      "type": "number",
-      "description": "Current window height in pixels"
-    }
-  ],
+  "returnType": {
+    "type": "WindowSize",
+    "properties": [
+      {
+        "name": "width",
+        "type": "number",
+        "description": "Current window width in pixels"
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "description": "Current window height in pixels"
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Responsive Component Behavior",

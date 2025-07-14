@@ -1,29 +1,36 @@
 {
   "name": "useVibration",
   "description": "A React hook for controlling device vibration using the Vibration API. Provides functions to trigger vibration patterns and stop ongoing vibrations.",
+  "category": "browser",
+  "version": "1.0.0",
   "parameters": [],
-  "returns": {
+  "returnType": {
     "type": "UseVibrationReturn",
-    "description": "An object containing vibration control functions",
-    "properties": {
-      "vibrate": {
+    "properties": [
+      {
+        "name": "vibrate",
         "type": "(pattern: number | number[]) => boolean",
         "description": "Trigger vibration with specified pattern (duration in ms or array of durations)"
       },
-      "stop": {
+      {
+        "name": "stop",
         "type": "() => void",
         "description": "Stop any ongoing vibration"
       },
-      "isSupported": {
+      {
+        "name": "isSupported",
         "type": "boolean",
         "description": "Whether the Vibration API is supported in the current browser"
       }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Notification with vibration",
+      "description": "Basic vibration patterns for different notification types",
+      "code": "import { useVibration } from '@usehooks.io/use-vibration';\n\nfunction NotificationComponent() {\n  const { vibrate, stop, isSupported } = useVibration();\n\n  const handleNotification = () => {\n    // Single vibration for 200ms\n    vibrate(200);\n  };\n\n  const handleUrgentNotification = () => {\n    // Pattern: vibrate 100ms, pause 50ms, vibrate 100ms, pause 50ms, vibrate 200ms\n    vibrate([100, 50, 100, 50, 200]);\n  };\n\n  const handleError = () => {\n    // Long vibration for errors\n    vibrate(500);\n  };\n\n  if (!isSupported) {\n    return <div>Vibration not supported on this device</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={handleNotification}>\n        Normal Notification\n      </button>\n      \n      <button onClick={handleUrgentNotification}>\n        Urgent Notification\n      </button>\n      \n      <button onClick={handleError}>\n        Error Notification\n      </button>\n      \n      <button onClick={stop}>\n        Stop Vibration\n      </button>\n    </div>\n  );\n}"
     }
-  },
-  "example": {
-    "title": "Notification with vibration",
-    "code": "import { useVibration } from '@usehooks.io/use-vibration';\n\nfunction NotificationComponent() {\n  const { vibrate, stop, isSupported } = useVibration();\n\n  const handleNotification = () => {\n    // Single vibration for 200ms\n    vibrate(200);\n  };\n\n  const handleUrgentNotification = () => {\n    // Pattern: vibrate 100ms, pause 50ms, vibrate 100ms, pause 50ms, vibrate 200ms\n    vibrate([100, 50, 100, 50, 200]);\n  };\n\n  const handleError = () => {\n    // Long vibration for errors\n    vibrate(500);\n  };\n\n  if (!isSupported) {\n    return <div>Vibration not supported on this device</div>;\n  }\n\n  return (\n    <div>\n      <button onClick={handleNotification}>\n        Normal Notification\n      </button>\n      \n      <button onClick={handleUrgentNotification}>\n        Urgent Notification\n      </button>\n      \n      <button onClick={handleError}>\n        Error Notification\n      </button>\n      \n      <button onClick={stop}>\n        Stop Vibration\n      </button>\n    </div>\n  );\n}"
-  },
+  ],
   "dependencies": ["react"],
   "notes": [
     "Vibration API is primarily supported on mobile devices",

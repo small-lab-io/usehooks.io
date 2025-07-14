@@ -12,46 +12,48 @@
       "description": "The initial boolean value for the toggle"
     }
   ],
-  "returnType": "UseToggleOutput",
-  "methods": [
-    {
-      "name": "isOn",
-      "type": "boolean",
-      "description": "The current toggle state",
-      "category": "state"
-    },
-    {
-      "name": "toggle",
-      "type": "() => void",
-      "description": "Toggle the current state (true becomes false, false becomes true)",
-      "category": "mutation"
-    },
-    {
-      "name": "setOn",
-      "type": "() => void",
-      "description": "Set the state to true",
-      "category": "mutation"
-    },
-    {
-      "name": "setOff",
-      "type": "() => void",
-      "description": "Set the state to false",
-      "category": "mutation"
-    },
-    {
-      "name": "set",
-      "type": "(value: boolean) => void",
-      "description": "Set the state to a specific boolean value",
-      "category": "mutation",
-      "parameters": [
-        {
-          "name": "value",
-          "type": "boolean",
-          "description": "The boolean value to set"
-        }
-      ]
-    }
-  ],
+  "returnType": {
+    "type": "UseToggleOutput",
+    "properties": [
+      {
+        "name": "isOn",
+        "type": "boolean",
+        "description": "The current toggle state",
+        "category": "state"
+      },
+      {
+        "name": "toggle",
+        "type": "() => void",
+        "description": "Toggle the current state (true becomes false, false becomes true)",
+        "category": "mutation"
+      },
+      {
+        "name": "setOn",
+        "type": "() => void",
+        "description": "Set the state to true",
+        "category": "mutation"
+      },
+      {
+        "name": "setOff",
+        "type": "() => void",
+        "description": "Set the state to false",
+        "category": "mutation"
+      },
+      {
+        "name": "set",
+        "type": "(value: boolean) => void",
+        "description": "Set the state to a specific boolean value",
+        "category": "mutation",
+        "parameters": [
+          {
+            "name": "value",
+            "type": "boolean",
+            "description": "The boolean value to set"
+          }
+        ]
+      }
+    ]
+  },
   "examples": [
     {
       "title": "Basic Toggle",
