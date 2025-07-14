@@ -1,5 +1,6 @@
 {
   "name": "use-web-share",
+  "title": "useWebShare",
   "description": "A hook for sharing content using the Web Share API to access native sharing mechanisms",
   "category": "browser",
   "dependencies": [],

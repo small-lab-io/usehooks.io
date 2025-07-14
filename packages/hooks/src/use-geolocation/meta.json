@@ -1,5 +1,6 @@
 {
   "name": "use-geolocation",
+  "title": "useGeolocation",
   "description": "A hook for accessing the Geolocation API to get user's location",
   "category": "sensors",
   "dependencies": [],

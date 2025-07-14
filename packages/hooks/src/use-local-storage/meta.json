@@ -1,5 +1,6 @@
 {
   "name": "use-local-storage",
+  "title": "useLocalStorage",
   "description": "A hook for managing localStorage with React state",
   "category": "state",
   "dependencies": [],

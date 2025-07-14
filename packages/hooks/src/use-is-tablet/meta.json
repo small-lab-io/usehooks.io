@@ -1,5 +1,6 @@
 {
   "name": "use-is-tablet",
+  "title": "useIsTablet",
   "description": "A hook for detecting tablet devices using media queries and user agent",
   "category": "sensors",
   "dependencies": [],

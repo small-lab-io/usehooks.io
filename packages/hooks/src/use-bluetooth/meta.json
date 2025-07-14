@@ -1,5 +1,6 @@
 {
   "name": "use-bluetooth",
+  "title": "useBluetooth",
   "description": "A hook for interacting with Bluetooth Low Energy devices using the Web Bluetooth API",
   "category": "browser",
   "dependencies": [],

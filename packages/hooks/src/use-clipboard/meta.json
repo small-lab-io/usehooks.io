@@ -1,5 +1,6 @@
 {
   "name": "use-clipboard",
+  "title": "useClipboard",
   "description": "A hook for interacting with the clipboard API to copy text content with state management",
   "category": "browser",
   "dependencies": [],

@@ -1,5 +1,6 @@
 {
   "name": "use-media-session",
+  "title": "useMediaSession",
   "description": "A hook for customizing media notifications and handling media control actions using the Media Session API",
   "category": "sensors",
   "dependencies": [],

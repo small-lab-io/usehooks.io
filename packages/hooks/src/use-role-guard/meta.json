@@ -1,5 +1,6 @@
 {
   "name": "use-role-guard",
+  "title": "useRoleGuard",
   "description": "A hook for role-based access control that redirects or hides content based on user roles",
   "category": "auth",
   "dependencies": [],

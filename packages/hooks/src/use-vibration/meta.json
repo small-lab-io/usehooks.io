@@ -1,5 +1,6 @@
 {
   "name": "use-vibration",
+  "title": "useVibration",
   "description": "A hook for controlling device vibration using the Vibration API",
   "category": "sensors",
   "dependencies": [],

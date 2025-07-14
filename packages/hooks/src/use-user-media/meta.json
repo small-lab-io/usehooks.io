@@ -1,5 +1,6 @@
 {
   "name": "use-user-media",
+  "title": "useUserMedia",
   "description": "A hook for accessing camera and microphone using the getUserMedia API",
   "category": "sensors",
   "dependencies": [],

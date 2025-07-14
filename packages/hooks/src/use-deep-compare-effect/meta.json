@@ -1,5 +1,6 @@
 {
   "name": "use-deep-compare-effect",
+  "title": "useDeepCompareEffect",
   "description": "Like useEffect but with deep equality check for dependencies",
   "category": "lifecycle",
   "dependencies": [],

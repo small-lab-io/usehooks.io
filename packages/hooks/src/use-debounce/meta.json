@@ -1,5 +1,6 @@
 {
   "name": "use-debounce",
+  "title": "useDebounce",
   "description": "A hook for debouncing values to delay updates until after a specified delay period",
   "category": "utility",
   "dependencies": [],

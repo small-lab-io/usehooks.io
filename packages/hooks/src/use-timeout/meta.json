@@ -1,5 +1,6 @@
 {
   "name": "use-timeout",
+  "title": "useTimeout",
   "description": "A hook for managing timeouts with start, stop, and reset functionality",
   "category": "utilities",
   "dependencies": [],

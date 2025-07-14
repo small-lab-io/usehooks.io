@@ -1,5 +1,6 @@
 {
   "name": "use-fetch",
+  "title": "useFetch",
   "description": "A hook for making HTTP requests using the Fetch API with loading states and error handling",
   "category": "network",
   "dependencies": [],

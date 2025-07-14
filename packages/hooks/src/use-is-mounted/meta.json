@@ -1,5 +1,6 @@
 {
   "name": "use-is-mounted",
+  "title": "useIsMounted",
   "description": "A hook that returns whether the component is currently mounted",
   "category": "utility",
   "dependencies": [],

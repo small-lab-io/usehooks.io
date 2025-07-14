@@ -1,5 +1,6 @@
 {
   "name": "use-is-mobile",
+  "title": "useIsMobile",
   "description": "A hook for detecting mobile devices using media queries and user agent",
   "category": "sensors",
   "dependencies": [],

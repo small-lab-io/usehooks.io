@@ -1,5 +1,6 @@
 {
   "name": "use-update-effect",
+  "title": "useUpdateEffect",
   "description": "Like useEffect but skips the initial render",
   "category": "lifecycle",
   "dependencies": [],

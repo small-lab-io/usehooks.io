@@ -1,5 +1,6 @@
 {
   "name": "use-device-orientation",
+  "title": "useDeviceOrientation",
   "description": "A hook for accessing device orientation data using the DeviceOrientationEvent API",
   "category": "sensors",
   "dependencies": [],

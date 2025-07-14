@@ -1,5 +1,6 @@
 {
   "name": "use-previous",
+  "title": "usePrevious",
   "description": "A hook that returns the previous value of a state or prop",
   "category": "utility",
   "dependencies": [],

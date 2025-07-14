@@ -1,5 +1,6 @@
 {
   "name": "use-set",
+  "title": "useSet",
   "description": "A hook for managing and manipulating Set data structure with comprehensive methods for set operations, filtering, and state management",
   "category": "state",
   "dependencies": [],

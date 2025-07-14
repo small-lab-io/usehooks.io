@@ -1,5 +1,6 @@
 {
   "name": "use-fullscreen",
+  "title": "useFullscreen",
   "description": "A hook for managing fullscreen mode using the Fullscreen API",
   "category": "dom",
   "dependencies": [],

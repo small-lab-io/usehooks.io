@@ -1,5 +1,6 @@
 {
   "name": "use-audio-recorder",
+  "title": "useAudioRecorder",
   "description": "A comprehensive hook for audio recording with real-time analysis using getUserMedia, MediaRecorder, and Web Audio APIs",
   "category": "sensors",
   "dependencies": [],

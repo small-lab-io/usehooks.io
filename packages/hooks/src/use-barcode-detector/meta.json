@@ -1,5 +1,6 @@
 {
   "name": "use-barcode-detector",
+  "title": "useBarcodeDetector",
   "description": "A hook for detecting barcodes and QR codes in images using the Barcode Detection API",
   "category": "sensors",
   "dependencies": [],

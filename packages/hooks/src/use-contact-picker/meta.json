@@ -1,5 +1,6 @@
 {
   "name": "use-contact-picker",
+  "title": "useContactPicker",
   "description": "A hook for accessing the Contact Picker API to select contacts with user permission",
   "category": "browser",
   "dependencies": [],

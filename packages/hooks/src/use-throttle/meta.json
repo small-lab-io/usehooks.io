@@ -1,5 +1,6 @@
 {
   "name": "use-throttle",
+  "title": "useThrottle",
   "description": "A hook for throttling values to limit updates to at most once per specified delay period",
   "category": "utility",
   "dependencies": [],

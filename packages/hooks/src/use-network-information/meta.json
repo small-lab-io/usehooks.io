@@ -1,5 +1,6 @@
 {
   "name": "use-network-information",
+  "title": "useNetworkInformation",
   "description": "A hook for accessing network connection information and monitoring network changes",
   "category": "sensors",
   "dependencies": [],
