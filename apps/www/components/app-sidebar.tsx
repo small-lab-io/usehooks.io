@@ -132,7 +132,9 @@ export function AppSidebar() {
               ([category, categoryHooks]) => (
                 <SidebarMenuItem key={category}>
                   <SidebarMenuButton asChild>
-                    <span className="font-medium capitalize">{category}</span>
+                    <Link href={`/docs/category/${category}`}>
+                      <span className="font-medium capitalize">{category}</span>
+                    </Link>
                   </SidebarMenuButton>
                   <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
                     {categoryHooks.map((hook) => {
