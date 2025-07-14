@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 4.1.1
+
+### Patch Changes
+
+- Add link to usehooks.io
+
 ## 4.1.0
 
 ### Minor Changes
