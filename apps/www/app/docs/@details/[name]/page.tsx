@@ -1,9 +1,6 @@
-import fs from "fs/promises";
-import path from "path";
 import Link from "next/link";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
-import { getHooks } from "@/lib/get-hooks";
 import {
   Card,
   CardContent,
@@ -13,85 +10,9 @@ import {
 } from "@workspace/ui/components/card";
 import { Terminal } from "@/components/terminal";
 import { CopyToClipboard } from "@/components/copy-to-clipboard";
-
-interface DocMethod {
-  name: string;
-  type: string;
-  description: string;
-  category: string;
-  parameters?: Array<{
-    name: string;
-    type: string;
-    description: string;
-    optional?: boolean;
-    default?: string;
-  }>;
-  returns?: string;
-}
-
-interface DocExample {
-  title: string;
-  description: string;
-  code: string;
-}
-
-interface HookDoc {
-  name: string;
-  description: string;
-  category: string;
-  parameters: Array<{
-    name: string;
-    type: string;
-    optional?: boolean;
-    default?: string;
-    description: string;
-    properties?: Array<{
-      name: string;
-      type: string;
-      optional?: boolean;
-      description: string;
-    }>;
-  }>;
-  returnType?: {
-    type: string;
-    properties: Array<{
-      name: string;
-      type: string;
-      description: string;
-    }>;
-  };
-  methods: DocMethod[];
-  examples: DocExample[];
-  dependencies: string[];
-  notes: string[];
-}
-
-async function getHookSource(name: string): Promise<string> {
-  const hookPath = path.join(
-    process.cwd(),
-    `../../packages/hooks/src/${name}/index.ts`
-  );
-  try {
-    return await fs.readFile(hookPath, "utf8");
-  } catch (error) {
-    console.error(`Error reading hook source file: ${error}`);
-    return "Source code not available";
-  }
-}
-
-async function getHookDoc(name: string): Promise<HookDoc | null> {
-  const docPath = path.join(
-    process.cwd(),
-    `../../packages/hooks/src/${name}/doc.json`
-  );
-  try {
-    const docContent = await fs.readFile(docPath, "utf8");
-    return JSON.parse(docContent);
-  } catch (error) {
-    console.error(`Error reading hook doc file: ${error}`);
-    return null;
-  }
-}
+import { getHooks } from "@/lib/get-hooks";
+import { getHookSource } from "@/lib/get-hook-source";
+import { getHookDoc } from "@/lib/get-hook-doc";
 
 export async function generateMetadata({
   params,
@@ -143,7 +64,6 @@ export default async function HookPage({
     );
   }
 
-  // Find current hook index and get previous/next hooks
   const currentIndex = hooks.findIndex((h) => h.name === name);
   const previousHook = currentIndex > 0 ? hooks[currentIndex - 1] : null;
   const nextHook =
@@ -397,7 +317,7 @@ export default async function HookPage({
             </div>
           )}
 
-          {/* Examples Section */}
+          {/* Examples Section - FIXED */}
           {hookDoc.examples && hookDoc.examples.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold mb-4">Examples</h2>
@@ -405,7 +325,7 @@ export default async function HookPage({
                 {hookDoc.examples.map((example, index) => (
                   <div key={index} className="mb-6">
                     <h3 className="text-xl font-semibold mb-2">
-                      {example.title}
+                      {example.name}
                     </h3>
                     <p className="mb-4">{example.description}</p>
                     <div className="relative">
@@ -497,7 +417,7 @@ export default async function HookPage({
         </div>
       )}
 
-      {/* Replace the navigation section at the end */}
+      {/* Navigation section */}
       <div className="border-t pt-8">
         <div className="flex justify-between items-center">
           <div className="flex-1">

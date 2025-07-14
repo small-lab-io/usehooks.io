@@ -1,12 +1,5 @@
 import { useFetch } from "@/hooks/use-fetch";
-
-export type HookMeta = {
-  name: string;
-  title: string;
-  description: string;
-  category: string;
-  examples: [{ name: string; description: string }];
-};
+import { HookMeta } from "./types";
 
 const hooksUrl =
   "https://raw.githubusercontent.com/small-lab-io/usehooks.io/main/packages/hooks/src/index.json";
