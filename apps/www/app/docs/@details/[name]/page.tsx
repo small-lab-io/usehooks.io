@@ -325,7 +325,7 @@ export default async function HookPage({
                 {hookDoc.examples.map((example, index) => (
                   <div key={index} className="mb-6">
                     <h3 className="text-xl font-semibold mb-2">
-                      {example.name}
+                      {example.title}
                     </h3>
                     <p className="mb-4">{example.description}</p>
                     <div className="relative">

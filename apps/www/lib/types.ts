@@ -45,7 +45,7 @@ export interface HookDocMethod {
 }
 
 export interface HookDocExample {
-  name: string;
+  title: string;
   description: string;
   code: string;
 }
