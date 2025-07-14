@@ -45,7 +45,21 @@ interface HookDoc {
     optional?: boolean;
     default?: string;
     description: string;
+    properties?: Array<{
+      name: string;
+      type: string;
+      optional?: boolean;
+      description: string;
+    }>;
   }>;
+  returnType?: {
+    type: string;
+    properties: Array<{
+      name: string;
+      type: string;
+      description: string;
+    }>;
+  };
   methods: DocMethod[];
   examples: DocExample[];
   dependencies: string[];
@@ -195,6 +209,103 @@ export default async function HookPage({
                           {param.default || "-"}
                         </td>
                         <td className="px-4 py-2">{param.description}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Parameter Properties */}
+              {hookDoc.parameters.some(
+                (param) => param.properties && param.properties.length > 0
+              ) && (
+                <div className="mt-6">
+                  <h3 className="text-lg font-semibold mb-3">
+                    Parameter Properties
+                  </h3>
+                  {hookDoc.parameters.map(
+                    (param, paramIndex) =>
+                      param.properties &&
+                      param.properties.length > 0 && (
+                        <div key={paramIndex} className="mb-4">
+                          <h4 className="font-medium mb-2 text-blue-600 dark:text-blue-400">
+                            {param.name} properties:
+                          </h4>
+                          <div className="overflow-x-auto">
+                            <table className="w-full min-w-[500px] text-sm">
+                              <thead className="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                  <th className="px-3 py-2 text-left border-b">
+                                    Name
+                                  </th>
+                                  <th className="px-3 py-2 text-left border-b">
+                                    Type
+                                  </th>
+                                  <th className="px-3 py-2 text-left border-b">
+                                    Description
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {param.properties.map((prop, propIndex) => (
+                                  <tr key={propIndex}>
+                                    <td className="px-3 py-2 font-mono">
+                                      {prop.name}
+                                      {prop.optional && (
+                                        <span className="text-gray-500 ml-1">
+                                          ?
+                                        </span>
+                                      )}
+                                    </td>
+                                    <td className="px-3 py-2 font-mono">
+                                      {prop.type}
+                                    </td>
+                                    <td className="px-3 py-2">
+                                      {prop.description}
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      )
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Return Type Section */}
+          {hookDoc.returnType && hookDoc.returnType?.properties?.length > 0 && (
+            <div>
+              <h2 className="text-2xl font-bold mb-4">Return Type</h2>
+              <div className="mb-4">
+                <span className="font-mono text-lg bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded">
+                  {hookDoc.returnType.type}
+                </span>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[600px]">
+                  <thead className="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                      <th className="px-4 py-2 text-left border-b">Property</th>
+                      <th className="px-4 py-2 text-left border-b">Type</th>
+                      <th className="px-4 py-2 text-left border-b">
+                        Description
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {hookDoc.returnType?.properties?.map((prop, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-2 font-mono text-sm">
+                          {prop.name}
+                        </td>
+                        <td className="px-4 py-2 font-mono text-sm">
+                          {prop.type}
+                        </td>
+                        <td className="px-4 py-2">{prop.description}</td>
                       </tr>
                     ))}
                   </tbody>
