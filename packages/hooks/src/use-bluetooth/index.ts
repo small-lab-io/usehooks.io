@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useCallback, useRef, useEffect } from "react";
 
 // Extend Navigator interface for Web Bluetooth API
