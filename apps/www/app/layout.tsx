@@ -16,6 +16,7 @@ import { Badge } from "@workspace/ui/components/badge";
 import { getCliVersion } from "@/lib/get-cli-version";
 import { StructuredData } from "@/components/structured-data";
 import "@workspace/ui/globals.css";
+import { Toaster } from "@workspace/ui/components/sonner";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -147,6 +148,7 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
             <main className="flex flex-1 flex-col h-screen">
               {children}
               <Analytics />
+              <Toaster />
             </main>
           </Providers>
         </SidebarProvider>

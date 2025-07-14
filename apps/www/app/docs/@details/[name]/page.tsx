@@ -16,6 +16,7 @@ import { getHookDoc } from "@/lib/get-hook-doc";
 import { getHooksByCategory } from "@/lib/get-hooks-by-category";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { StructuredData } from "@/components/structured-data";
+import { ShareButton } from "@/components/share-button";
 
 export async function generateMetadata({
   params,
@@ -176,7 +177,9 @@ export default async function HookPage({
           ]}
         />
 
-        <h1 className="text-4xl font-bold mb-2">{hook.title}</h1>
+        <h1 className="text-4xl font-bold mb-2 flex justify-between">
+          {hook.title} <ShareButton />
+        </h1>
         <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
           {hook.category}
         </span>
