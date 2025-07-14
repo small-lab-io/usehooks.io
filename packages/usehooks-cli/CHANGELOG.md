@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 4.1.2
+
+### Patch Changes
+
+- Remove warning
+
 ## 4.1.1
 
 ### Patch Changes
