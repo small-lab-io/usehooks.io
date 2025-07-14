@@ -27,7 +27,10 @@ export default async function Image() {
         }}
       >
         <div style={{ marginBottom: 20 }}>useHooks.io</div>
-        <div style={{ fontSize: 32, opacity: 0.9 }}>React Hooks Library</div>
+        <div style={{ fontSize: 32, opacity: 0.9, marginBottom: 16 }}>
+          React Hooks Library, open source, open code
+        </div>
+        <div style={{ fontSize: 24, opacity: 0.8 }}>Now with CLI support</div>
       </div>
     ),
     {
