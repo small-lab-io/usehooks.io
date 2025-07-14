@@ -155,8 +155,7 @@ usehooks.io/
 │   ├── eslint-config/      # 📏 ESLint configuration
 │   └── typescript-config/  # 📝 TypeScript configuration
 ├── apps/
-│   └── www/               # 🌐 Documentation website
-└── docs/                  # 📚 Additional documentation
+    └── www/               # 🌐 Documentation website
 ```
 
 ## 🤝 Contributing
