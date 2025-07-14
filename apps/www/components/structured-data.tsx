@@ -2,10 +2,11 @@ import { HookMeta } from "@/lib/types";
 
 interface StructuredDataProps {
   hook?: HookMeta;
-  type: "website" | "article" | "software";
+  type: "website" | "article" | "software" | "blog";
+  slug?: string;
 }
 
-export function StructuredData({ hook, type }: StructuredDataProps) {
+export function StructuredData({ hook, type, slug }: StructuredDataProps) {
   const getStructuredData = () => {
     const baseData = {
       "@context": "https://schema.org",
@@ -58,6 +59,34 @@ export function StructuredData({ hook, type }: StructuredDataProps) {
           "@type": "SoftwareApplication",
           name: "React",
           applicationCategory: "DeveloperApplication",
+        },
+      };
+    }
+
+    if (type === "blog" && slug) {
+      return {
+        ...baseData,
+        "@type": "BlogPosting",
+        headline: hook?.title || "Blog Post",
+        description: hook?.description || "Blog post from useHooks.io",
+        url: `https://usehooks.io/blog/${slug}`,
+        author: {
+          "@type": "Organization",
+          name: "useHooks.io",
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "useHooks.io",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://usehooks.io/logo.png",
+          },
+        },
+        datePublished: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": `https://usehooks.io/blog/${slug}`,
         },
       };
     }

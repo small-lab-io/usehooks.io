@@ -51,7 +51,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
 
   return (
     <ScrollArea className="h-[calc(100vh-64px)]">
-      <StructuredData type="article" />
+      <StructuredData type="blog" slug={slug} />
       <div className="pb-20 space-y-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <Breadcrumbs
           items={[
