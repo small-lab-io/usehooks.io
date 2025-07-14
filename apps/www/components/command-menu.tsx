@@ -1,8 +1,8 @@
-// @ts-nocheck
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { allPosts } from "contentlayer/generated";
 import {
   CommandDialog,
   CommandEmpty,
@@ -10,10 +10,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandShortcut,
 } from "@workspace/ui/components/command";
 import { Button } from "@workspace/ui/components/button";
-import { getHooks, type HookMeta } from "@/lib/get-hooks";
+import { getHooks } from "@/lib/get-hooks";
+import { HookMeta } from "@/lib/types";
 
 export function CommandMenu() {
   const router = useRouter();
@@ -72,6 +72,24 @@ export function CommandMenu() {
           {/*@ts-ignore*/}
           <CommandEmpty>No results found.</CommandEmpty>
           {/*@ts-ignore*/}
+          <CommandGroup heading="Blog">
+            {allPosts.map((post) => (
+              // @ts-ignore
+              <CommandItem
+                key={post._id}
+                onSelect={() => {
+                  router.push(post.url);
+                  setOpen(false);
+                }}
+                className="flex flex-col items-start"
+              >
+                <span className="text-lg font-medium">{post.title}</span>
+                <span className="text-sm text-muted-foreground italic">
+                  {post.description}
+                </span>
+              </CommandItem>
+            ))}
+          </CommandGroup>
           <CommandGroup heading="Hooks">
             {loading ? (
               // @ts-ignore
