@@ -17,7 +17,6 @@ import { getCliVersion } from "@/lib/get-cli-version";
 import { StructuredData } from "@/components/structured-data";
 import "@workspace/ui/globals.css";
 import { Toaster } from "@workspace/ui/components/sonner";
-import { Separator } from "@workspace/ui/components/separator";
 
 const fontSans = Geist({
   subsets: ["latin"],

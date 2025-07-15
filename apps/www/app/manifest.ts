@@ -8,8 +8,9 @@ export default function manifest(): MetadataRoute.Manifest {
       "A collection of modern React Hooks ready to use in your projects",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#0070f3",
+    background_color: "#000",
+    theme_color: "#000",
+    orientation: "natural",
     icons: [
       {
         src: "/favicon.ico",
