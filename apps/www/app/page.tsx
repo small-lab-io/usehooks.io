@@ -6,6 +6,7 @@ import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Anchor } from "lucide-react";
 import { Separator } from "@workspace/ui/components/separator";
 import { CaterogyButton } from "@/components/category-button";
+import { Badge } from "@workspace/ui/components/badge";
 
 export const metadata: Metadata = {
   title: "useHooks - React Hooks Library",
@@ -18,7 +19,7 @@ export default async function HomePage() {
 
   return (
     <ScrollArea className="h-[calc(100vh-64px)]">
-      <div className="min-h-screen container mx-auto p-2 md:px-0">
+      <div className="min-h-screen container mx-auto p-4 md:px-0">
         <div className="flex items-center gap-2 justify-center mt-20 animate-in fade-in-0 slide-in-from-top-4 duration-1000 w-full ">
           <Anchor className="w-10 h-10 md:w-20 md:h-20" />
           <span className="text-3xl md:text-8xl font-black tracking-tighter animate-in fade-in-0 duration-1000 w-fit">
@@ -132,12 +133,12 @@ export default async function HomePage() {
               <h3 className="text-2xl font-bold mt-16 mb-8 capitalize">
                 {category}
               </h3>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 space-y-6">
                 {hooks
                   .filter((hook) => hook.category === category)
                   .map((hook, index) => (
                     <div
-                      className={`container mx-auto py-12 transition-all duration-200 hover:scale-105 animate-in fade-in-0 slide-in-from-bottom-4`}
+                      className="transition-all duration-200 hover:scale-105 animate-in fade-in-0 slide-in-from-bottom-4 cursor-pointer bg-accent p-4 rounded-lg h-52"
                       style={{
                         animationDelay: `${2100 + index * 100}ms`,
                       }}
@@ -147,16 +148,14 @@ export default async function HomePage() {
                         href={`/docs/${hook.name}`}
                         className="block transition-colors duration-200 hover:text-primary"
                       >
-                        <h1 className="text-4xl font-bold mb-2 transition-colors duration-200">
+                        <h1 className="text-3xl font-bold mb-2 transition-colors duration-200">
                           {hook.title}
                         </h1>
                       </Link>
-                      <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 transition-all duration-200 hover:bg-primary/20 capitalize">
-                        {hook.category}
-                      </span>
+
+                      <Badge variant="outline">{hook.category}</Badge>
 
                       <div className="mb-8">
-                        <h2 className="text-2xl font-bold mb-4">Description</h2>
                         <p className="text-lg">{hook.description}</p>
                       </div>
                     </div>

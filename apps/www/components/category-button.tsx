@@ -18,8 +18,8 @@ export function CaterogyButton({
         const element = document.getElementById(category);
         element?.scrollIntoView({ behavior: "smooth" });
       }}
-      className="animate-in fade-in-0 slide-in-from-bottom-4 cursor-pointer"
-      variant="outline"
+      className="cursor-pointer w-full md:w-fit"
+      variant="secondary"
       style={{ animationDelay: `${1500 + index * 100}ms` }}
     >
       <div className="px-4 py-2 text-sm font-medium">
