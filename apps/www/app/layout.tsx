@@ -146,7 +146,7 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
                 <Button
                   asChild
                   variant="secondary"
-                  className="hover:dark:bg-slate-700 bg-slate-800"
+                  className="hover:dark:bg-slate-700 dark:bg-slate-800 hover:bg-slate-200"
                 >
                   <Link
                     href={"https://github.com/small-lab-io/usehooks.io"}

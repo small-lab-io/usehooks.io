@@ -17,7 +17,7 @@ export function ModeToggle() {
       variant="secondary"
       size="icon"
       onClick={toggleTheme}
-      className="cursor-pointer hover:dark:bg-slate-700 bg-slate-800"
+      className="cursor-pointer hover:dark:bg-slate-700 dark:bg-slate-800 hover:bg-slate-200"
     >
       <Sun className="h-5 w-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
       <Moon className="absolute h-5 w-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />

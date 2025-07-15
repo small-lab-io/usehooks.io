@@ -148,7 +148,7 @@ export default async function HomePage() {
                         href={`/docs/${hook.name}`}
                         className="block transition-colors duration-200 hover:text-primary"
                       >
-                        <h1 className="text-3xl font-bold mb-2 transition-colors duration-200">
+                        <h1 className="text-2xl md:text-3xl font-bold mb-2 transition-colors duration-200">
                           {hook.title}
                         </h1>
                       </Link>
