@@ -133,12 +133,12 @@ export default async function HomePage() {
               <h3 className="text-2xl font-bold mt-16 mb-8 capitalize">
                 {category}
               </h3>
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 space-y-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 space-y-6">
                 {hooks
                   .filter((hook) => hook.category === category)
                   .map((hook, index) => (
                     <div
-                      className="transition-all duration-200 hover:scale-105 animate-in fade-in-0 slide-in-from-bottom-4 cursor-pointer bg-accent p-4 rounded-lg h-52"
+                      className="transition-all duration-200 hover:scale-105 animate-in fade-in-0 slide-in-from-bottom-4 cursor-pointer bg-accent p-4 rounded-lg h-58 flex justify-between flex-col"
                       style={{
                         animationDelay: `${2100 + index * 100}ms`,
                       }}
@@ -153,11 +153,11 @@ export default async function HomePage() {
                         </h1>
                       </Link>
 
-                      <Badge variant="outline">{hook.category}</Badge>
-
-                      <div className="mb-8">
+                      <div className="mb-4">
                         <p className="text-lg">{hook.description}</p>
                       </div>
+
+                      <Badge variant="default">{hook.category}</Badge>
                     </div>
                   ))}
               </div>
