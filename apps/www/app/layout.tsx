@@ -112,8 +112,8 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
       >
         <SidebarProvider className="flex flex-col h-screen">
           <Providers>
-            <header className="h-16 flex justify-between items-center container mx-auto px-2 md:px-0">
-              <div className="flex items-center gap-2">
+            <header className="h-16 flex justify-between items-center container mx-auto px-4 md:px-0">
+              <div className="flex items-center gap-1 md:gap-3">
                 <Anchor className="w-4 h-4 hidden md:block" />
                 <SidebarTrigger className="md:hidden" />
                 <Link href="/">
@@ -123,11 +123,11 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
                     </span>
                   </span>
                 </Link>
-                <Badge asChild variant="outline">
+                <Badge asChild variant="outline" className="hidden">
                   <>v{cliVersion}</>
                 </Badge>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1 md:gap-3">
                 <Link
                   href="/docs"
                   className="hover:underline underline-offset-2"
@@ -146,8 +146,8 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
                 <ModeToggle />
                 <Button
                   asChild
-                  variant="ghost"
-                  className="hover:dark:bg-slate-700"
+                  variant="secondary"
+                  className="hover:dark:bg-slate-700 bg-slate-800"
                 >
                   <Link
                     href={"https://github.com/small-lab-io/usehooks.io"}
