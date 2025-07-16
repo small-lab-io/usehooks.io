@@ -1,0 +1,121 @@
+{
+  "name": "useLazy",
+  "description": "A powerful React hook that enhances React.lazy with loading states, error handling, preloading capabilities, and manual control over component loading. Perfect for code splitting and performance optimization.",
+  "category": "performance",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "importFn",
+      "type": "() => Promise<{ default: T } | T>",
+      "optional": false,
+      "description": "Function that returns a promise resolving to the component to be lazy loaded"
+    },
+    {
+      "name": "options",
+      "type": "UseLazyOptions",
+      "optional": true,
+      "default": "{}",
+      "description": "Configuration options for the lazy loading behavior",
+      "properties": [
+        {
+          "name": "preload",
+          "type": "boolean",
+          "optional": true,
+          "description": "Whether to preload the component immediately"
+        },
+        {
+          "name": "onLoadStart",
+          "type": "() => void",
+          "optional": true,
+          "description": "Callback when component starts loading"
+        },
+        {
+          "name": "onLoadSuccess",
+          "type": "(component: ComponentType<any>) => void",
+          "optional": true,
+          "description": "Callback when component loads successfully"
+        },
+        {
+          "name": "onLoadError",
+          "type": "(error: Error) => void",
+          "optional": true,
+          "description": "Callback when component fails to load"
+        }
+      ]
+    }
+  ],
+  "returnType": {
+    "type": "UseLazyReturn<T>",
+    "properties": [
+      {
+        "name": "Component",
+        "type": "T | null",
+        "description": "The lazy component ready to be rendered",
+        "category": "state"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "Whether the component is currently loading",
+        "category": "state"
+      },
+      {
+        "name": "error",
+        "type": "Error | null",
+        "description": "Loading error if any occurred",
+        "category": "state"
+      },
+      {
+        "name": "load",
+        "type": "() => Promise<T | null>",
+        "description": "Manually trigger component loading",
+        "category": "action"
+      },
+      {
+        "name": "preload",
+        "type": "() => Promise<T | null>",
+        "description": "Preload the component without rendering it",
+        "category": "action"
+      },
+      {
+        "name": "reset",
+        "type": "() => void",
+        "description": "Reset the loading state and clear cached component",
+        "category": "action"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Basic Lazy Loading",
+      "description": "Simple lazy loading with Suspense boundary",
+      "code": "import { Suspense } from 'react';\nimport { useLazy } from './use-lazy';\n\nfunction App() {\n  const { Component } = useLazy(() => import('./HeavyComponent'));\n\n  return (\n    <Suspense fallback={<div>Loading...</div>}>\n      <Component />\n    </Suspense>\n  );\n}"
+    },
+    {
+      "title": "With Loading States",
+      "description": "Manual control over loading with loading states",
+      "code": "const { Component, loading, error, load } = useLazy(\n  () => import('./Dashboard'),\n  {\n    onLoadStart: () => console.log('Loading started'),\n    onLoadSuccess: () => console.log('Component loaded'),\n    onLoadError: (err) => console.error('Load failed:', err)\n  }\n);\n\nif (error) return <div>Error: {error.message}</div>;\nif (loading) return <div>Loading component...</div>;\n\nreturn (\n  <div>\n    <button onClick={load}>Load Dashboard</button>\n    {Component && <Component />}\n  </div>\n);"
+    },
+    {
+      "title": "Preloading Components",
+      "description": "Preload components for better performance",
+      "code": "const { Component, preload } = useLazy(\n  () => import('./ExpensiveChart'),\n  { preload: true } // Preload immediately\n);\n\n// Or preload on user interaction\nconst handleMouseEnter = () => {\n  preload(); // Preload on hover\n};\n\nreturn (\n  <div onMouseEnter={handleMouseEnter}>\n    <Suspense fallback={<ChartSkeleton />}>\n      <Component />\n    </Suspense>\n  </div>\n);"
+    },
+    {
+      "title": "Conditional Lazy Loading",
+      "description": "Load components based on conditions",
+      "code": "const { Component, load, loading } = useLazy(\n  () => import('./AdminPanel')\n);\n\nconst [showAdmin, setShowAdmin] = useState(false);\n\nconst handleShowAdmin = async () => {\n  setShowAdmin(true);\n  await load(); // Ensure component is loaded\n};\n\nreturn (\n  <div>\n    <button onClick={handleShowAdmin} disabled={loading}>\n      {loading ? 'Loading...' : 'Show Admin Panel'}\n    </button>\n    {showAdmin && Component && (\n      <Suspense fallback={<div>Loading admin...</div>}>\n        <Component />\n      </Suspense>\n    )}\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { lazy, useState, useCallback, useRef, ComponentType } from 'react';"
+  ],
+  "notes": [
+    "Always wrap lazy components with Suspense boundary for proper loading states",
+    "The hook caches loaded components to prevent re-loading on re-renders",
+    "Preloading is useful for components that will likely be needed soon",
+    "Error handling should be implemented both in the hook callbacks and with Error Boundaries",
+    "The Component returned is compatible with React.lazy and Suspense"
+  ]
+}

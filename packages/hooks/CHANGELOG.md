@@ -1,5 +1,11 @@
 # @workspace/hooks
 
+## 1.1.0
+
+### Minor Changes
+
+- New useLazy hook
+
 ## 1.0.0
 
 ### Major Changes

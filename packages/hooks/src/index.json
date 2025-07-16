@@ -310,6 +310,20 @@
     ]
   },
   {
+    "name": "use-lazy",
+    "title": "useLazy",
+    "description": "A hook for managing lazy-loaded React components with loading states, error handling, and preloading capabilities",
+    "category": "performance",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
     "name": "use-local-storage",
     "title": "useLocalStorage",
     "description": "A hook for managing localStorage with React state",
