@@ -92,6 +92,10 @@ function CounterExample() {
 
 ### Starting with a Custom Initial Value
 
+### Starting with a Custom Initial Value
+
+The useCounter hook accepts any number as its initial value, making it flexible for different use cases. Here's an example of a score counter that starts at 10 and includes custom increment amounts:
+
 ```tsx
 function ScoreCounter() {
   const { count, increment, set } = useCounter(10);
@@ -111,6 +115,10 @@ function ScoreCounter() {
 ```
 
 ### Building a Shopping Cart Counter
+
+### Building a Shopping Cart Counter
+
+A common use case for useCounter is managing product quantities in a shopping cart. Here's an example implementation that includes input validation and minimum quantity constraints:
 
 ```tsx
 function CartItem({ productId, initialQuantity = 1 }) {
