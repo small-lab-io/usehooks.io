@@ -1,0 +1,343 @@
+---
+title: "Building Better React Apps: A Hands-on Guide to usehooks-cli"
+date: "2025-07-16"
+description: "Learn how to supercharge your React development workflow with usehooks-cli through this practical, step-by-step tutorial."
+author: "Olivier Colonna"
+tags: ["react", "hooks", "cli", "tutorial", "productivity"]
+featured: true
+---
+
+Custom hooks are one of React's most powerful features, but managing them across projects can be challenging. In this hands-on tutorial, we'll explore how [usehooks-cli](/docs/usehooks-cli) can transform your development workflow by making it effortless to discover, add, and maintain React hooks in your projects.
+
+## What You'll Learn
+
+By the end of this tutorial, you'll know how to:
+
+- Set up usehooks-cli in your React project
+- Find and add the perfect hooks for your needs
+- Update and maintain hooks across your codebase
+- Integrate hooks with your components
+- Manage hook dependencies efficiently
+
+## Prerequisites
+
+- Node.js 18.0.0 or higher
+- A React project (Next.js, Vite, Create React App, etc.)
+- Basic familiarity with React hooks
+
+## Step 1: Setting Up Your Project
+
+Let's start by initializing usehooks-cli in your React project. There's no need to install anything globally—we'll use npx to run the CLI directly:
+
+```bash
+npx usehooks-cli@latest init
+```
+
+This command will:
+
+1. Detect your project structure (Next.js, Vite, CRA, etc.)
+2. Suggest optimal locations for your hooks directory
+3. Create a configuration file (`usehooks.json`) with your preferences
+
+You'll be prompted to answer a few questions about your project setup:
+
+The CLI is smart enough to detect your project structure and suggest sensible defaults, but you can customize these settings as needed.
+
+## Step 2: Discovering Available Hooks
+
+Before adding hooks to your project, let's explore what's available. usehooks-cli provides several ways to discover hooks:
+
+### Browsing All Hooks
+
+To see a complete list of available hooks organized by category:
+
+```bash
+npx usehooks-cli@latest list
+```
+
+You'll see output similar to this:
+
+### Searching for Specific Hooks
+
+If you have a specific need in mind, you can search for relevant hooks:
+
+```bash
+npx usehooks-cli@latest search "form"
+```
+
+This will find all hooks related to form handling, showing matches in names, descriptions, and categories.
+
+## Step 3: Adding Your First Hook
+
+Let's add a hook to your project. For this tutorial, we'll use the popular `use-local-storage` hook, which provides a `useState`-like API that persists data in localStorage:
+
+```bash
+npx usehooks-cli@latest add use-local-storage
+```
+
+The CLI will:
+
+1. Download the hook from the registry
+2. Add it to your hooks directory
+3. Install any required dependencies
+4. Provide confirmation when complete
+
+You should see output like this:
+
+## Step 4: Using the Hook in Your Component
+
+Now that you've added the hook, let's use it in a component. Create or modify a component file:
+
+```tsx
+import { useLocalStorage } from "../hooks/useLocalStorage";
+
+function UserPreferences() {
+  const [theme, setTheme] = useLocalStorage<"light" | "dark">("theme", "light");
+  const [fontSize, setFontSize] = useLocalStorage<number>("fontSize", 16);
+
+  return (
+    <div className={`theme-${theme}`}>
+      <h2>User Preferences</h2>
+
+      <div>
+        <label>
+          <input
+            type="checkbox"
+            checked={theme === "dark"}
+            onChange={() => setTheme(theme === "light" ? "dark" : "light")}
+          />
+          Dark Mode
+        </label>
+      </div>
+
+      <div>
+        <label>Font Size: {fontSize}px</label>
+        <input
+          type="range"
+          min="12"
+          max="24"
+          value={fontSize}
+          onChange={(e) => setFontSize(Number(e.target.value))}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+This component uses the `useLocalStorage` hook to persist user preferences across page refreshes and browser sessions.
+
+## Step 5: Getting Detailed Information About a Hook
+
+To learn more about how a hook works and see examples of its usage:
+
+```bash
+npx usehooks-cli@latest info use-local-storage
+```
+
+This will display comprehensive information about the hook:
+
+## Step 6: Adding Multiple Hooks at Once
+
+As your project grows, you might need multiple hooks. You can add several hooks in one command:
+
+```bash
+npx usehooks-cli@latest add use-counter use-debounce use-media-query
+```
+
+Alternatively, you can use interactive selection mode by running the command without arguments:
+
+```bash
+npx usehooks-cli@latest add
+```
+
+This will present a checklist of all available hooks, allowing you to select multiple hooks to add at once.
+
+## Step 7: Keeping Your Hooks Up-to-Date
+
+As the usehooks.io library evolves with bug fixes and improvements, you'll want to keep your hooks updated. To check for and apply updates:
+
+```bash
+npx usehooks-cli@latest update --all
+```
+
+The CLI will:
+
+1. Compare your installed hooks with the latest versions
+2. Create backups of your current hooks
+3. Apply updates where available
+4. Install any new dependencies
+
+You'll see a summary of what's being updated:
+
+## Step 8: Removing Hooks You No Longer Need
+
+If you decide you no longer need a hook, you can remove it cleanly:
+
+```bash
+npx usehooks-cli@latest remove use-counter --clean-deps
+```
+
+The `--clean-deps` flag will also remove any dependencies that were installed specifically for this hook and aren't used elsewhere in your project.
+
+## Real-World Project Example: Building a Task Manager
+
+Let's put everything together by building a simple task manager application that uses multiple hooks:
+
+1. First, add the hooks we'll need:
+
+```bash
+npx usehooks-cli@latest add use-local-storage use-boolean use-debounce
+```
+
+2. Create a TaskManager component:
+
+```tsx
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useBoolean } from "../hooks/useBoolean";
+import { useDebounce } from "../hooks/useDebounce";
+import { useState } from "react";
+
+interface Task {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
+function TaskManager() {
+  // Persist tasks in localStorage
+  const [tasks, setTasks] = useLocalStorage<Task[]>("tasks", []);
+
+  // UI state
+  const [newTaskText, setNewTaskText] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [showCompleted, toggleShowCompleted] = useBoolean(true);
+
+  // Debounce search to improve performance
+  const debouncedSearchText = useDebounce(searchText, 300);
+
+  // Filter tasks based on search and completion status
+  const filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.text
+      .toLowerCase()
+      .includes(debouncedSearchText.toLowerCase());
+    const matchesCompletion = showCompleted || !task.completed;
+    return matchesSearch && matchesCompletion;
+  });
+
+  // Add a new task
+  const addTask = () => {
+    if (newTaskText.trim() === "") return;
+
+    setTasks([
+      ...tasks,
+      {
+        id: Date.now().toString(),
+        text: newTaskText,
+        completed: false,
+      },
+    ]);
+
+    setNewTaskText("");
+  };
+
+  // Toggle task completion
+  const toggleTask = (id: string) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  // Remove a task
+  const removeTask = (id: string) => {
+    setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  return (
+    <div className="task-manager">
+      <h1>Task Manager</h1>
+
+      {/* Add new task */}
+      <div className="add-task">
+        <input
+          type="text"
+          value={newTaskText}
+          onChange={(e) => setNewTaskText(e.target.value)}
+          placeholder="Add a new task..."
+        />
+        <button onClick={addTask}>Add</button>
+      </div>
+
+      {/* Search and filter */}
+      <div className="task-filters">
+        <input
+          type="text"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          placeholder="Search tasks..."
+        />
+        <label>
+          <input
+            type="checkbox"
+            checked={showCompleted}
+            onChange={() => toggleShowCompleted()}
+          />
+          Show completed tasks
+        </label>
+      </div>
+
+      {/* Task list */}
+      <ul className="task-list">
+        {filteredTasks.length === 0 ? (
+          <li className="empty-state">No tasks found</li>
+        ) : (
+          filteredTasks.map((task) => (
+            <li key={task.id} className={task.completed ? "completed" : ""}>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleTask(task.id)}
+              />
+              <span>{task.text}</span>
+              <button onClick={() => removeTask(task.id)}>Delete</button>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
+  );
+}
+```
+
+This example demonstrates how multiple hooks can work together to create a feature-rich application with persistent storage, debounced search, and toggle functionality.
+
+## Troubleshooting Tips
+
+### Hook Not Found
+
+If you encounter a "Hook not found" error, try searching for similar hooks:
+
+```bash
+npx usehooks-cli@latest search "keyword"
+```
+
+### Dependency Conflicts
+
+If you experience dependency conflicts, you can manually resolve them by editing your package.json or use the `--clean-deps` flag when removing hooks.
+
+### TypeScript Errors
+
+Make sure your TypeScript configuration is compatible with the hooks. Most hooks require TypeScript 4.0 or higher and the appropriate DOM lib settings.
+
+## Conclusion
+
+In this tutorial, you've learned how to use usehooks-cli to streamline your React development workflow. By leveraging this powerful tool, you can:
+
+- Quickly discover and add well-tested hooks to your projects
+- Maintain consistency across your codebase
+- Keep your hooks up-to-date with minimal effort
+- Focus on building features rather than writing boilerplate code
+
+The next time you find yourself writing a custom hook from scratch, remember that usehooks-cli might already have a solution ready for you to use. Happy coding!

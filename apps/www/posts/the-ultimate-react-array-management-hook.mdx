@@ -38,7 +38,18 @@ Includes helpful properties like isEmpty and length for easy state checking.
 
 ## Basic Usage
 
-```typescript
+## Basic Usage
+
+Let's start with a simple example that demonstrates the core functionality of the useArray hook. In this example, we'll create a component that manages a numeric array with basic operations:
+
+- Displaying the current array state
+- Adding numbers using push()
+- Removing the last number using pop()
+- Clearing the entire array using clear()
+
+The hook provides these methods in a clean, intuitive interface:
+
+```tsx
 import { useArray } from "@usehooks-io/hooks";
 
 function BasicExample() {
@@ -100,6 +111,8 @@ function UserList() {
 ```
 
 ### Array Manipulation
+
+The hook provides powerful methods for manipulating arrays at specific positions. You can insert elements at any index, remove items by position, and replace existing values with new ones. Here's a simple example demonstrating these operations:
 
 ```tsx
 import { useArray } from "@usehooks-io/hooks";
@@ -206,6 +219,18 @@ Supports both index-based and ID-based operations, covering most real-world use 
 ## Real-World Examples
 
 ### Shopping Cart
+
+### Shopping Cart
+
+Let's look at a practical example of using useArray to build a shopping cart. This example demonstrates:
+
+- Managing a cart with products that have quantities
+- Adding products with quantity tracking
+- Removing items from the cart
+- Calculating total price
+- Clearing the entire cart
+
+Here's how we can implement a basic shopping cart:
 
 ```tsx
 import { useArray } from "@usehooks-io/hooks";
