@@ -1,0 +1,363 @@
+---
+title: "useProxy: A Comprehensive Guide"
+date: "2025-07-17"
+description: "Learn how to use the useProxy hook - a powerful React utility for creating Proxy objects that enable interception and customization of object operations, perfect for implementing reactive objects and data transformations."
+author: "Olivier Colonna"
+tags: ["react", "hooks", "state-management", "useProxy", "tutorial", "guide"]
+featured: true
+---
+
+## Introduction
+
+The useProxy hook is a powerful React utility that creates and manages JavaScript Proxy objects, allowing you to intercept and customize operations performed on objects. This hook provides a clean way to implement reactive objects, validation, logging, or data transformation in your React applications.
+
+## What is a JavaScript Proxy?
+
+Before diving into the hook, let's understand what a JavaScript Proxy is. The Proxy object enables you to create a wrapper for another object, which can intercept and redefine fundamental operations for that object (like property lookup, assignment, enumeration, function invocation, etc.).
+
+## Installation
+
+The useProxy hook is part of the usehooks.io collection. You can use it in your project by installing the package:
+
+```bash
+npx @usehooks/latest add use-proxy
+```
+
+## Basic usage
+
+Here's how to import and use the useProxy hook in your React components:
+
+```tsx
+import { useProxy } from "@usehooks/use-proxy";
+
+function MyComponent() {
+  const { proxy } = useProxy(
+    { name: "John", age: 30 }, // Initial target object
+    {
+      // Handler with traps
+      get(target, prop) {
+        console.log(`Accessing property: ${String(prop)}`);
+        return target[prop];
+      },
+    }
+  );
+
+  return (
+    <div>
+      <p>Name: {proxy.name}</p> {/* Will log "Accessing property: name" */}
+      <p>Age: {proxy.age}</p> {/* Will log "Accessing property: age" */}
+    </div>
+  );
+}
+```
+
+## API Reference
+
+Trae
+
+7 context(s) used
+
+Workspace
+
+meta.json 1-16
+
+index.ts 33-87
+
+index.ts 1-33
+
+doc.json 1-45
+
+doc.json 73-88
+
+... More ( 1 +)
+
+I need to examine the useProxy hook implementation to create a detailed post explaining how to use it.
+
+packages/hooks/src/use-proxy/index.ts :( 1 - 86 )
+
+Now I need to examine the documentation to understand the examples and use cases for the useProxy hook.
+
+packages/hooks/src/use-proxy/doc.json :( 1 - 87 )
+
+# useProxy: A Comprehensive Guide
+
+## Introduction
+
+The useProxy hook is a powerful React utility that creates and manages JavaScript Proxy objects, allowing you to intercept and customize operations performed on objects. This hook provides a clean way to implement reactive objects, validation, logging, or data transformation in your React applications.
+
+## What is a JavaScript Proxy?
+
+Before diving into the hook, let's understand what a JavaScript Proxy is. The Proxy object enables you to create a wrapper for another object, which can intercept and redefine fundamental operations for that object (like property lookup, assignment, enumeration, function invocation, etc.).
+
+## Installation
+
+The useProxy hook is part of the usehooks.io collection. You can use it in your project by installing the package:
+
+```
+npm install @usehooks/use-proxy
+```
+
+Or if you're using yarn:
+
+```
+yarn add @usehooks/use-proxy
+```
+
+## Basic Usage
+
+Here's how to import and use the useProxy hook in your React components:
+
+```
+import { useProxy } from '@usehooks/use-proxy';
+
+function MyComponent() {
+  const { proxy } = useProxy(
+    { name: 'John', age: 30 }, // Initial target object
+    { 
+      // Handler with traps
+      get(target, prop) {
+        console.log(`Accessing property: ${String(prop)}`);
+        return target[prop];
+      }
+    }
+  );
+  
+  return (
+    <div>
+      <p>Name: {proxy.name}</p> {/* Will log "Accessing property: 
+      name" */}
+      <p>Age: {proxy.age}</p> {/* Will log "Accessing property: 
+      age" */}
+    </div>
+  );
+}
+```
+
+## API Reference
+
+### Parameters
+
+The useProxy hook accepts two parameters:
+
+1. initialTarget (required): The initial object to be proxied. This must be an object.
+2. handler (required): An object that defines which operations will be intercepted and how to redefine those operations.
+
+### Return Value
+
+The hook returns an object with the following properties:
+
+1. proxy : The proxy object that intercepts operations on the target.
+2. target : The original target object (useful for direct access).
+3. updateTarget : A function to update the target object. Accepts either a new target object or a function that receives the previous target and returns a new one.
+4. revoke : A function to revoke the proxy, making it unusable.
+5. isRevoked : A boolean indicating whether the proxy has been revoked.
+
+## Handler Methods (Traps)
+
+The handler object can include any of these methods to intercept different operations:
+
+- get : Intercepts property access
+- set : Intercepts property assignment
+- has : Intercepts the in operator
+- deleteProperty : Intercepts the delete operator
+- ownKeys : Intercepts Object.keys , Object.getOwnPropertyNames , etc.
+- getOwnPropertyDescriptor : Intercepts Object.getOwnPropertyDescriptor
+- defineProperty : Intercepts Object.defineProperty
+- preventExtensions : Intercepts Object.preventExtensions
+- getPrototypeOf : Intercepts Object.getPrototypeOf
+- isExtensible : Intercepts Object.isExtensible
+- setPrototypeOf : Intercepts Object.setPrototypeOf
+- apply : Intercepts function calls
+- construct : Intercepts the new operator
+
+## Examples
+
+### 1. Property Access Logging
+
+Log all property access on an object:
+
+```tsx
+const { proxy } = useProxy(
+  { name: "John", age: 30 },
+  {
+    get(target, prop) {
+      console.log(`Accessing property: ${String(prop)}`);
+      return target[prop];
+    },
+  }
+);
+
+// Usage: proxy.name will log "Accessing property: name"
+```
+
+### 2. Property Validation
+
+Validate property assignments:
+
+```tsx
+const { proxy } = useProxy(
+  { age: 0 },
+  {
+    set(target, prop, value) {
+      if (prop === "age" && (typeof value !== "number" || value < 0)) {
+        throw new Error("Age must be a positive number");
+      }
+      target[prop] = value;
+      return true;
+    },
+  }
+);
+
+// proxy.age = -5; // Throws error
+```
+
+### 3. Default Values
+
+Provide default values for undefined properties:
+
+```tsx
+const { proxy } = useProxy(
+  {},
+  {
+    get(target, prop) {
+      return prop in target ? target[prop] : "default";
+    },
+  }
+);
+
+// proxy.anyProperty returns 'default' if not set
+```
+
+### 4. Revocable Proxy
+
+Create a proxy that can be revoked:
+
+```tsx
+const { proxy, revoke, isRevoked } = useProxy(
+  { data: "sensitive" },
+  {
+    get(target, prop) {
+      console.log("Access granted");
+      return target[prop];
+    },
+  }
+);
+
+// Later revoke access
+revoke();
+console.log(isRevoked); // true
+```
+
+5. Updating the Target Object
+
+```tsx
+function Counter() {
+  const { proxy, updateTarget } = useProxy(
+    { count: 0 },
+    {
+      get(target, prop) {
+        console.log(`Reading ${String(prop)}: ${target[prop]}`);
+        return target[prop];
+      },
+    }
+  );
+
+  const increment = () => {
+    updateTarget((prev) => ({ ...prev, count: prev.count + 1 }));
+  };
+
+  return (
+    <div>
+      <p>Count: {proxy.count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+6. Form Validation
+
+```tsx
+function UserForm() {
+  const { proxy, updateTarget } = useProxy(
+    { username: "", email: "", errors: {} },
+    {
+      set(target, prop, value) {
+        // Clear errors when a field is updated
+        if (prop === "username" || prop === "email") {
+          target.errors = { ...target.errors };
+          delete target.errors[prop];
+        }
+
+        target[prop] = value;
+        return true;
+      },
+    }
+  );
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateTarget((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validate = () => {
+    const errors = {};
+
+    if (!proxy.username) errors.username = "Username is required";
+    if (!proxy.email) errors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(proxy.email))
+      errors.email = "Email is invalid";
+
+    updateTarget((prev) => ({ ...prev, errors }));
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      console.log("Form submitted:", {
+        username: proxy.username,
+        email: proxy.email,
+      });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Username:</label>
+        <input name="username" value={proxy.username} onChange={handleChange} />
+        {proxy.errors.username && <p>{proxy.errors.username}</p>}
+      </div>
+
+      <div>
+        <label>Email:</label>
+        <input name="email" value={proxy.email} onChange={handleChange} />
+        {proxy.errors.email && <p>{proxy.errors.email}</p>}
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+## Important Notes
+
+1. The proxy is recreated when the target or handler changes.
+2. Once revoked, the proxy becomes unusable and operations will throw TypeError.
+3. The hook uses Proxy.revocable() to allow controlled revocation.
+4. All handler methods are optional - omitted traps forward to the target.
+5. This hook is perfect for implementing reactive objects, validation, or debugging.
+
+## Performance Considerations
+
+- Proxies add a small overhead to property access and other operations.
+- For performance-critical code, consider using direct access to the target object.
+- Avoid creating new handler objects on each render to prevent unnecessary proxy recreation.
+
+## Conclusion
+
+The useProxy hook provides a powerful way to intercept and customize object operations in React applications. It's particularly useful for implementing validation, logging, reactive data, and other advanced patterns. By leveraging JavaScript's Proxy API with React's state management, you can create more robust and maintainable applications.
+
+Happy coding!
