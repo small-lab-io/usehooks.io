@@ -20,7 +20,7 @@ Before diving into the hook, let's understand what a JavaScript Proxy is. The Pr
 The useProxy hook is part of the usehooks.io collection. You can use it in your project by installing the package:
 
 ```bash
-npx @usehooks/latest add use-proxy
+npx usehooks-cli/latest add use-proxy
 ```
 
 ## Basic usage
@@ -28,7 +28,7 @@ npx @usehooks/latest add use-proxy
 Here's how to import and use the useProxy hook in your React components:
 
 ```tsx
-import { useProxy } from "@usehooks/use-proxy";
+import { useProxy } from "@hooks/use-proxy";
 
 function MyComponent() {
   const { proxy } = useProxy(
@@ -48,88 +48,6 @@ function MyComponent() {
       <p>Age: {proxy.age}</p> {/* Will log "Accessing property: age" */}
     </div>
   );
-}
-```
-
-## API Reference
-
-Trae
-
-7 context(s) used
-
-Workspace
-
-meta.json 1-16
-
-index.ts 33-87
-
-index.ts 1-33
-
-doc.json 1-45
-
-doc.json 73-88
-
-... More ( 1 +)
-
-I need to examine the useProxy hook implementation to create a detailed post explaining how to use it.
-
-packages/hooks/src/use-proxy/index.ts :( 1 - 86 )
-
-Now I need to examine the documentation to understand the examples and use cases for the useProxy hook.
-
-packages/hooks/src/use-proxy/doc.json :( 1 - 87 )
-
-# useProxy: A Comprehensive Guide
-
-## Introduction
-
-The useProxy hook is a powerful React utility that creates and manages JavaScript Proxy objects, allowing you to intercept and customize operations performed on objects. This hook provides a clean way to implement reactive objects, validation, logging, or data transformation in your React applications.
-
-## What is a JavaScript Proxy?
-
-Before diving into the hook, let's understand what a JavaScript Proxy is. The Proxy object enables you to create a wrapper for another object, which can intercept and redefine fundamental operations for that object (like property lookup, assignment, enumeration, function invocation, etc.).
-
-## Installation
-
-The useProxy hook is part of the usehooks.io collection. You can use it in your project by installing the package:
-
-```
-npm install @usehooks/use-proxy
-```
-
-Or if you're using yarn:
-
-```
-yarn add @usehooks/use-proxy
-```
-
-## Basic Usage
-
-Here's how to import and use the useProxy hook in your React components:
-
-```
-import { useProxy } from '@usehooks/use-proxy';
-
-function MyComponent() {
-  const { proxy } = useProxy(
-    { name: 'John', age: 30 }, // Initial target object
-    { 
-      // Handler with traps
-      get(target, prop) {
-        console.log(`Accessing property: ${String(prop)}`);
-        return target[prop];
-      }
-    }
-  );
-  
-  return (
-    <div>
-      <p>Name: {proxy.name}</p> {/* Will log "Accessing property: 
-      name" */}
-      <p>Age: {proxy.age}</p> {/* Will log "Accessing property: 
-      age" */}
-    </div>
-  );
 }
 ```
 
