@@ -37,6 +37,23 @@ export function CodeBlock({
       style={oneDark}
       showLineNumbers={showLineNumbers}
       wrapLines={true}
+      customStyle={{
+        width: "100%",
+        maxWidth: "100%",
+        overflow: "auto",
+        display: "block",
+        margin: 0,
+        borderRadius: "0.375rem",
+        fontSize: "0.875rem",
+        lineHeight: "1.5",
+      }}
+      codeTagProps={{
+        style: {
+          fontSize: "inherit",
+          fontFamily: "inherit",
+        },
+      }}
+      PreTag="pre"
     >
       {codeString}
     </SyntaxHighlighter>

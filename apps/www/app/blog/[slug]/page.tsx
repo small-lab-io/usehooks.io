@@ -52,7 +52,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
   return (
     <>
       <StructuredData type="blog" slug={slug} />
-      <ScrollArea className="h-[calc(100vh-64px)]">
+      <div className="h-[calc(100vh-64px)] overflow-scroll">
         <div className="pb-20 space-y-10 px-4 sm:px-6 lg:px-8 md:max-w-4xl mx-auto">
           <Breadcrumbs
             items={[
@@ -62,7 +62,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
             ]}
           />
 
-          <article className="max-w-4xl mx-auto">
+          <article className="md:max-w-4xl mx-auto">
             <header className="mb-8">
               <time className="text-sm text-gray-500 dark:text-gray-400">
                 {post.formattedDate}
@@ -92,12 +92,12 @@ export default async function BlogPost({ params }: BlogPostProps) {
               )}
             </header>
 
-            <div className="dark:prose-invert w-full prose-pre:overflow-x-auto prose-pre:max-w-full">
+            <div className="dark:prose-invert w-full prose-pre:overflow-x-auto ">
               <MDXRenderer code={post.body.code} />
             </div>
           </article>
         </div>
-      </ScrollArea>
+      </div>
     </>
   );
 }

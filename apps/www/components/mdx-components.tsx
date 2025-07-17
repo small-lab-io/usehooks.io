@@ -79,6 +79,11 @@ export const MDXComponents = {
       const language = child.className.replace("language-", "");
       return <CodeBlock language={language}>{child.children}</CodeBlock>;
     }
-    return <pre {...props}>{children}</pre>;
+
+    return (
+      <pre {...props} className="bg-border/50 p-4 rounded-md">
+        {children}
+      </pre>
+    );
   },
 };
