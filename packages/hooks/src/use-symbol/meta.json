@@ -1,0 +1,14 @@
+{
+  "name": "use-symbol",
+  "title": "useSymbol",
+  "description": "A hook for creating and managing JavaScript Symbols with utilities for global registry and well-known symbols",
+  "category": "utility",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

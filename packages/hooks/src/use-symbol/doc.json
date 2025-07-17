@@ -1,0 +1,111 @@
+{
+  "name": "useSymbol",
+  "description": "A React hook that provides utilities for creating and managing JavaScript Symbols. Symbols are primitive values that are guaranteed to be unique and are often used as unique property keys that won't collide with other code. This hook offers symbol creation, global registry management, and access to well-known symbols.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": {
+    "type": "UseSymbolReturn",
+    "properties": [
+      {
+        "name": "createSymbol",
+        "type": "(description?: string) => symbol",
+        "description": "Creates a new unique symbol with optional description",
+        "category": "mutation"
+      },
+      {
+        "name": "getGlobalSymbol",
+        "type": "(key: string) => symbol",
+        "description": "Gets or creates a symbol from the global symbol registry",
+        "category": "utility"
+      },
+      {
+        "name": "getSymbolKey",
+        "type": "(symbol: symbol) => string | undefined",
+        "description": "Gets the key for a symbol in the global registry",
+        "category": "utility"
+      },
+      {
+        "name": "isSymbol",
+        "type": "(value: any) => value is symbol",
+        "description": "Type guard to check if a value is a symbol",
+        "category": "utility"
+      },
+      {
+        "name": "getDescription",
+        "type": "(symbol: symbol) => string | undefined",
+        "description": "Gets the description of a symbol",
+        "category": "utility"
+      },
+      {
+        "name": "wellKnownSymbols",
+        "type": "object",
+        "description": "Object containing all well-known symbols (iterator, hasInstance, etc.)",
+        "category": "state"
+      },
+      {
+        "name": "symbols",
+        "type": "symbol[]",
+        "description": "Array of symbols created or managed by this hook",
+        "category": "state"
+      },
+      {
+        "name": "addSymbol",
+        "type": "(symbol: symbol) => void",
+        "description": "Adds an existing symbol to the managed collection",
+        "category": "mutation"
+      },
+      {
+        "name": "removeSymbol",
+        "type": "(symbol: symbol) => void",
+        "description": "Removes a symbol from the managed collection",
+        "category": "mutation"
+      },
+      {
+        "name": "clearSymbols",
+        "type": "() => void",
+        "description": "Clears all symbols from the managed collection",
+        "category": "mutation"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Creating Unique Property Keys",
+      "description": "Use symbols as unique property keys that won't collide",
+      "code": "const { createSymbol } = useSymbol();\n\nconst privateKey = createSymbol('private');\nconst obj = {\n  publicProp: 'visible',\n  [privateKey]: 'hidden'\n};\n\n// privateKey is unique and won't conflict with other properties"
+    },
+    {
+      "title": "Global Symbol Registry",
+      "description": "Share symbols across different parts of your application",
+      "code": "const { getGlobalSymbol, getSymbolKey } = useSymbol();\n\nconst sharedSymbol = getGlobalSymbol('app.config');\nconst key = getSymbolKey(sharedSymbol); // 'app.config'\n\n// Same symbol can be retrieved elsewhere with getGlobalSymbol('app.config')"
+    },
+    {
+      "title": "Well-Known Symbols",
+      "description": "Access built-in JavaScript symbols for custom behavior",
+      "code": "const { wellKnownSymbols } = useSymbol();\n\nconst customIterable = {\n  [wellKnownSymbols.iterator]: function* () {\n    yield 1;\n    yield 2;\n    yield 3;\n  }\n};\n\n// Now customIterable can be used with for...of loops"
+    },
+    {
+      "title": "Symbol Management",
+      "description": "Track and manage symbols in your component",
+      "code": "const { symbols, createSymbol, removeSymbol, clearSymbols } = useSymbol();\n\nconst handleCreateKey = () => {\n  const newKey = createSymbol('dynamic-key');\n  console.log(`Created symbol, total: ${symbols.length}`);\n};\n\nconst handleClear = () => {\n  clearSymbols();\n  console.log('All symbols cleared');\n};"
+    },
+    {
+      "title": "Type Checking and Utilities",
+      "description": "Utility functions for working with symbols",
+      "code": "const { isSymbol, getDescription, createSymbol } = useSymbol();\n\nconst mySymbol = createSymbol('test symbol');\n\nif (isSymbol(mySymbol)) {\n  const desc = getDescription(mySymbol); // 'test symbol'\n  console.log(`Symbol description: ${desc}`);\n}"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback, useMemo, useRef } from 'react';"
+  ],
+  "notes": [
+    "Symbols created with createSymbol() are guaranteed to be unique",
+    "Global symbols created with getGlobalSymbol() can be shared across the application",
+    "Well-known symbols enable customization of built-in JavaScript operations",
+    "The hook maintains a collection of symbols for easy management and cleanup",
+    "Symbols are garbage collectable and can be used as WeakMap keys",
+    "Each Symbol() call creates a completely unique value, even with the same description"
+  ]
+}

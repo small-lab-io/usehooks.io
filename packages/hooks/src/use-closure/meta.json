@@ -1,0 +1,14 @@
+{
+  "name": "use-closure",
+  "title": "useClosure",
+  "description": "A hook for creating and working with JavaScript closures, demonstrating closure concepts and patterns",
+  "category": "utility",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

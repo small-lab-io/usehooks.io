@@ -1,0 +1,14 @@
+{
+  "name": "use-proxy",
+  "title": "useProxy",
+  "description": "A hook for creating and managing JavaScript Proxy objects with React state integration",
+  "category": "state",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ]
+}

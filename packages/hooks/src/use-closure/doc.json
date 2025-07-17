@@ -1,0 +1,104 @@
+{
+  "name": "useClosure",
+  "description": "A React hook that provides utilities for creating and working with JavaScript closures. Closures are functions that have access to variables from their outer (enclosing) scope even after the outer function has returned. This hook demonstrates various closure patterns and provides practical utilities for managing private state, memoization, and encapsulation.",
+  "category": "utility",
+  "version": "1.0.0",
+  "parameters": [],
+  "returnType": {
+    "type": "UseClosureReturn",
+    "properties": [
+      {
+        "name": "createPrivateState",
+        "type": "<T>(initialValue: T) => PrivateState<T>",
+        "description": "Creates a closure with private state that can only be accessed through provided methods",
+        "category": "utility"
+      },
+      {
+        "name": "createCounter",
+        "type": "(initialValue?: number) => CounterClosure",
+        "description": "Creates a classic counter closure with increment, decrement, and reset functionality",
+        "category": "utility"
+      },
+      {
+        "name": "createMemoizer",
+        "type": "<T, R>(fn: (...args: T) => R) => (...args: T) => R",
+        "description": "Creates a memoization closure that caches function results",
+        "category": "utility"
+      },
+      {
+        "name": "createModule",
+        "type": "<T>(initialState: T, methods: Record<string, Function>) => Record<string, Function>",
+        "description": "Creates a module pattern closure with private state and public methods",
+        "category": "utility"
+      },
+      {
+        "name": "createEventEmitter",
+        "type": "() => EventEmitterClosure",
+        "description": "Creates an event emitter using closures for private listener management",
+        "category": "utility"
+      },
+      {
+        "name": "createSecureState",
+        "type": "<T>(initialValue: T, validator?: (value: T) => boolean) => SecureStateClosure<T>",
+        "description": "Creates a secure state closure with validation and controlled access",
+        "category": "utility"
+      },
+      {
+        "name": "demonstrateScope",
+        "type": "() => ScopeDemo",
+        "description": "Demonstrates how closures capture and maintain access to outer scope variables",
+        "category": "utility"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Private State Management",
+      "description": "Create private state that can only be modified through controlled methods",
+      "code": "const { createPrivateState } = useClosure();\n\nconst privateCounter = createPrivateState(0);\n\n// Only way to access the value\nconsole.log(privateCounter.get()); // 0\n\n// Controlled modification\nprivateCounter.set(prev => prev + 1);\nconsole.log(privateCounter.get()); // 1\n\n// Reset to initial value\nprivateCounter.reset();"
+    },
+    {
+      "title": "Classic Counter Closure",
+      "description": "Demonstrate the classic counter closure pattern",
+      "code": "const { createCounter } = useClosure();\n\nconst counter = createCounter(10);\n\nconsole.log(counter.increment()); // 11\nconsole.log(counter.increment()); // 12\nconsole.log(counter.decrement()); // 11\nconsole.log(counter.getValue()); // 11\ncounter.reset(); // back to 10"
+    },
+    {
+      "title": "Memoization with Closures",
+      "description": "Create a memoized function using closures",
+      "code": "const { createMemoizer } = useClosure();\n\nconst expensiveFunction = (n: number) => {\n  console.log('Computing...');\n  return n * n;\n};\n\nconst memoized = createMemoizer(expensiveFunction);\n\nconsole.log(memoized(5)); // Computing... 25\nconsole.log(memoized(5)); // 25 (cached, no \"Computing...\")\nconsole.log(memoized(3)); // Computing... 9"
+    },
+    {
+      "title": "Module Pattern",
+      "description": "Create a module with private state and public methods",
+      "code": "const { createModule } = useClosure();\n\nconst userModule = createModule(\n  { name: '', age: 0 },\n  {\n    setName: (state, name: string) => {\n      state.name = name;\n      return `Name set to ${name}`;\n    },\n    setAge: (state, age: number) => {\n      if (age >= 0) {\n        state.age = age;\n        return `Age set to ${age}`;\n      }\n      return 'Invalid age';\n    },\n    getInfo: (state) => `${state.name}, ${state.age} years old`\n  }\n);\n\nuserModule.setName('John');\nuserModule.setAge(30);\nconsole.log(userModule.getInfo()); // \"John, 30 years old\""
+    },
+    {
+      "title": "Event Emitter with Closures",
+      "description": "Create an event emitter using closure-based private state",
+      "code": "const { createEventEmitter } = useClosure();\n\nconst emitter = createEventEmitter();\n\n// Subscribe to events\nconst unsubscribe = emitter.on('test', (data) => {\n  console.log('Received:', data);\n});\n\n// Emit events\nemitter.emit('test', 'Hello World!'); // Received: Hello World!\n\n// Unsubscribe\nunsubscribe();"
+    },
+    {
+      "title": "Secure State with Validation",
+      "description": "Create secure state with validation using closures",
+      "code": "const { createSecureState } = useClosure();\n\nconst secureAge = createSecureState(\n  25,\n  (age: number) => age >= 0 && age <= 150\n);\n\nconsole.log(secureAge.read()); // 25\nconsole.log(secureAge.write(30)); // true\nconsole.log(secureAge.write(-5)); // false (invalid)\nconsole.log(secureAge.read()); // 30 (unchanged from invalid write)"
+    },
+    {
+      "title": "Scope Demonstration",
+      "description": "Demonstrate how closures capture outer scope variables",
+      "code": "const { demonstrateScope } = useClosure();\n\nconst scope = demonstrateScope();\nconsole.log(scope.outerVar); // \"I'm in the outer scope\"\n\nconst innerFunction = scope.createInner('inner variable');\nconsole.log(innerFunction()); \n// \"I'm in the outer scope and inner variable (from inner scope)\""
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useCallback, useRef, useMemo } from 'react';"
+  ],
+  "notes": [
+    "Closures maintain access to outer scope variables even after the outer function returns",
+    "This hook demonstrates various closure patterns: private state, counters, memoization, modules",
+    "Closures are useful for data privacy, encapsulation, and creating specialized functions",
+    "The module pattern uses closures to create objects with private state and public methods",
+    "Memoization closures capture the cache in their scope for persistent storage",
+    "Event emitters use closures to maintain private listener collections",
+    "All created closures maintain their own independent scope and state"
+  ]
+}

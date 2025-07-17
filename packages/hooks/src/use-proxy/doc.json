@@ -1,0 +1,86 @@
+{
+  "name": "useProxy",
+  "description": "A React hook that creates and manages JavaScript Proxy objects, enabling you to intercept and customize operations performed on objects (such as property lookup, assignment, enumeration, function invocation, etc.). Perfect for creating reactive objects, validation, logging, or data transformation.",
+  "category": "state",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "initialTarget",
+      "type": "T extends object",
+      "optional": false,
+      "description": "The initial target object to be proxied"
+    },
+    {
+      "name": "handler",
+      "type": "ProxyHandler<T>",
+      "optional": false,
+      "description": "An object that defines which operations will be intercepted and how to redefine intercepted operations"
+    }
+  ],
+  "returnType": {
+    "type": "UseProxyReturn<T>",
+    "properties": [
+      {
+        "name": "proxy",
+        "type": "T",
+        "description": "The proxy object that intercepts operations on the target",
+        "category": "state"
+      },
+      {
+        "name": "target",
+        "type": "T",
+        "description": "The original target object",
+        "category": "state"
+      },
+      {
+        "name": "updateTarget",
+        "type": "(newTarget: T | ((prevTarget: T) => T)) => void",
+        "description": "Function to update the target object",
+        "category": "mutation"
+      },
+      {
+        "name": "revoke",
+        "type": "() => void",
+        "description": "Function to revoke the proxy, making it unusable",
+        "category": "mutation"
+      },
+      {
+        "name": "isRevoked",
+        "type": "boolean",
+        "description": "Whether the proxy has been revoked",
+        "category": "state"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "title": "Property Access Logging",
+      "description": "Log all property access on an object",
+      "code": "const { proxy } = useProxy(\n  { name: 'John', age: 30 },\n  {\n    get(target, prop) {\n      console.log(`Accessing property: ${String(prop)}`);\n      return target[prop];\n    }\n  }\n);\n\n// Usage: proxy.name will log \"Accessing property: name\""
+    },
+    {
+      "title": "Property Validation",
+      "description": "Validate property assignments",
+      "code": "const { proxy } = useProxy(\n  { age: 0 },\n  {\n    set(target, prop, value) {\n      if (prop === 'age' && (typeof value !== 'number' || value < 0)) {\n        throw new Error('Age must be a positive number');\n      }\n      target[prop] = value;\n      return true;\n    }\n  }\n);\n\n// proxy.age = -5; // Throws error"
+    },
+    {
+      "title": "Default Values",
+      "description": "Provide default values for undefined properties",
+      "code": "const { proxy } = useProxy(\n  {},\n  {\n    get(target, prop) {\n      return prop in target ? target[prop] : 'default';\n    }\n  }\n);\n\n// proxy.anyProperty returns 'default' if not set"
+    },
+    {
+      "title": "Revocable Proxy",
+      "description": "Create a proxy that can be revoked",
+      "code": "const { proxy, revoke, isRevoked } = useProxy(\n  { data: 'sensitive' },\n  {\n    get(target, prop) {\n      console.log('Access granted');\n      return target[prop];\n    }\n  }\n);\n\n// Later revoke access\nrevoke();\nconsole.log(isRevoked); // true"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": ["import { useState, useCallback, useMemo } from 'react';"],
+  "notes": [
+    "The proxy is recreated when the target or handler changes",
+    "Once revoked, the proxy becomes unusable and operations will throw TypeError",
+    "The hook uses Proxy.revocable() to allow controlled revocation",
+    "All handler methods are optional - omitted traps forward to the target",
+    "Perfect for implementing reactive objects, validation, or debugging"
+  ]
+}

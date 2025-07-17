@@ -88,6 +88,20 @@
     ]
   },
   {
+    "name": "use-closure",
+    "title": "useClosure",
+    "description": "A hook for creating and working with JavaScript closures, demonstrating closure concepts and patterns",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
     "name": "use-contact-picker",
     "title": "useContactPicker",
     "description": "A hook for accessing the Contact Picker API to select contacts with user permission",
@@ -386,6 +400,20 @@
     ]
   },
   {
+    "name": "use-proxy",
+    "title": "useProxy",
+    "description": "A hook for creating and managing JavaScript Proxy objects with React state integration",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ]
+  },
+  {
     "name": "use-role-guard",
     "title": "useRoleGuard",
     "description": "A hook for role-based access control that redirects or hides content based on user roles",
@@ -440,6 +468,20 @@
       {
         "name": "basic-usage.tsx",
         "description": "Basic storage estimation and persistence management"
+      }
+    ]
+  },
+  {
+    "name": "use-symbol",
+    "title": "useSymbol",
+    "description": "A hook for creating and managing JavaScript Symbols with utilities for global registry and well-known symbols",
+    "category": "utility",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
       }
     ]
   },
