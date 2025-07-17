@@ -32,15 +32,13 @@ export function CodeBlock({
   const codeString = getTextContent(children);
 
   return (
-    <div className="relative my-6">
-      <SyntaxHighlighter
-        language={language}
-        style={oneDark}
-        showLineNumbers={showLineNumbers}
-        wrapLines={true}
-      >
-        {codeString}
-      </SyntaxHighlighter>
-    </div>
+    <SyntaxHighlighter
+      language={language}
+      style={oneDark}
+      showLineNumbers={showLineNumbers}
+      wrapLines={true}
+    >
+      {codeString}
+    </SyntaxHighlighter>
   );
 }

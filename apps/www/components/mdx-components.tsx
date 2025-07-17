@@ -64,9 +64,7 @@ export const MDXComponents = {
     <strong className="text-foreground font-semibold">{children}</strong>
   ),
   code: ({ children }: { children: React.ReactNode }) => (
-    <code className="bg-muted text-foreground relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
-      {children}
-    </code>
+    <code>{children}</code>
   ),
   img: ({ src, alt }: { src?: string; alt?: string }) => (
     <img
