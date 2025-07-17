@@ -92,7 +92,7 @@ The handler object can include any of these methods to intercept different opera
 
 ### 1. Property Access Logging
 
-Log all property access on an object:
+This example demonstrates how to create a proxy that logs every time a property is accessed on an object. This is useful for debugging and understanding how your application interacts with objects:
 
 ```tsx
 const { proxy } = useProxy(
@@ -110,7 +110,7 @@ const { proxy } = useProxy(
 
 ### 2. Property Validation
 
-Validate property assignments:
+Validate property assignments by intercepting the set trap. This example ensures that the 'age' property can only be set to positive numbers:
 
 ```tsx
 const { proxy } = useProxy(
@@ -131,7 +131,7 @@ const { proxy } = useProxy(
 
 ### 3. Default Values
 
-Provide default values for undefined properties:
+Provide default values for undefined properties. This is useful when you want to ensure that accessing any non-existent property returns a fallback value instead of undefined:
 
 ```tsx
 const { proxy } = useProxy(
@@ -148,7 +148,7 @@ const { proxy } = useProxy(
 
 ### 4. Revocable Proxy
 
-Create a proxy that can be revoked:
+Create a proxy that can be revoked (useful for temporarily granting and then revoking access to sensitive data or functionality):
 
 ```tsx
 const { proxy, revoke, isRevoked } = useProxy(
@@ -167,6 +167,8 @@ console.log(isRevoked); // true
 ```
 
 5. Updating the Target Object
+
+The `updateTarget` function allows you to modify the target object while maintaining proxy functionality. This example demonstrates a simple counter implementation that logs each time the count is accessed.
 
 ```tsx
 function Counter() {
@@ -194,6 +196,8 @@ function Counter() {
 ```
 
 6. Form Validation
+
+This example demonstrates a comprehensive form validation implementation using the useProxy hook. The form includes username and email fields with real-time validation. The proxy intercepts field updates to clear related errors, while the validation logic checks for required fields and proper email format. The form state is managed through the proxy, with errors stored in a dedicated errors object. Let's break down each part in detail:
 
 ```tsx
 function UserForm() {
