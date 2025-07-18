@@ -1,0 +1,307 @@
+---
+title: "useSymbol: A Comprehensive Guide"
+date: "2025-07-18"
+description: "Learn how to use the useSymbol hook - a powerful React utility for creating and managing JavaScript Symbol primitives, perfect for implementing unique property keys, hidden properties, and well-known symbols in your applications."
+author: "Olivier Colonna"
+tags: ["react", "hooks", "symbols", "useSymbol", "tutorial", "guide"]
+featured: true
+---
+
+## Introduction
+
+The [useSymbol](/docs/use-symbol) hook is a powerful React utility that creates and manages JavaScript Symbol primitives, allowing you to work with unique identifiers in your applications. This hook provides a clean way to implement unique property keys, hidden properties, and access well-known symbols in your React applications.
+
+## What is a JavaScript Symbol?
+
+Before diving into the hook, let's understand what a JavaScript Symbol is. Symbols are a primitive data type introduced in ES6 that represent unique identifiers. Unlike strings or numbers, every Symbol value is guaranteed to be unique, making them perfect for creating non-colliding object properties or unique identifiers.
+
+## Installation
+
+The [useSymbol](/docs/use-symbol) hook is part of the usehooks.io collection. You can use it in your project by installing the package:
+
+```bash
+npx usehooks-cli/latest add use-symbol
+```
+
+## Basic usage
+
+Here's how to import and use the [useSymbol](/docs/use-symbol) hook in your React components:
+
+```tsx
+import { useSymbol } from "@hooks/use-symbol";
+
+function MyComponent() {
+  const { createSymbol, isSymbol, getDescription } = useSymbol();
+
+  // Create a new symbol with a description
+  const mySymbol = createSymbol("myUniqueKey");
+
+  // Check if a value is a symbol
+  console.log(isSymbol(mySymbol)); // true
+
+  // Get the description of a symbol
+  console.log(getDescription(mySymbol)); // "myUniqueKey"
+
+  return (
+    <div>
+      <p>Symbol description: {getDescription(mySymbol)}</p>
+    </div>
+  );
+}
+```
+
+## API Reference
+
+### Return Value
+
+The hook returns an object with the following properties and methods:
+
+#### Symbol Creation
+
+- `createSymbol(description?: string)`: Creates a new unique symbol with an optional description.
+
+#### Global Symbol Registry Operations
+
+- `getGlobalSymbol(key: string)`: Retrieves a symbol from the global symbol registry with the given key.
+- `getSymbolKey(symbol: symbol)`: Returns the key for a symbol in the global registry, or undefined if the symbol is not in the registry.
+
+#### Symbol Utilities
+
+- `isSymbol(value: any)`: Type guard that checks if a value is a symbol.
+- `getDescription(symbol: symbol)`: Returns the description of a symbol.
+
+#### Well-Known Symbols
+
+- `wellKnownSymbols`: An object containing all the well-known symbols in JavaScript:
+  - `iterator`: Symbol.iterator
+  - `asyncIterator`: Symbol.asyncIterator
+  - `hasInstance`: Symbol.hasInstance
+  - `isConcatSpreadable`: Symbol.isConcatSpreadable
+  - `species`: Symbol.species
+  - `toPrimitive`: Symbol.toPrimitive
+  - `toStringTag`: Symbol.toStringTag
+  - `unscopables`: Symbol.unscopables
+  - `match`: Symbol.match
+  - `matchAll`: Symbol.matchAll
+  - `replace`: Symbol.replace
+  - `search`: Symbol.search
+  - `split`: Symbol.split
+
+#### Symbol Collection Management
+
+- `symbols`: An array containing all symbols created or added through the hook.
+- `addSymbol(symbol: symbol)`: Adds an existing symbol to the collection.
+- `removeSymbol(symbol: symbol)`: Removes a symbol from the collection.
+- `clearSymbols()`: Clears all symbols from the collection.
+
+## Examples
+
+### 1. Creating Unique Object Keys
+
+In this example, we'll explore how to use Symbols as unique object property keys. When working with objects in JavaScript, there's always a risk of property name conflicts, especially when integrating with third-party code. Symbols provide a guaranteed way to create truly unique keys that won't collide with regular string property names. The example below shows how to create two Symbol-based keys for 'name' and 'age', allowing us to store values that remain separate from any string-based properties with the same names:
+
+```tsx
+function UniqueKeysExample() {
+  const { createSymbol } = useSymbol();
+
+  // Create unique property keys
+  const nameKey = createSymbol("name");
+  const ageKey = createSymbol("age");
+
+  // Use symbols as object keys
+  const person = {};
+  person[nameKey] = "John";
+  person[ageKey] = 30;
+
+  // Even if another library uses a "name" property, there won't be a collision
+  person.name = "Different Name";
+
+  return (
+    <div>
+      <p>Regular name property: {person.name}</p>
+      <p>Symbol name property: {person[nameKey]}</p>
+    </div>
+  );
+}
+```
+
+### 2. Using Global Symbol Registry
+
+The global symbol registry provides a way to create and access shared symbols that are available across your entire application, including different modules and components. This example demonstrates how to use `getGlobalSymbol` to retrieve or create a symbol in the global registry, and `getSymbolKey` to look up the key associated with a global symbol. This is particularly useful when you need to coordinate symbol usage between different parts of your codebase or when working with third-party libraries that use global symbols:
+
+```tsx
+function GlobalSymbolExample() {
+  const { getGlobalSymbol, getSymbolKey } = useSymbol();
+
+  // Get or create a symbol in the global registry
+  const userIdSymbol = getGlobalSymbol("userId");
+
+  // Use the symbol
+  const user = {};
+  user[userIdSymbol] = "user123";
+
+  // Get the key for a global symbol
+  const symbolKey = getSymbolKey(userIdSymbol);
+
+  return (
+    <div>
+      <p>Symbol key in registry: {symbolKey}</p>
+      <p>User ID: {user[userIdSymbol]}</p>
+    </div>
+  );
+}
+```
+
+### 3. Working with Well-Known Symbols
+
+This example demonstrates how to use well-known symbols to customize object behavior. We create a custom iterable object that uses Symbol.iterator to define its iteration behavior. The object contains an array of numbers, and when iterated (using the spread operator or for...of loop), it yields each number multiplied by 2. This showcases how well-known symbols like Symbol.iterator can be used to implement custom protocols and behaviors for objects:
+
+```tsx
+function WellKnownSymbolsExample() {
+  const { wellKnownSymbols } = useSymbol();
+
+  // Create a custom iterable object using Symbol.iterator
+  const customIterable = {
+    data: [1, 2, 3, 4, 5],
+    [wellKnownSymbols.iterator]: function* () {
+      for (let i = 0; i < this.data.length; i++) {
+        yield this.data[i] * 2;
+      }
+    },
+  };
+
+  // Use the custom iterator
+  const doubledValues = [...customIterable];
+
+  return (
+    <div>
+      <p>Original data: {customIterable.data.join(", ")}</p>
+      <p>Doubled values: {doubledValues.join(", ")}</p>
+    </div>
+  );
+}
+```
+
+### 4. Managing Symbol Collections
+
+This example demonstrates how to manage a collection of symbols using the hook's built-in tracking capabilities. It showcases:
+
+1. Creating new symbols that are automatically added to the collection
+2. Adding external symbols (created outside the hook) to the collection
+3. Removing specific symbols from the collection
+4. Clearing all symbols at once
+
+The example includes a simple UI with buttons to perform these operations and displays the current count and details of tracked symbols:
+
+```tsx
+function SymbolCollectionExample() {
+  const { createSymbol, symbols, addSymbol, removeSymbol, clearSymbols } =
+    useSymbol();
+
+  // Create and track multiple symbols
+  const handleCreateSymbol = () => {
+    createSymbol(`symbol-${symbols.length + 1}`);
+  };
+
+  // Add an existing symbol to the collection
+  const handleAddExternalSymbol = () => {
+    const externalSymbol = Symbol("external");
+    addSymbol(externalSymbol);
+  };
+
+  // Remove the last symbol
+  const handleRemoveSymbol = () => {
+    if (symbols.length > 0) {
+      removeSymbol(symbols[symbols.length - 1]);
+    }
+  };
+
+  return (
+    <div>
+      <p>Symbol count: {symbols.length}</p>
+      <button onClick={handleCreateSymbol}>Create Symbol</button>
+      <button onClick={handleAddExternalSymbol}>Add External Symbol</button>
+      <button onClick={handleRemoveSymbol}>Remove Last Symbol</button>
+      <button onClick={clearSymbols}>Clear All Symbols</button>
+
+      <ul>
+        {symbols.map((symbol, index) => (
+          <li key={index}>
+            Symbol {index + 1}: {String(symbol)}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+### 5. Private Object Properties
+
+In this example, we'll explore how to use Symbols to create private properties in objects - a powerful feature that provides a form of encapsulation in JavaScript. When you use Symbols as property keys, these properties become effectively private because:
+
+1. They won't show up in `for...in` loops
+2. They're excluded from `Object.keys()` results
+3. They don't appear in JSON serialization
+4. They can't be accessed without having the original Symbol
+
+This makes Symbols perfect for storing sensitive data or internal implementation details that shouldn't be easily accessible or enumerable. The example below demonstrates creating a user object with both public properties (name, email) and private data (password, access token) stored using a Symbol key:
+
+```tsx
+function PrivatePropertiesExample() {
+  const { createSymbol } = useSymbol();
+
+  // Create a symbol for a private property
+  const privateDataSymbol = createSymbol("privateData");
+
+  // Create an object with both public and private data
+  const user = {
+    name: "John",
+    email: "john@example.com",
+    [privateDataSymbol]: {
+      password: "secret123",
+      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    },
+  };
+
+  // Regular for...in loop won't show the symbol property
+  const publicKeys = [];
+  for (const key in user) {
+    publicKeys.push(key);
+  }
+
+  // Object.keys also won't include the symbol
+  const objectKeys = Object.keys(user);
+
+  // But we can still access it directly
+  const privateData = user[privateDataSymbol];
+
+  return (
+    <div>
+      <p>Public keys (for...in): {publicKeys.join(", ")}</p>
+      <p>Object.keys result: {objectKeys.join(", ")}</p>
+      <p>Private password: {privateData.password}</p>
+    </div>
+  );
+}
+```
+
+## Important Notes
+
+1. Symbols are always unique, even if they have the same description.
+2. Symbols created with `Symbol()` are not added to the global registry.
+3. Use `Symbol.for(key)` (via `getGlobalSymbol`) to create or retrieve symbols from the global registry.
+4. Symbols are not automatically serialized to JSON - they will be omitted when using `JSON.stringify()`.
+5. The `symbols` array in the hook's return value only tracks symbols created or added through the hook.
+
+## Performance Considerations
+
+- Creating symbols has minimal performance impact, but they should be created once and reused.
+- For component-specific symbols, consider creating them outside the component to prevent recreation on each render.
+- The hook maintains an internal collection of symbols, which could grow large if many symbols are created and not cleaned up.
+
+## Conclusion
+
+The [useSymbol](/docs/use-symbol) hook provides a convenient way to work with JavaScript Symbols in React applications. It's particularly useful for creating unique identifiers, implementing private properties, and working with well-known symbols. By leveraging JavaScript's Symbol primitive with React's state management, you can create more robust and maintainable applications.
+
+Happy coding!
