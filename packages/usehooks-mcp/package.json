@@ -1,0 +1,31 @@
+{
+  "name": "usehooks-mcp",
+  "version": "1.0.0",
+  "description": "MCP Server for accessing usehooks.io hooks",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "usehooks-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && chmod 755 build/index.js",
+    "start": "node build/index.js"
+  },
+  "keywords": ["hooks", "react", "mcp", "model-context-protocol"],
+  "files": [
+    "build"
+  ],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.4.1",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.16.0",
+    "node-fetch": "^3.3.2",
+    "zod": "^4.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.15",
+    "typescript": "^5.8.3"
+  }
+}
