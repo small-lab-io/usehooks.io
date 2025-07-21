@@ -1,31 +1,40 @@
 {
-  "name": "usehooks-mcp",
-  "version": "1.0.0",
-  "description": "MCP Server for accessing usehooks.io hooks",
-  "main": "build/index.js",
+  "name": "mcp-usehooks",
+  "version": "1.1.0",
+  "description": "MCP server to explore React hooks from usehooks.io with enhanced formatting and caching",
   "type": "module",
   "bin": {
-    "usehooks-mcp": "./build/index.js"
+    "mcp-usehooks": "mcp_usehooks_server.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && chmod 755 build/index.js",
-    "start": "node build/index.js"
+    "start": "node mcp_usehooks_server.js",
+    "dev": "nodemon mcp_usehooks_server.js"
   },
-  "keywords": ["hooks", "react", "mcp", "model-context-protocol"],
-  "files": [
-    "build"
+  "author": "Olivier Colonna",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/small-lab-io/usehooks.io"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "usehooks.io",
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "claude",
+    "developer-tools"
   ],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.4.1",
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.16.0",
     "node-fetch": "^3.3.2",
-    "zod": "^4.0.5"
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/node": "^24.0.15",
-    "typescript": "^5.8.3"
+    "nodemon": "^3.0.1"
   }
 }

@@ -1,0 +1,24 @@
+{
+  "name": "usehooks",
+  "version": "1.1.0",
+  "title": "React Hook Explorer",
+  "description": "Browse, search and fetch useful React hooks from usehooks.io with enhanced formatting options and caching",
+  "entry": "mcp_usehooks_server.js",
+  "keywords": [
+    "react",
+    "hooks",
+    "usehooks.io",
+    "developer tools",
+    "react hooks",
+    "custom hooks"
+  ],
+  "author": {
+    "name": "Olivier Colonna",
+    "url": "https://github.com/olivierco"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/small-lab-io/usehooks.io"
+  },
+  "tools": ["list_hooks", "search_hooks", "get_hook", "get_categories"]
+}
