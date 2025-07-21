@@ -27,16 +27,20 @@ export default function BlogPage() {
 
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-6">Blog</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-12">
+          <p
+            className="text-lg text-gray-600 dark:text-gray-300 mb-12"
+            style={{ animationDelay: "100ms" }}
+          >
             Latest updates, tutorials, and insights about React hooks and web
             development.
           </p>
 
           <div className="space-y-8">
-            {posts.map((post) => (
+            {posts.map((post, index) => (
               <article
                 key={post._id}
-                className="border-b border-gray-200 dark:border-gray-700 pb-8"
+                className="border-b border-gray-200 dark:border-gray-700 pb-8 animate-in fade-in-0 slide-in-from-bottom-4 duration-700 hover:scale-[1.01] transition-transform"
+                style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="flex flex-col space-y-2">
                   <time className="text-sm text-gray-500 dark:text-gray-400">

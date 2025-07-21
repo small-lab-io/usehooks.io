@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { cn } from "@workspace/ui/lib/utils";
 
 interface BreadcrumbItem {
   label: string;
@@ -8,9 +9,13 @@ interface BreadcrumbItem {
 
 interface BreadcrumbsProps {
   items: BreadcrumbItem[];
+  className?: string;
 }
 
-export function Breadcrumbs({ items }: BreadcrumbsProps) {
+export function Breadcrumbs({
+  items,
+  className,
+}: BreadcrumbsProps & { className?: string }) {
   // Generate structured data for breadcrumbs
   const structuredData = {
     "@context": "https://schema.org",
@@ -31,7 +36,8 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
           __html: JSON.stringify(structuredData),
         }}
       />
-      <nav aria-label="Breadcrumb" className="mb-4">
+      <nav aria-label="Breadcrumb" className={cn("mb-4", className)}>
+        {}{" "}
         <ol className="flex items-center space-x-2 text-sm text-muted-foreground">
           {items.map((item, index) => (
             <li key={index} className="flex items-center">

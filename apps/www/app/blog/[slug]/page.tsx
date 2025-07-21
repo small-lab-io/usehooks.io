@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { StructuredData } from "@/components/structured-data";
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { MDXRenderer } from "@/components/mdx-renderer";
+import { NextBlogPostSuggestion } from "./_components/next-blog-post-suggestion";
 
 interface BlogPostProps {
   params: Promise<{ slug: string }>;
@@ -101,6 +102,15 @@ export default async function BlogPost({ params }: BlogPostProps) {
 
             <div className="dark:prose-invert w-full prose-pre:overflow-x-auto ">
               <MDXRenderer code={post.body.code} />
+            </div>
+
+            {/* Next Blog Post Suggestion */}
+            <div
+              className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700 animate-in fade-in-0 duration-700"
+              style={{ animationDelay: "300ms" }}
+            >
+              <h2 className="text-2xl font-bold mb-4">Continue Reading</h2>
+              <NextBlogPostSuggestion currentPostSlug={post.slug} />
             </div>
           </article>
         </div>
