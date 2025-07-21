@@ -1,6 +1,9 @@
 {
   "name": "mcp-usehooks",
-  "access": "public",
+  "publishConfig": {
+    "access": "public"
+  },
+  "private": false,
   "version": "1.2.0",
   "description": "MCP server to explore React hooks from usehooks.io with enhanced formatting and caching",
   "type": "module",
