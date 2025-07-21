@@ -1,0 +1,428 @@
+---
+title: "useClosure: A Comprehensive Guide"
+date: "2025-07-20"
+description: "Learn how to use the useClosure hook - a powerful React utility for creating and working with JavaScript closures, providing utilities for private state management, memoization, and encapsulation patterns."
+author: "Olivier Colonna"
+tags:
+  ["react", "hooks", "utility", "useClosure", "tutorial", "guide", "closures"]
+featured: true
+---
+
+## Introduction
+
+The [useClosure](/docs/use-closure) hook is a versatile React utility that provides a collection of tools for creating and working with JavaScript closures. This hook demonstrates various closure patterns and offers practical utilities for managing private state, implementing memoization, and achieving encapsulation in your React applications.
+
+## What is a JavaScript Closure?
+
+Before diving into the hook, let's understand what a JavaScript closure is. A closure is a function that has access to variables from its outer (enclosing) scope, even after the outer function has returned. This powerful concept enables data privacy, state persistence, and the creation of specialized functions with their own isolated environments.
+
+## Installation
+
+The [useClosure](/docs/use-closure) hook is part of the usehooks.io collection. You can use it in your project by installing the package:
+
+```bash
+npx usehooks-cli/latest add use-closure
+```
+
+## Basic Usage
+
+Here's how to import and use the [useClosure](/docs/use-closure) hook in your React components:
+Let's look at a basic example of using the useClosure hook:
+
+```tsx
+import { useClosure } from "@hooks/use-closure";
+
+function MyComponent() {
+  const { createPrivateState } = useClosure();
+
+  // Create a private counter
+  const privateCounter = createPrivateState(0);
+
+  const increment = () => {
+    privateCounter.set((prev) => prev + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {privateCounter.get()}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+## API Reference
+
+The [useClosure](/docs/use-closure) hook doesn't accept any parameters but returns an object with several utility functions:
+
+### Return Value
+
+The hook returns an object with the following utility functions:
+
+1. **createPrivateState**: Creates a closure with private state that can only be accessed through provided methods.
+2. **createCounter**: Creates a classic counter closure with increment, decrement, and reset functionality.
+3. **createMemoizer**: Creates a memoization closure that caches function results.
+4. **createModule**: Creates a module pattern closure with private state and public methods.
+5. **createEventEmitter**: Creates an event emitter using closures for private listener management.
+6. **createSecureState**: Creates a secure state closure with validation and controlled access.
+7. **demonstrateScope**: Demonstrates how closures capture and maintain access to outer scope variables.
+
+## Utility Functions
+
+### 1. createPrivateState
+
+Creates a closure with private state that can only be accessed through the provided methods:
+
+```tsx
+const { createPrivateState } = useClosure();
+
+const privateCounter = createPrivateState(0);
+
+// Only way to access the value
+console.log(privateCounter.get()); // 0
+
+// Controlled modification
+privateCounter.set((prev) => prev + 1);
+console.log(privateCounter.get()); // 1
+
+// Reset to initial value
+privateCounter.reset();
+console.log(privateCounter.get()); // 0
+```
+
+### 2. createCounter
+
+Implements the classic counter closure pattern with increment, decrement, and reset functionality:
+
+```tsx
+const { createCounter } = useClosure();
+
+const counter = createCounter(10);
+
+console.log(counter.increment()); // 11
+console.log(counter.increment()); // 12
+console.log(counter.decrement()); // 11
+console.log(counter.getValue()); // 11
+counter.reset(); // back to 10
+console.log(counter.getValue()); // 10
+```
+
+### 3. createMemoizer
+
+Creates a memoization closure that caches function results for improved performance:
+
+```tsx
+const { createMemoizer } = useClosure();
+
+const expensiveFunction = (n: number) => {
+  console.log("Computing...");
+  return n * n;
+};
+
+const memoized = createMemoizer(expensiveFunction);
+
+console.log(memoized(5)); // Computing... 25
+console.log(memoized(5)); // 25 (cached, no "Computing...")
+console.log(memoized(3)); // Computing... 9
+```
+
+### 4. createModule
+
+Implements the module pattern with private state and public methods:
+
+```tsx
+const { createModule } = useClosure();
+
+const userModule = createModule(
+  { name: "", age: 0 },
+  {
+    setName: (state, name: string) => {
+      state.name = name;
+      return `Name set to ${name}`;
+    },
+    setAge: (state, age: number) => {
+      if (age >= 0) {
+        state.age = age;
+        return `Age set to ${age}`;
+      }
+      return "Invalid age";
+    },
+    getInfo: (state) => `${state.name}, ${state.age} years old`,
+  }
+);
+
+userModule.setName("John");
+userModule.setAge(30);
+console.log(userModule.getInfo()); // "John, 30 years old"
+```
+
+### 5. createEventEmitter
+
+Creates an event emitter using closure-based private state for event handling:
+
+```tsx
+const { createEventEmitter } = useClosure();
+
+const emitter = createEventEmitter();
+
+// Subscribe to events
+const unsubscribe = emitter.on("test", (data) => {
+  console.log("Received:", data);
+});
+
+// Emit events
+emitter.emit("test", "Hello World!"); // Received: Hello World!
+
+// Unsubscribe
+unsubscribe();
+
+// No longer receives events
+emitter.emit("test", "Hello again!"); // Nothing happens
+```
+
+### 6. createSecureState
+
+Creates secure state with validation using closures:
+
+```tsx
+const { createSecureState } = useClosure();
+
+const secureAge = createSecureState(
+  25,
+  (age: number) => age >= 0 && age <= 150
+);
+
+console.log(secureAge.read()); // 25
+console.log(secureAge.write(30)); // true
+console.log(secureAge.read()); // 30
+console.log(secureAge.write(-5)); // false (invalid)
+console.log(secureAge.read()); // 30 (unchanged from invalid write)
+```
+
+### 7. demonstrateScope
+
+Demonstrates how closures capture and maintain access to outer scope variables:
+
+```tsx
+const { demonstrateScope } = useClosure();
+
+const scope = demonstrateScope();
+console.log(scope.outerVar); // "I'm in the outer scope"
+
+const innerFunction = scope.createInner("inner variable");
+console.log(innerFunction());
+// "I'm in the outer scope and inner variable (from inner scope)"
+```
+
+## Practical Examples
+
+### 1. Private State in a React Component
+
+This example demonstrates how to use `createPrivateState` to manage component state with controlled access:
+
+```tsx
+function PrivateStateComponent() {
+  const { createPrivateState } = useClosure();
+
+  // Create private state that can only be accessed through methods
+  const privateUser = createPrivateState({ name: "", email: "" });
+
+  const handleNameChange = (e) => {
+    privateUser.set((prev) => ({
+      ...prev,
+      name: e.target.value,
+    }));
+  };
+
+  const handleEmailChange = (e) => {
+    privateUser.set((prev) => ({
+      ...prev,
+      email: e.target.value,
+    }));
+  };
+
+  const handleReset = () => {
+    privateUser.reset(); // Reset to initial empty values
+  };
+
+  return (
+    <div>
+      <div>
+        <label>Name:</label>
+        <input value={privateUser.get().name} onChange={handleNameChange} />
+      </div>
+
+      <div>
+        <label>Email:</label>
+        <input value={privateUser.get().email} onChange={handleEmailChange} />
+      </div>
+
+      <div>
+        <button onClick={handleReset}>Reset</button>
+      </div>
+
+      <div>
+        <h3>Current Values:</h3>
+        <p>Name: {privateUser.get().name}</p>
+        <p>Email: {privateUser.get().email}</p>
+      </div>
+    </div>
+  );
+}
+```
+
+### 2. Memoized API Data Fetching
+
+This example uses `createMemoizer` to cache API responses and avoid redundant network requests:
+
+```tsx
+function MemoizedApiComponent() {
+  const { createMemoizer } = useClosure();
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [userId, setUserId] = useState("");
+
+  // Create a memoized fetch function
+  const memoizedFetch = useMemo(() => {
+    return createMemoizer(async (id) => {
+      console.log(`Fetching data for user ${id}...`);
+      const response = await fetch(
+        `https://jsonplaceholder.typicode.com/users/${id}`
+      );
+      return await response.json();
+    });
+  }, []);
+
+  const handleFetch = async () => {
+    if (!userId) return;
+
+    setLoading(true);
+    try {
+      const data = await memoizedFetch(userId);
+      setResult(data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <label>User ID:</label>
+        <input value={userId} onChange={(e) => setUserId(e.target.value)} />
+        <button onClick={handleFetch} disabled={loading}>
+          {loading ? "Loading..." : "Fetch"}
+        </button>
+      </div>
+
+      {result && (
+        <div>
+          <h3>User Data:</h3>
+          <pre>{JSON.stringify(result, null, 2)}</pre>
+        </div>
+      )}
+
+      <p>
+        <small>
+          Try fetching the same ID multiple times - you'll see the fetch message
+          only appears once for each unique ID.
+        </small>
+      </p>
+    </div>
+  );
+}
+```
+
+### 3. Event System with Closures
+
+This example demonstrates how to use `createEventEmitter` to implement a simple pub/sub system:
+
+```tsx
+function EventSystemComponent() {
+  const { createEventEmitter } = useClosure();
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const [channel, setChannel] = useState("general");
+
+  // Create an event emitter (only once with useRef)
+  const emitterRef = useRef(null);
+  if (emitterRef.current === null) {
+    emitterRef.current = createEventEmitter();
+
+    // Set up listeners for different channels
+    emitterRef.current.on("general", (msg) => {
+      setMessages((prev) => [...prev, `[General] ${msg}`]);
+    });
+
+    emitterRef.current.on("announcements", (msg) => {
+      setMessages((prev) => [...prev, `[Announcement] ${msg}`]);
+    });
+
+    emitterRef.current.on("support", (msg) => {
+      setMessages((prev) => [...prev, `[Support] ${msg}`]);
+    });
+  }
+
+  const handleSend = () => {
+    if (!message) return;
+
+    // Emit the message to the selected channel
+    emitterRef.current.emit(channel, message);
+    setMessage("");
+  };
+
+  return (
+    <div>
+      <div>
+        <select value={channel} onChange={(e) => setChannel(e.target.value)}>
+          <option value="general">General</option>
+          <option value="announcements">Announcements</option>
+          <option value="support">Support</option>
+        </select>
+
+        <input
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+
+        <button onClick={handleSend}>Send</button>
+      </div>
+
+      <div>
+        <h3>Messages:</h3>
+        <ul>
+          {messages.map((msg, index) => (
+            <li key={index}>{msg}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+```
+
+## Important Notes
+
+1. Closures maintain their own independent scope and state, making them ideal for encapsulation.
+2. Each utility function creates a new closure with its own isolated environment.
+3. The module pattern (`createModule`) is particularly useful for organizing related functionality.
+4. Memoization (`createMemoizer`) can significantly improve performance for expensive calculations.
+5. Event emitters (`createEventEmitter`) provide a clean way to implement pub/sub patterns.
+6. Secure state (`createSecureState`) allows for controlled access with validation.
+7. All created closures persist between renders but are recreated if the component unmounts and remounts.
+
+## Performance Considerations
+
+- Closures maintain references to their outer scope, which can prevent garbage collection if not managed properly.
+- For performance-critical code, be mindful of creating too many closures unnecessarily.
+- The memoization utility is particularly useful for expensive operations but consumes memory to store cached results.
+- Consider using `useCallback` and `useMemo` when working with closures in React components to prevent unnecessary recreations.
+
+## Conclusion
+
+The [useClosure](/docs/use-closure) hook provides a powerful set of utilities for working with JavaScript closures in React applications. By leveraging the encapsulation and state persistence capabilities of closures, you can create more maintainable, efficient, and secure code. Whether you need private state management, memoization, event handling, or secure data access, the useClosure hook offers elegant solutions through its various utility functions.
+
+Happy coding!
