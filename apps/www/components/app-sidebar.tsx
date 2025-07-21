@@ -32,6 +32,10 @@ const navMain = [
     title: "CLI",
     url: "/docs/cli",
   },
+  {
+    title: "MCP Server",
+    url: "/docs/mcp",
+  },
 ];
 
 export function AppSidebar() {
