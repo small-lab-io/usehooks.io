@@ -14,7 +14,7 @@ export default async function CliPage() {
   return (
     <>
       <StructuredData type="website" />
-      <div className="pb-20 space-y-10 px-20 w-full">
+      <div className="pb-10 sm:pb-20 px-4 sm:px-20 w-full">
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },

@@ -276,6 +276,30 @@
     ]
   },
   {
+    "name": "use-indexed-db",
+    "title": "useIndexedDB",
+    "description": "A hook for managing IndexedDB operations with React state",
+    "category": "state",
+    "dependencies": [],
+    "devDependencies": [],
+    "files": [
+      {
+        "name": "index.ts",
+        "type": "hook"
+      }
+    ],
+    "examples": [
+      {
+        "name": "basic-usage.tsx",
+        "description": "Basic IndexedDB usage"
+      },
+      {
+        "name": "advanced-usage.tsx",
+        "description": "Advanced IndexedDB operations"
+      }
+    ]
+  },
+  {
     "name": "use-is-mobile",
     "title": "useIsMobile",
     "description": "A hook for detecting mobile devices using media queries and user agent",

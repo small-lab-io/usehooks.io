@@ -1,0 +1,24 @@
+{
+  "name": "use-indexed-db",
+  "title": "useIndexedDB",
+  "description": "A hook for managing IndexedDB operations with React state",
+  "category": "state",
+  "dependencies": [],
+  "devDependencies": [],
+  "files": [
+    {
+      "name": "index.ts",
+      "type": "hook"
+    }
+  ],
+  "examples": [
+    {
+      "name": "basic-usage.tsx",
+      "description": "Basic IndexedDB usage"
+    },
+    {
+      "name": "advanced-usage.tsx",
+      "description": "Advanced IndexedDB operations"
+    }
+  ]
+}

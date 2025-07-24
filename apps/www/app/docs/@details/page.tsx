@@ -1,5 +1,6 @@
 import { getHooks } from "@/lib/get-hooks";
 import { StructuredData } from "@/components/structured-data";
+import Link from "next/link";
 
 export default async function HooksPage() {
   const hooks = await getHooks();
@@ -20,7 +21,9 @@ export default async function HooksPage() {
               className="container mx-auto py-4 sm:py-12 px-0 sm:px-4"
               key={hook.name}
             >
-              <h1 className="text-2xl font-bold mb-2">{hook.title}</h1>
+              <Link href={`/docs/${hook.name}`} className="hover:underline">
+                <h1 className="text-2xl font-bold mb-2">{hook.title}</h1>
+              </Link>
               <span className="inline-block bg-gray-200 dark:bg-gray-700 text-sm px-2 py-1 rounded mb-8 capitalize">
                 {hook.category}
               </span>

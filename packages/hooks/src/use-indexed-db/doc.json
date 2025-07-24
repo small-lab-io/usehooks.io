@@ -1,0 +1,119 @@
+{
+  "name": "useIndexedDB",
+  "description": "A React hook for managing IndexedDB operations with automatic database initialization, error handling, and React state synchronization. IndexedDB is a low-level API for client-side storage of significant amounts of structured data.",
+  "category": "state",
+  "version": "1.0.0",
+  "parameters": [
+    {
+      "name": "databaseName",
+      "type": "string",
+      "description": "The name of the IndexedDB database to open or create"
+    },
+    {
+      "name": "storeName",
+      "type": "string",
+      "description": "The name of the object store within the database"
+    },
+    {
+      "name": "options",
+      "type": "UseIndexedDBOptions",
+      "description": "Optional configuration object",
+      "optional": true
+    }
+  ],
+  "returnType": {
+    "type": "UseIndexedDBReturn<T>",
+    "properties": [
+      {
+        "name": "data",
+        "type": "T | null",
+        "description": "The most recently retrieved data from IndexedDB"
+      },
+      {
+        "name": "error",
+        "type": "string | null",
+        "description": "Error message if any operation failed"
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "description": "Whether the database is currently being initialized"
+      },
+      {
+        "name": "setItem",
+        "type": "(key: string, value: T) => Promise<void>",
+        "description": "Store a value in IndexedDB with the given key"
+      },
+      {
+        "name": "getItem",
+        "type": "(key: string) => Promise<T | null>",
+        "description": "Retrieve a value from IndexedDB by key"
+      },
+      {
+        "name": "removeItem",
+        "type": "(key: string) => Promise<void>",
+        "description": "Remove a value from IndexedDB by key"
+      },
+      {
+        "name": "clear",
+        "type": "() => Promise<void>",
+        "description": "Clear all data from the object store"
+      },
+      {
+        "name": "getAllKeys",
+        "type": "() => Promise<string[]>",
+        "description": "Get all keys from the object store"
+      }
+    ]
+  },
+  "genericTypes": [
+    {
+      "name": "T",
+      "description": "The type of data to store in IndexedDB",
+      "default": "any"
+    }
+  ],
+  "types": [
+    {
+      "name": "UseIndexedDBOptions",
+      "definition": "{ version?: number; onUpgradeNeeded?: (db: IDBDatabase, oldVersion: number, newVersion: number) => void; }",
+      "description": "Configuration options for the IndexedDB hook"
+    },
+    {
+      "name": "UseIndexedDBReturn<T>",
+      "definition": "{ data: T | null; error: string | null; loading: boolean; setItem: (key: string, value: T) => Promise<void>; getItem: (key: string) => Promise<T | null>; removeItem: (key: string) => Promise<void>; clear: () => Promise<void>; getAllKeys: () => Promise<string[]>; }",
+      "description": "Return type of the useIndexedDB hook"
+    }
+  ],
+  "examples": [
+    {
+      "title": "Basic Usage",
+      "description": "Simple key-value storage with IndexedDB",
+      "code": "const { data, error, loading, setItem, getItem } = useIndexedDB('myApp', 'userData');\n\nconst saveUserData = async () => {\n  try {\n    await setItem('user-123', { name: 'John Doe', email: 'john@example.com' });\n    console.log('User data saved!');\n  } catch (err) {\n    console.error('Failed to save:', err);\n  }\n};\n\nconst loadUserData = async () => {\n  try {\n    const userData = await getItem('user-123');\n    console.log('Loaded user:', userData);\n  } catch (err) {\n    console.error('Failed to load:', err);\n  }\n};\n\nif (loading) return <div>Initializing database...</div>;\nif (error) return <div>Error: {error}</div>;\n\nreturn (\n  <div>\n    <button onClick={saveUserData}>Save User Data</button>\n    <button onClick={loadUserData}>Load User Data</button>\n    {data && <pre>{JSON.stringify(data, null, 2)}</pre>}\n  </div>\n);"
+    },
+    {
+      "title": "Advanced Usage with Custom Schema",
+      "description": "Using IndexedDB with custom database schema and upgrade handling",
+      "code": "interface TodoItem {\n  id: string;\n  title: string;\n  completed: boolean;\n  createdAt: Date;\n}\n\nconst { setItem, getItem, getAllKeys, clear } = useIndexedDB<TodoItem>(\n  'todoApp',\n  'todos',\n  {\n    version: 2,\n    onUpgradeNeeded: (db, oldVersion, newVersion) => {\n      if (oldVersion < 1) {\n        // Create todos store\n        const todosStore = db.createObjectStore('todos');\n      }\n      if (oldVersion < 2) {\n        // Add index for completed status\n        const transaction = db.transaction(['todos'], 'readwrite');\n        const todosStore = transaction.objectStore('todos');\n        if (!todosStore.indexNames.contains('completed')) {\n          todosStore.createIndex('completed', 'completed', { unique: false });\n        }\n      }\n    }\n  }\n);\n\nconst addTodo = async (title: string) => {\n  const todo: TodoItem = {\n    id: crypto.randomUUID(),\n    title,\n    completed: false,\n    createdAt: new Date()\n  };\n  await setItem(todo.id, todo);\n};\n\nconst loadAllTodos = async () => {\n  const keys = await getAllKeys();\n  const todos = await Promise.all(\n    keys.map(key => getItem(key))\n  );\n  return todos.filter(Boolean) as TodoItem[];\n};"
+    },
+    {
+      "title": "File Storage",
+      "description": "Storing and retrieving files using IndexedDB",
+      "code": "const { setItem, getItem } = useIndexedDB<File>('fileStorage', 'files');\n\nconst handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {\n  const file = event.target.files?.[0];\n  if (file) {\n    try {\n      await setItem(file.name, file);\n      console.log('File stored successfully!');\n    } catch (err) {\n      console.error('Failed to store file:', err);\n    }\n  }\n};\n\nconst downloadFile = async (fileName: string) => {\n  try {\n    const file = await getItem(fileName);\n    if (file) {\n      const url = URL.createObjectURL(file);\n      const a = document.createElement('a');\n      a.href = url;\n      a.download = fileName;\n      a.click();\n      URL.revokeObjectURL(url);\n    }\n  } catch (err) {\n    console.error('Failed to download file:', err);\n  }\n};\n\nreturn (\n  <div>\n    <input type=\"file\" onChange={handleFileUpload} />\n    <button onClick={() => downloadFile('example.txt')}>\n      Download File\n    </button>\n  </div>\n);"
+    }
+  ],
+  "dependencies": ["react"],
+  "imports": [
+    "import { useState, useEffect, useCallback } from 'react';"
+  ],
+  "notes": [
+    "IndexedDB is asynchronous and more powerful than localStorage for large amounts of data",
+    "Supports storing complex objects, files, and blobs without serialization",
+    "Automatically handles database initialization and schema upgrades",
+    "Provides transaction-based operations for data consistency",
+    "Works offline and follows same-origin policy",
+    "Browser storage quotas apply - see MDN documentation for details",
+    "Not available in all environments (e.g., some private browsing modes)",
+    "All operations are Promise-based for better async handling"
+  ]
+}
