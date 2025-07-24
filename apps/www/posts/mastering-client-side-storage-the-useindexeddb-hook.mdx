@@ -79,7 +79,15 @@ export function useIndexedDB<T = any>(
 
 ## Basic Usage
 
-The hook provides a simple interface for common database operations:
+Let's break down the core functionality of the useIndexedDB hook:
+
+### Hook Interface
+
+The hook accepts three parameters:
+
+- `databaseName`: Name of your IndexedDB database
+- `storeName`: Name of the object store to use
+- `options`: Optional configuration object for versioning and upgrades
 
 ```tsx
 import { useIndexedDB } from "@usehooks-io/hooks";
