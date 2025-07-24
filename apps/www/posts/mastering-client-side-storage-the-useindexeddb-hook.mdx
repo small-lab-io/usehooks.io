@@ -1,0 +1,745 @@
+---
+title: "Mastering Client-Side Storage: The useIndexedDB Hook"
+date: "2025-01-27"
+author: "Olivier Colonna"
+description: "Unlock the power of IndexedDB in React with the useIndexedDB hook - featuring automatic database management, transaction handling, and seamless state synchronization for large-scale data storage."
+tags: ["use-indexed-db", "state", "storage", "indexeddb", "database"]
+featured: true
+---
+
+When localStorage isn't enough for your application's data storage needs, IndexedDB provides a powerful solution for storing large amounts of structured data in the browser. The [useIndexedDB](/docs/use-indexed-db) hook brings the full power of IndexedDB to React applications with an intuitive, promise-based API that handles all the complexity of database management.
+
+## What is useIndexedDB?
+
+The [useIndexedDB](/docs/use-indexed-db) hook is a comprehensive React hook that provides a high-level interface to IndexedDB, the browser's built-in NoSQL database. Unlike localStorage, which is limited to strings and has size constraints, IndexedDB can store complex objects, files, and large datasets with powerful querying capabilities.
+
+## Key Features
+
+### 🗄️ Powerful Storage
+
+Store complex objects, files, blobs, and large datasets without the limitations of localStorage or sessionStorage.
+
+### 🔄 Automatic Database Management
+
+Handles database initialization, schema upgrades, and connection management automatically.
+
+### 🛡️ Transaction Safety
+
+All operations are wrapped in IndexedDB transactions, ensuring data consistency and integrity.
+
+### ⚡ Asynchronous Operations
+
+Promise-based API that integrates seamlessly with modern async/await patterns.
+
+### 🎯 Type Safe
+
+Fully typed with TypeScript generics, providing complete type safety for your stored data.
+
+### 🔧 Schema Upgrades
+
+Supports database versioning and custom upgrade handlers for evolving data structures.
+
+## The Implementation
+
+Let's examine the core functionality of this hook:
+
+```typescript
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+
+interface UseIndexedDBOptions {
+  version?: number;
+  onUpgradeNeeded?: (
+    db: IDBDatabase,
+    oldVersion: number,
+    newVersion: number
+  ) => void;
+}
+
+interface UseIndexedDBReturn<T> {
+  data: T | null;
+  error: string | null;
+  loading: boolean;
+  setItem: (key: string, value: T) => Promise<void>;
+  getItem: (key: string) => Promise<T | null>;
+  removeItem: (key: string) => Promise<void>;
+  clear: () => Promise<void>;
+  getAllKeys: () => Promise<string[]>;
+}
+
+export function useIndexedDB<T = any>(
+  databaseName: string,
+  storeName: string,
+  options: UseIndexedDBOptions = {}
+): UseIndexedDBReturn<T> {
+  // Implementation details...
+}
+```
+
+## Basic Usage
+
+The hook provides a simple interface for common database operations:
+
+```tsx
+import { useIndexedDB } from "@usehooks-io/hooks";
+
+function UserDataManager() {
+  const { data, error, loading, setItem, getItem } = useIndexedDB(
+    "myApp",
+    "userData"
+  );
+
+  const saveUserData = async () => {
+    try {
+      await setItem("user-123", {
+        name: "John Doe",
+        email: "john@example.com",
+        preferences: {
+          theme: "dark",
+          notifications: true,
+        },
+      });
+      console.log("User data saved!");
+    } catch (err) {
+      console.error("Failed to save:", err);
+    }
+  };
+
+  const loadUserData = async () => {
+    try {
+      const userData = await getItem("user-123");
+      console.log("Loaded user:", userData);
+    } catch (err) {
+      console.error("Failed to load:", err);
+    }
+  };
+
+  if (loading) return <div>Initializing database...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <div>
+      <button onClick={saveUserData}>Save User Data</button>
+      <button onClick={loadUserData}>Load User Data</button>
+      {data && (
+        <div>
+          <h3>Current Data:</h3>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## Advanced Usage with Custom Schema
+
+For complex applications, you can define custom database schemas and handle upgrades:
+
+```tsx
+import { useIndexedDB } from "@usehooks-io/hooks";
+
+interface TodoItem {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  priority: "low" | "medium" | "high";
+  createdAt: Date;
+  updatedAt: Date;
+  tags: string[];
+}
+
+function TodoManager() {
+  const { setItem, getItem, getAllKeys, removeItem, clear, loading, error } =
+    useIndexedDB<TodoItem>("todoApp", "todos", {
+      version: 2,
+      onUpgradeNeeded: (db, oldVersion, newVersion) => {
+        console.log(`Upgrading from ${oldVersion} to ${newVersion}`);
+
+        if (oldVersion < 1) {
+          // Create todos store
+          const todosStore = db.createObjectStore("todos");
+          console.log("Created todos object store");
+        }
+
+        if (oldVersion < 2) {
+          // Add indexes for better querying
+          const transaction = db.transaction(["todos"], "readwrite");
+          const todosStore = transaction.objectStore("todos");
+
+          if (!todosStore.indexNames.contains("completed")) {
+            todosStore.createIndex("completed", "completed", { unique: false });
+          }
+
+          if (!todosStore.indexNames.contains("priority")) {
+            todosStore.createIndex("priority", "priority", { unique: false });
+          }
+
+          if (!todosStore.indexNames.contains("createdAt")) {
+            todosStore.createIndex("createdAt", "createdAt", { unique: false });
+          }
+
+          console.log("Added indexes for todos");
+        }
+      },
+    });
+
+  const [todos, setTodos] = useState<TodoItem[]>([]);
+
+  // Load all todos on component mount
+  useEffect(() => {
+    const loadAllTodos = async () => {
+      try {
+        const keys = await getAllKeys();
+        const todoPromises = keys.map((key) => getItem(key));
+        const loadedTodos = await Promise.all(todoPromises);
+        setTodos(loadedTodos.filter(Boolean) as TodoItem[]);
+      } catch (err) {
+        console.error("Failed to load todos:", err);
+      }
+    };
+
+    if (!loading) {
+      loadAllTodos();
+    }
+  }, [loading, getAllKeys, getItem]);
+
+  const addTodo = async (title: string, description: string) => {
+    const todo: TodoItem = {
+      id: crypto.randomUUID(),
+      title,
+      description,
+      completed: false,
+      priority: "medium",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      tags: [],
+    };
+
+    try {
+      await setItem(todo.id, todo);
+      setTodos((prev) => [...prev, todo]);
+    } catch (err) {
+      console.error("Failed to add todo:", err);
+    }
+  };
+
+  const updateTodo = async (id: string, updates: Partial<TodoItem>) => {
+    try {
+      const existingTodo = await getItem(id);
+      if (existingTodo) {
+        const updatedTodo = {
+          ...existingTodo,
+          ...updates,
+          updatedAt: new Date(),
+        };
+        await setItem(id, updatedTodo);
+        setTodos((prev) =>
+          prev.map((todo) => (todo.id === id ? updatedTodo : todo))
+        );
+      }
+    } catch (err) {
+      console.error("Failed to update todo:", err);
+    }
+  };
+
+  const deleteTodo = async (id: string) => {
+    try {
+      await removeItem(id);
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    } catch (err) {
+      console.error("Failed to delete todo:", err);
+    }
+  };
+
+  const clearAllTodos = async () => {
+    try {
+      await clear();
+      setTodos([]);
+    } catch (err) {
+      console.error("Failed to clear todos:", err);
+    }
+  };
+
+  if (loading) return <div>Initializing todo database...</div>;
+  if (error) return <div>Database error: {error}</div>;
+
+  return (
+    <div>
+      <h2>Todo Manager</h2>
+
+      <div>
+        <button
+          onClick={() => addTodo("Sample Todo", "This is a sample todo item")}
+        >
+          Add Sample Todo
+        </button>
+        <button onClick={clearAllTodos} style={{ marginLeft: "10px" }}>
+          Clear All Todos
+        </button>
+      </div>
+
+      <div>
+        <h3>Todos ({todos.length})</h3>
+        {todos.map((todo) => (
+          <div
+            key={todo.id}
+            style={{
+              border: "1px solid #ccc",
+              margin: "10px",
+              padding: "10px",
+            }}
+          >
+            <h4>{todo.title}</h4>
+            <p>{todo.description}</p>
+            <p>Priority: {todo.priority}</p>
+            <p>Status: {todo.completed ? "Completed" : "Pending"}</p>
+            <p>Created: {todo.createdAt.toLocaleDateString()}</p>
+
+            <button
+              onClick={() =>
+                updateTodo(todo.id, { completed: !todo.completed })
+              }
+            >
+              {todo.completed ? "Mark Incomplete" : "Mark Complete"}
+            </button>
+
+            <button
+              onClick={() => deleteTodo(todo.id)}
+              style={{ marginLeft: "10px" }}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+## File Storage Example
+
+IndexedDB excels at storing files and binary data:
+
+```tsx
+import { useIndexedDB } from "@usehooks-io/hooks";
+
+interface FileMetadata {
+  name: string;
+  size: number;
+  type: string;
+  uploadedAt: Date;
+  file: File;
+}
+
+function FileManager() {
+  const { setItem, getItem, getAllKeys, removeItem, loading, error } =
+    useIndexedDB<FileMetadata>("fileStorage", "files");
+
+  const [files, setFiles] = useState<FileMetadata[]>([]);
+
+  // Load all files on mount
+  useEffect(() => {
+    const loadFiles = async () => {
+      try {
+        const keys = await getAllKeys();
+        const filePromises = keys.map((key) => getItem(key));
+        const loadedFiles = await Promise.all(filePromises);
+        setFiles(loadedFiles.filter(Boolean) as FileMetadata[]);
+      } catch (err) {
+        console.error("Failed to load files:", err);
+      }
+    };
+
+    if (!loading) {
+      loadFiles();
+    }
+  }, [loading, getAllKeys, getItem]);
+
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const uploadedFiles = event.target.files;
+    if (!uploadedFiles) return;
+
+    for (const file of Array.from(uploadedFiles)) {
+      try {
+        const fileMetadata: FileMetadata = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          uploadedAt: new Date(),
+          file,
+        };
+
+        await setItem(file.name, fileMetadata);
+        setFiles((prev) => [...prev, fileMetadata]);
+        console.log(`File ${file.name} stored successfully!`);
+      } catch (err) {
+        console.error(`Failed to store file ${file.name}:`, err);
+      }
+    }
+  };
+
+  const downloadFile = async (fileName: string) => {
+    try {
+      const fileMetadata = await getItem(fileName);
+      if (fileMetadata) {
+        const url = URL.createObjectURL(fileMetadata.file);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    } catch (err) {
+      console.error("Failed to download file:", err);
+    }
+  };
+
+  const deleteFile = async (fileName: string) => {
+    try {
+      await removeItem(fileName);
+      setFiles((prev) => prev.filter((file) => file.name !== fileName));
+    } catch (err) {
+      console.error("Failed to delete file:", err);
+    }
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  if (loading) return <div>Initializing file storage...</div>;
+  if (error) return <div>Storage error: {error}</div>;
+
+  return (
+    <div>
+      <h2>File Manager</h2>
+
+      <div>
+        <input
+          type="file"
+          multiple
+          onChange={handleFileUpload}
+          style={{ marginBottom: "20px" }}
+        />
+      </div>
+
+      <div>
+        <h3>Stored Files ({files.length})</h3>
+        {files.length === 0 ? (
+          <p>No files stored yet. Upload some files to get started!</p>
+        ) : (
+          <div>
+            {files.map((fileMetadata) => (
+              <div
+                key={fileMetadata.name}
+                style={{
+                  border: "1px solid #ddd",
+                  borderRadius: "4px",
+                  padding: "10px",
+                  margin: "10px 0",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <div>
+                  <strong>{fileMetadata.name}</strong>
+                  <br />
+                  <small>
+                    {fileMetadata.type} • {formatFileSize(fileMetadata.size)} •{" "}
+                    Uploaded {fileMetadata.uploadedAt.toLocaleDateString()}
+                  </small>
+                </div>
+                <div>
+                  <button
+                    onClick={() => downloadFile(fileMetadata.name)}
+                    style={{ marginRight: "10px" }}
+                  >
+                    Download
+                  </button>
+                  <button
+                    onClick={() => deleteFile(fileMetadata.name)}
+                    style={{ backgroundColor: "#ff4444", color: "white" }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+## Offline Data Synchronization
+
+IndexedDB is perfect for building offline-capable applications:
+
+```tsx
+import { useIndexedDB } from "@usehooks-io/hooks";
+
+interface SyncableData {
+  id: string;
+  content: any;
+  lastModified: Date;
+  synced: boolean;
+  action: "create" | "update" | "delete";
+}
+
+function OfflineDataManager() {
+  const { setItem, getItem, getAllKeys, removeItem, loading, error } =
+    useIndexedDB<SyncableData>("offlineApp", "pendingSync");
+
+  const [pendingItems, setPendingItems] = useState<SyncableData[]>([]);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  // Monitor online status
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  // Load pending sync items
+  useEffect(() => {
+    const loadPendingItems = async () => {
+      try {
+        const keys = await getAllKeys();
+        const itemPromises = keys.map((key) => getItem(key));
+        const items = await Promise.all(itemPromises);
+        setPendingItems(items.filter(Boolean) as SyncableData[]);
+      } catch (err) {
+        console.error("Failed to load pending items:", err);
+      }
+    };
+
+    if (!loading) {
+      loadPendingItems();
+    }
+  }, [loading, getAllKeys, getItem]);
+
+  // Auto-sync when online
+  useEffect(() => {
+    if (isOnline && pendingItems.length > 0) {
+      syncPendingItems();
+    }
+  }, [isOnline, pendingItems.length]);
+
+  const addPendingItem = async (
+    id: string,
+    content: any,
+    action: "create" | "update" | "delete"
+  ) => {
+    const item: SyncableData = {
+      id,
+      content,
+      lastModified: new Date(),
+      synced: false,
+      action,
+    };
+
+    try {
+      await setItem(id, item);
+      setPendingItems((prev) => {
+        const existing = prev.find((p) => p.id === id);
+        if (existing) {
+          return prev.map((p) => (p.id === id ? item : p));
+        }
+        return [...prev, item];
+      });
+    } catch (err) {
+      console.error("Failed to add pending item:", err);
+    }
+  };
+
+  const syncPendingItems = async () => {
+    console.log("Starting sync...");
+
+    for (const item of pendingItems) {
+      try {
+        // Simulate API call
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Mark as synced and remove from IndexedDB
+        await removeItem(item.id);
+        setPendingItems((prev) => prev.filter((p) => p.id !== item.id));
+
+        console.log(`Synced item ${item.id}`);
+      } catch (err) {
+        console.error(`Failed to sync item ${item.id}:`, err);
+        break; // Stop syncing on error
+      }
+    }
+
+    console.log("Sync completed");
+  };
+
+  const createItem = async (content: any) => {
+    const id = crypto.randomUUID();
+    await addPendingItem(id, content, "create");
+  };
+
+  const updateItem = async (id: string, content: any) => {
+    await addPendingItem(id, content, "update");
+  };
+
+  const deleteItem = async (id: string) => {
+    await addPendingItem(id, null, "delete");
+  };
+
+  if (loading) return <div>Initializing offline storage...</div>;
+  if (error) return <div>Storage error: {error}</div>;
+
+  return (
+    <div>
+      <h2>Offline Data Manager</h2>
+
+      <div style={{ marginBottom: "20px" }}>
+        <p>
+          Status: {isOnline ? "🟢 Online" : "🔴 Offline"} • Pending sync:{" "}
+          {pendingItems.length} items
+        </p>
+
+        {isOnline && pendingItems.length > 0 && (
+          <button onClick={syncPendingItems}>Sync Now</button>
+        )}
+      </div>
+
+      <div>
+        <button
+          onClick={() => createItem({ title: "New Item", data: Math.random() })}
+        >
+          Create Item
+        </button>
+        <button
+          onClick={() =>
+            updateItem("item-1", { title: "Updated Item", data: Math.random() })
+          }
+          style={{ marginLeft: "10px" }}
+        >
+          Update Item
+        </button>
+        <button
+          onClick={() => deleteItem("item-2")}
+          style={{ marginLeft: "10px" }}
+        >
+          Delete Item
+        </button>
+      </div>
+
+      <div>
+        <h3>Pending Sync Items</h3>
+        {pendingItems.length === 0 ? (
+          <p>No pending items</p>
+        ) : (
+          pendingItems.map((item) => (
+            <div
+              key={item.id}
+              style={{
+                border: "1px solid #ccc",
+                padding: "10px",
+                margin: "5px",
+              }}
+            >
+              <strong>ID:</strong> {item.id}
+              <br />
+              <strong>Action:</strong> {item.action}
+              <br />
+              <strong>Modified:</strong> {item.lastModified.toLocaleString()}
+              <br />
+              <strong>Content:</strong> {JSON.stringify(item.content)}
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+## Real-World Applications
+
+The useIndexedDB hook is perfect for applications that need robust client-side storage:
+
+1. **Offline-First Apps**: Store data locally and sync when online
+2. **File Management**: Upload, store, and manage files in the browser
+3. **Complex Data Structures**: Store nested objects, arrays, and relationships
+4. **Large Datasets**: Handle thousands of records with efficient querying
+5. **Media Applications**: Store images, videos, and audio files
+6. **Progressive Web Apps**: Enable full offline functionality
+7. **Data Caching**: Cache API responses for improved performance
+8. **Draft Management**: Auto-save complex forms and documents
+
+## IndexedDB vs localStorage vs sessionStorage
+
+| Feature              | IndexedDB                   | localStorage | sessionStorage |
+| -------------------- | --------------------------- | ------------ | -------------- |
+| **Storage Limit**    | ~50MB-1GB+                  | ~5-10MB      | ~5-10MB        |
+| **Data Types**       | Any (objects, files, blobs) | Strings only | Strings only   |
+| **Persistence**      | Permanent                   | Permanent    | Session only   |
+| **Transactions**     | ✅ Yes                      | ❌ No        | ❌ No          |
+| **Indexing**         | ✅ Yes                      | ❌ No        | ❌ No          |
+| **Async API**        | ✅ Yes                      | ❌ No        | ❌ No          |
+| **Complex Queries**  | ✅ Yes                      | ❌ No        | ❌ No          |
+| **Schema Evolution** | ✅ Yes                      | ❌ No        | ❌ No          |
+
+## Best Practices
+
+1. **Design Your Schema**: Plan your object stores and indexes before implementation
+
+2. **Handle Upgrades Gracefully**: Use the `onUpgradeNeeded` callback for schema migrations
+
+3. **Error Handling**: Always wrap IndexedDB operations in try-catch blocks
+
+4. **Performance**: Use indexes for frequently queried fields
+
+5. **Storage Quotas**: Monitor storage usage and handle quota exceeded errors
+
+6. **Cleanup**: Implement data cleanup strategies for old or unused data
+
+7. **Testing**: Test in various browsers and private browsing modes
+
+8. **Backup Strategy**: Consider server-side backups for critical data
+
+## Browser Compatibility
+
+IndexedDB is supported in all modern browsers:
+
+- Chrome 24+
+- Firefox 16+
+- Safari 10+
+- Edge 12+
+- iOS Safari 10+
+- Android Browser 4.4+
+
+The hook gracefully handles environments where IndexedDB is unavailable.
+
+## Conclusion
+
+The useIndexedDB hook transforms IndexedDB from a complex, low-level API into an intuitive, React-friendly interface. Its automatic database management, transaction handling, and promise-based operations make it the perfect choice for applications requiring robust client-side storage.
+
+Whether you're building offline-capable applications, managing large datasets, or storing complex media files, useIndexedDB provides the power and flexibility you need while maintaining the simplicity that React developers expect.
+
+Start leveraging the full potential of browser storage with useIndexedDB and unlock new possibilities for your React applications!
