@@ -533,7 +533,7 @@
     "name": "use-timeout",
     "title": "useTimeout",
     "description": "A hook for managing timeouts with start, stop, and reset functionality",
-    "category": "utilities",
+    "category": "utility",
     "dependencies": [],
     "devDependencies": [],
     "files": [
@@ -637,6 +637,9 @@
     "description": "A hook that tracks the current window dimensions and updates on resize.",
     "category": "Browser",
     "dependencies": {},
-    "files": ["index.ts", "basic-usage.tsx"]
+    "files": [
+      "index.ts",
+      "basic-usage.tsx"
+    ]
   }
 ]
