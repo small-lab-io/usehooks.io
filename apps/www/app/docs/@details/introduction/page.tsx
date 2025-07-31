@@ -24,7 +24,8 @@ export default function IntroductionPage() {
             Introduction
           </h1>
           <p className="text-xl text-muted-foreground">
-            This is not a hook library. It's how you build your hook library.
+            This is not a hook library. It&apos;s how you build your hook
+            library.
           </p>
         </div>
 
@@ -35,7 +36,7 @@ export default function IntroductionPage() {
           </p>
           <p className="text-lg leading-7">
             This approach works well until you need to customize a hook to fit
-            your specific needs or require one that isn't included in the
+            your specific needs or require one that isn&apos;t included in the
             library. Often, you end up wrapping library hooks, writing
             workarounds, or mixing hooks from different libraries with
             incompatible APIs.
@@ -111,9 +112,9 @@ export default function IntroductionPage() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            In a typical library, if you need to change a hook's behavior, you
-            have to override implementations or wrap the hook. With useHooks.io,
-            you simply edit the hook code directly.
+            In a typical library, if you need to change a hook&apos;s behavior,
+            you have to override implementations or wrap the hook. With
+            useHooks.io, you simply edit the hook code directly.
           </p>
         </section>
 
@@ -235,7 +236,7 @@ export default function IntroductionPage() {
 
           <Callout>
             <p className="text-sm">
-              <strong>Note:</strong> The CLI is inspired by shadcn/ui's
+              <strong>Note:</strong> The CLI is inspired by shadcn/ui&apos;s
               component workflow, making it easy to add and manage hooks in your
               React applications.
             </p>

@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
@@ -29,7 +32,21 @@ export function CodeBlock({
   language = "typescript",
   showLineNumbers = true,
 }: CodeBlockProps) {
+  const [isClient, setIsClient] = useState(false);
   const codeString = getTextContent(children);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Fallback for SSR
+  if (!isClient) {
+    return (
+      <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
+        <code>{codeString}</code>
+      </pre>
+    );
+  }
 
   return (
     <SyntaxHighlighter

@@ -479,7 +479,8 @@ export default async function CliPage() {
                 Search for hooks by keyword with interactive selection.
               </p>
               <Terminal>
-                npx usehooks-cli@latest search "fetch" --interactive --add
+                npx usehooks-cli@latest search &quot;fetch&quot; --interactive
+                --add
               </Terminal>
             </Step>
 

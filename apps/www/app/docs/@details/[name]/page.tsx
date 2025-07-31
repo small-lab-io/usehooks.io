@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
@@ -22,7 +23,7 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ name: string }>;
-}) {
+}): Promise<Metadata> {
   const { name } = await params;
   const hooks = await getHooks();
   const hook = hooks.find((h) => h.name === name);
@@ -180,6 +181,7 @@ export default async function HookPage({
         <h1 className="text-4xl font-bold mb-2 flex justify-between">
           {hook.title} <ShareButton />
         </h1>
+
         <span className="inline-block bg-gray-200 dark:bg-slate-700 text-sm px-2 py-1 rounded mb-8">
           {hook.category}
         </span>

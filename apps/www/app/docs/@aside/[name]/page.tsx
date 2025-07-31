@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -35,18 +36,21 @@ export default function HookAside() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2 text-sm">
-            <a
+            <Link
               href="/docs/use-local-storage"
               className="block hover:text-blue-500"
             >
               useLocalStorage
-            </a>
-            <a href="/docs/use-counter" className="block hover:text-blue-500">
+            </Link>
+            <Link
+              href="/docs/use-counter"
+              className="block hover:text-blue-500"
+            >
               useCounter
-            </a>
-            <a href="/docs/use-toggle" className="block hover:text-blue-500">
+            </Link>
+            <Link href="/docs/use-toggle" className="block hover:text-blue-500">
               useToggle
-            </a>
+            </Link>
           </div>
         </CardContent>
       </Card>

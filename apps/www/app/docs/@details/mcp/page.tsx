@@ -130,7 +130,7 @@ export default function McpPage() {
                 <ul className="list-disc list-inside font-mono text-sm ml-4">
                   <li>category (optional): Filter hooks by category</li>
                   <li>
-                    format (optional): Output format ("json" or "markdown")
+                    format (optional): Output format (&quot;json&quot; or &quot;markdown&quot;)
                   </li>
                 </ul>
               </div>
@@ -156,12 +156,12 @@ export default function McpPage() {
               <p className="text-gray-600 mb-2">
                 Search hooks by name or description
               </p>
-              <div className="bg-accentp-3 rounded">
+              <div className="bg-accent p-3 rounded">
                 <p className="font-mono text-sm">Parameters:</p>
                 <ul className="list-disc list-inside font-mono text-sm ml-4">
                   <li>keyword: Search term (minimum 2 characters)</li>
                   <li>
-                    format (optional): Output format ("json" or "markdown")
+                    format (optional): Output format (&quot;json&quot; or &quot;markdown&quot;)
                   </li>
                   <li>category (optional): Filter results by category</li>
                 </ul>
@@ -178,7 +178,7 @@ export default function McpPage() {
                 <ul className="list-disc list-inside font-mono text-sm ml-4">
                   <li>name: Name of the hook to retrieve</li>
                   <li>
-                    format (optional): Output format ("json" or "markdown")
+                    format (optional): Output format (&quot;json&quot; or &quot;markdown&quot;)
                   </li>
                   <li>include_examples (optional): Include usage examples</li>
                 </ul>
