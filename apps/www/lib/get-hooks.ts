@@ -1,4 +1,4 @@
-import { useFetch } from "@/hooks/use-fetch";
+import { useFetch as fetchData } from "@/hooks/use-fetch";
 import { HookMeta } from "./types";
 
 const hooksUrl =
@@ -6,7 +6,7 @@ const hooksUrl =
 
 export async function getHooks(): Promise<HookMeta[]> {
   try {
-    return await useFetch<HookMeta[]>(hooksUrl);
+    return await fetchData<HookMeta[]>(hooksUrl);
   } catch (error) {
     console.error("Error fetching hooks:", error);
     return [];

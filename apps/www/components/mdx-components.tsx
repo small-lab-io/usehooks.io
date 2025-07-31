@@ -1,6 +1,6 @@
-import React from "react";
-import { CodeBlock } from "./code-block";
 import Link from "next/link";
+import Image from "next/image";
+import { CodeBlock } from "./code-block";
 
 export const MDXComponents = {
   h1: ({ children }: { children: React.ReactNode }) => (
@@ -67,9 +67,9 @@ export const MDXComponents = {
     <code>{children}</code>
   ),
   img: ({ src, alt }: { src?: string; alt?: string }) => (
-    <img
-      src={src}
-      alt={alt}
+    <Image
+      src={src ?? ""}
+      alt={alt ?? ""}
       className="border-border my-8 h-auto max-w-full rounded-md border"
     />
   ),
