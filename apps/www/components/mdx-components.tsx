@@ -76,7 +76,8 @@ export const MDXComponents = {
   pre: ({ children, ...props }: any) => {
     const child = children?.props;
     if (child?.className?.includes("language-")) {
-      const language = child.className.replace("language-", "");
+      const language = child.className.split(" ")[0].replace("language-", "");
+
       return <CodeBlock language={language}>{child.children}</CodeBlock>;
     }
 

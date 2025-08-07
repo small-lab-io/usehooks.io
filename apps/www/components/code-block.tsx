@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
   children: React.ReactNode;
@@ -12,18 +12,14 @@ interface CodeBlockProps {
 
 // Helper function to extract text content from React nodes
 function getTextContent(node: React.ReactNode): string {
-  if (typeof node === "string") {
-    return node;
-  }
-  if (typeof node === "number") {
-    return String(node);
-  }
-  if (Array.isArray(node)) {
-    return node.map(getTextContent).join("");
-  }
+  if (typeof node === "string") return node;
+  if (typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(getTextContent).join("");
+
   if (node && typeof node === "object" && "props" in node) {
     return getTextContent((node as any).props.children);
   }
+
   return "";
 }
 
@@ -32,26 +28,12 @@ export function CodeBlock({
   language = "typescript",
   showLineNumbers = true,
 }: CodeBlockProps) {
-  const [isClient, setIsClient] = useState(false);
   const codeString = getTextContent(children);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Fallback for SSR
-  if (!isClient) {
-    return (
-      <pre className="bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto text-sm">
-        <code>{codeString}</code>
-      </pre>
-    );
-  }
 
   return (
     <SyntaxHighlighter
       language={language}
-      style={oneDark}
+      style={materialDark}
       showLineNumbers={showLineNumbers}
       wrapLines={true}
       customStyle={{
@@ -72,7 +54,7 @@ export function CodeBlock({
       }}
       PreTag="pre"
     >
-      {codeString}
+      {`${codeString}`}
     </SyntaxHighlighter>
   );
 }
