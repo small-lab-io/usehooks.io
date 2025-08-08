@@ -1,8 +1,5 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { materialDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface CodeBlockProps {
   children: React.ReactNode;
@@ -33,7 +30,7 @@ export function CodeBlock({
   return (
     <SyntaxHighlighter
       language={language}
-      style={materialDark}
+      style={oneDark}
       showLineNumbers={showLineNumbers}
       wrapLines={true}
       customStyle={{
