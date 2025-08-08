@@ -87,4 +87,32 @@ export const MDXComponents = {
       </pre>
     );
   },
+  table: ({ children }: { children: React.ReactNode }) => (
+    <div className="my-8 overflow-x-auto">
+      <table className="w-full border-collapse border border-border">
+        {children}
+      </table>
+    </div>
+  ),
+  thead: ({ children }: { children: React.ReactNode }) => (
+    <thead className="bg-muted/50">{children}</thead>
+  ),
+  tbody: ({ children }: { children: React.ReactNode }) => (
+    <tbody>{children}</tbody>
+  ),
+  tr: ({ children }: { children: React.ReactNode }) => (
+    <tr className="border-b border-border hover:bg-muted/30 transition-colors">
+      {children}
+    </tr>
+  ),
+  th: ({ children }: { children: React.ReactNode }) => (
+    <th className="border border-border px-4 py-3 text-left font-semibold text-foreground">
+      {children}
+    </th>
+  ),
+  td: ({ children }: { children: React.ReactNode }) => (
+    <td className="border border-border px-4 py-3 text-foreground/90">
+      {children}
+    </td>
+  ),
 };
