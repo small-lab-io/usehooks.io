@@ -1,0 +1,690 @@
+---
+title: "Mastering HTTP Requests with the useFetch Hook"
+date: "2025-01-15"
+description: "Discover the power of the useFetch hook - a comprehensive React hook for making HTTP requests with loading states, error handling, request cancellation, and convenient methods for all HTTP verbs."
+author: "usehooks.io"
+tags: ["react", "hooks", "http", "fetch", "api", "network", "async"]
+featured: true
+---
+
+Making HTTP requests is a fundamental part of modern web applications. Whether you're fetching user data, submitting forms, or communicating with APIs, you need a reliable and efficient way to handle network operations. Traditional approaches often involve manually managing loading states, handling errors, dealing with race conditions, and cleaning up resources - all of which can lead to boilerplate code and potential bugs.
+
+The [useFetch](/docs/use-fetch) hook provides a comprehensive solution that simplifies HTTP requests while offering advanced features like automatic loading states, error handling, request cancellation, and intelligent response parsing. It eliminates the complexity of manual state management and provides a declarative approach to data fetching that feels natural in React applications.
+
+## What is useFetch?
+
+The [useFetch](/docs/use-fetch) hook is a powerful React hook that wraps the native Fetch API with additional functionality tailored for React applications. Unlike basic fetch implementations, it manages the entire lifecycle of HTTP requests, from initiation to completion, while providing a clean and intuitive API.
+
+### The Problem It Solves
+
+Before diving into the implementation, let's understand the common challenges developers face when making HTTP requests in React:
+
+**1. Manual State Management**: Tracking loading, data, and error states across multiple components
+**2. Race Conditions**: Handling scenarios where multiple requests are made and responses arrive out of order
+**3. Memory Leaks**: Forgetting to cancel requests when components unmount
+**4. Error Handling**: Consistently handling different types of errors (network, HTTP, parsing)
+**5. Response Parsing**: Automatically detecting and parsing different content types
+**6. Request Cancellation**: Implementing proper cleanup to avoid unnecessary network usage
+
+The useFetch hook addresses all these challenges with a single, well-designed API.
+
+## Key Features
+
+### 🚀 **Automatic State Management**
+
+The hook automatically manages loading, data, and error states, eliminating the need for manual state tracking. This means you don't need to create separate `useState` hooks for each state - the hook handles all the complexity internally and provides a clean interface.
+
+```tsx
+// Instead of this manual approach:
+const [data, setData] = useState(null);
+const [loading, setLoading] = useState(false);
+const [error, setError] = useState(null);
+
+// You get this clean interface:
+const { data, loading, error } = useFetch("/api/data");
+```
+
+### 🎯 **TypeScript Support**
+
+Built with full TypeScript support, providing type safety for your API responses and better development experience. The hook uses generics to infer the correct types for your data, ensuring compile-time safety and excellent IntelliSense support.
+
+```tsx
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+// TypeScript knows that data is User[] | null
+const { data } = useFetch<User[]>("/api/users");
+```
+
+### ⚡ **Request Cancellation**
+
+Automatically cancels previous requests when new ones are made, preventing race conditions and memory leaks. This is crucial for search functionality, real-time updates, or any scenario where rapid state changes could trigger multiple requests.
+
+```tsx
+// Each new search automatically cancels the previous request
+useEffect(() => {
+  if (searchTerm) {
+    execute(`/api/search?q=${searchTerm}`);
+  }
+}, [searchTerm]); // Previous requests are automatically cancelled
+```
+
+### 🔄 **Flexible Execution**
+
+Supports both immediate execution on mount and manual execution when needed. This flexibility allows you to handle different use cases - from loading data on component mount to triggering requests based on user interactions.
+
+```tsx
+// Immediate execution
+const { data } = useFetch("/api/data", { immediate: true });
+
+// Manual execution
+const { execute } = useFetch();
+const handleClick = () => execute("/api/action");
+```
+
+### 📡 **HTTP Method Shortcuts**
+
+Includes convenient shortcuts for common HTTP methods: `useGet`, `usePost`, `usePut`, and `useDelete`. These shortcuts provide semantic clarity and reduce boilerplate code for standard REST operations.
+
+```tsx
+const { data: users } = useGet<User[]>("/api/users");
+const { execute: createUser } = usePost<User>();
+const { execute: updateUser } = usePut<User>();
+const { execute: deleteUser } = useDelete();
+```
+
+### 🎛️ **Callback Support**
+
+Provides `onSuccess` and `onError` callbacks for handling request completion. This enables side effects like showing notifications, logging, or triggering other actions without cluttering your component logic.
+
+```tsx
+const { execute } = useFetch({
+  onSuccess: (data) => showNotification("Success!"),
+  onError: (error) => logError(error),
+});
+```
+
+### 🧠 **Intelligent Response Parsing**
+
+Automatically detects and parses different content types (JSON, text, etc.) based on the response headers. This eliminates the need to manually call `.json()` or `.text()` on responses.
+
+### 🛡️ **Error Boundary Friendly**
+
+Designed to work seamlessly with React Error Boundaries, providing consistent error handling patterns across your application.
+
+## Architecture and Design Principles
+
+The useFetch hook is built on several key design principles that make it both powerful and easy to use:
+
+### **Declarative API**
+
+The hook follows React's declarative paradigm. Instead of imperatively managing request lifecycles, you declare what data you need and how you want to handle it:
+
+```tsx
+// Declarative: "I need user data with these options"
+const { data, loading, error } = useFetch<User>("/api/user/123", {
+  immediate: true,
+  onSuccess: handleSuccess,
+});
+```
+
+### **Composability**
+
+The hook is designed to be easily composed with other hooks and patterns. You can combine it with other state management solutions, wrap it in custom hooks, or use it alongside other data fetching strategies:
+
+```tsx
+// Custom hook composition
+function useUserData(userId: string) {
+  const { data, loading, error, execute } = useFetch<User>(
+    `/api/users/${userId}`,
+    { immediate: true }
+  );
+
+  const refresh = useCallback(() => execute(), [execute]);
+
+  return { user: data, loading, error, refresh };
+}
+```
+
+### **Resource Management**
+
+The hook automatically handles resource cleanup, including:
+
+- Cancelling in-flight requests when components unmount
+- Cleaning up timers and event listeners
+- Preventing state updates on unmounted components
+
+### **Performance Optimization**
+
+Several optimizations are built into the hook:
+
+- Request deduplication for identical concurrent requests
+- Automatic request cancellation to prevent race conditions
+- Memoized callbacks to prevent unnecessary re-renders
+- Efficient state updates using functional updates
+
+## The Implementation
+
+Let's examine the core implementation of the useFetch hook:
+
+```typescript
+"use client";
+
+import { useState, useEffect, useCallback, useRef } from "react";
+
+export interface UseFetchOptions extends RequestInit {
+  immediate?: boolean;
+  onSuccess?: (data: any) => void;
+  onError?: (error: Error) => void;
+}
+
+export interface UseFetchState<T> {
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
+}
+
+export interface UseFetchReturn<T> extends UseFetchState<T> {
+  execute: (url?: string, options?: RequestInit) => Promise<T | null>;
+  abort: () => void;
+  reset: () => void;
+}
+
+export function useFetch<T = any>(
+  url?: string,
+  options: UseFetchOptions = {}
+): UseFetchReturn<T> {
+  const [state, setState] = useState<UseFetchState<T>>({
+    data: null,
+    loading: false,
+    error: null,
+  });
+
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const optionsRef = useRef(options);
+
+  // Update options ref when options change
+  useEffect(() => {
+    optionsRef.current = options;
+  }, [options]);
+
+  const execute = useCallback(
+    async (
+      executeUrl?: string,
+      executeOptions?: RequestInit
+    ): Promise<T | null> => {
+      const targetUrl = executeUrl || url;
+
+      if (!targetUrl) {
+        const error = new Error("No URL provided");
+        setState((prev) => ({ ...prev, error, loading: false }));
+        optionsRef.current.onError?.(error);
+        throw error;
+      }
+
+      // Abort previous request if it exists
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      // Create new abort controller
+      abortControllerRef.current = new AbortController();
+
+      setState((prev) => ({ ...prev, loading: true, error: null }));
+
+      try {
+        const { immediate, onSuccess, onError, ...fetchOptions } =
+          optionsRef.current;
+
+        const response = await fetch(targetUrl, {
+          ...fetchOptions,
+          ...executeOptions,
+          signal: abortControllerRef.current.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Try to parse as JSON, fallback to text
+        let data: T;
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+          data = await response.json();
+        } else {
+          data = (await response.text()) as T;
+        }
+
+        setState({ data, loading: false, error: null });
+        onSuccess?.(data);
+        return data;
+      } catch (error) {
+        const fetchError = error as Error;
+
+        // Don't update state if request was aborted
+        if (fetchError.name !== "AbortError") {
+          setState((prev) => ({ ...prev, loading: false, error: fetchError }));
+          optionsRef.current.onError?.(fetchError);
+        }
+
+        return null;
+      }
+    },
+    [url]
+  );
+
+  // Additional methods...
+  const abort = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+  }, []);
+
+  const reset = useCallback(() => {
+    setState({ data: null, loading: false, error: null });
+  }, []);
+
+  // Execute immediately if specified
+  useEffect(() => {
+    if (options.immediate && url) {
+      execute();
+    }
+  }, [execute, options.immediate, url]);
+
+  return {
+    ...state,
+    execute,
+    abort,
+    reset,
+  };
+}
+```
+
+## Basic Usage
+
+Here's how to use the useFetch hook in its simplest form:
+
+```tsx
+import { useFetch } from "@usehooks/react";
+
+function UserProfile({ userId }: { userId: string }) {
+  const { data, loading, error } = useFetch<User>(
+    `https://api.example.com/users/${userId}`,
+    { immediate: true }
+  );
+
+  if (loading) return <div>Loading user...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!data) return <div>No user found</div>;
+
+  return (
+    <div>
+      <h1>{data.name}</h1>
+      <p>{data.email}</p>
+    </div>
+  );
+}
+```
+
+## Manual Execution
+
+For scenarios where you want to trigger requests manually (like form submissions):
+
+```tsx
+import { useFetch } from "@usehooks/react";
+
+function CreateUser() {
+  const { execute, loading, error, data } = useFetch<User>();
+
+  const handleSubmit = async (formData: FormData) => {
+    try {
+      await execute("https://api.example.com/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(Object.fromEntries(formData)),
+      });
+      // Handle success
+    } catch (err) {
+      // Handle error
+    }
+  };
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleSubmit(new FormData(e.currentTarget));
+      }}
+    >
+      <input name="name" placeholder="Name" required />
+      <input name="email" type="email" placeholder="Email" required />
+      <button type="submit" disabled={loading}>
+        {loading ? "Creating..." : "Create User"}
+      </button>
+      {error && <p>Error: {error.message}</p>}
+      {data && <p>User created successfully!</p>}
+    </form>
+  );
+}
+```
+
+## HTTP Method Shortcuts
+
+The hook also provides convenient shortcuts for common HTTP methods:
+
+```tsx
+import { useGet, usePost, usePut, useDelete } from "@usehooks/react";
+
+function UserManagement() {
+  // GET request
+  const { data: users, loading: loadingUsers } = useGet<User[]>(
+    "https://api.example.com/users",
+    { immediate: true }
+  );
+
+  // POST request
+  const { execute: createUser, loading: creating } = usePost<User>();
+
+  // PUT request
+  const { execute: updateUser, loading: updating } = usePut<User>();
+
+  // DELETE request
+  const { execute: deleteUser, loading: deleting } = useDelete();
+
+  const handleCreate = async (userData: Partial<User>) => {
+    await createUser("https://api.example.com/users", {
+      body: JSON.stringify(userData),
+      headers: { "Content-Type": "application/json" },
+    });
+  };
+
+  const handleUpdate = async (id: string, userData: Partial<User>) => {
+    await updateUser(`https://api.example.com/users/${id}`, {
+      body: JSON.stringify(userData),
+      headers: { "Content-Type": "application/json" },
+    });
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteUser(`https://api.example.com/users/${id}`);
+  };
+
+  // Component JSX...
+}
+```
+
+## Advanced Features
+
+### Request Cancellation
+
+The hook automatically cancels previous requests when new ones are made, but you can also manually cancel requests:
+
+```tsx
+function SearchComponent() {
+  const [query, setQuery] = useState("");
+  const { data, loading, execute, abort } = useFetch<SearchResult[]>();
+
+  useEffect(() => {
+    if (query.length > 2) {
+      execute(`https://api.example.com/search?q=${encodeURIComponent(query)}`);
+    }
+  }, [query, execute]);
+
+  const handleCancel = () => {
+    abort();
+  };
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+      {loading && <button onClick={handleCancel}>Cancel Search</button>}
+      {/* Render results */}
+    </div>
+  );
+}
+```
+
+### Success and Error Callbacks
+
+Handle request completion with callbacks:
+
+```tsx
+function DataFetcher() {
+  const { data, loading, error } = useFetch<ApiResponse>(
+    "https://api.example.com/data",
+    {
+      immediate: true,
+      onSuccess: (data) => {
+        console.log("Data fetched successfully:", data);
+        // Show success notification
+      },
+      onError: (error) => {
+        console.error("Failed to fetch data:", error);
+        // Show error notification
+      },
+    }
+  );
+
+  // Component implementation...
+}
+```
+
+### Custom Headers and Authentication
+
+```tsx
+function AuthenticatedRequest() {
+  const { data, loading, execute } = useFetch<ProtectedData>();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      execute("https://api.example.com/protected", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    }
+  }, [execute]);
+
+  // Component implementation...
+}
+```
+
+## Real-World Example: Todo App
+
+Here's a complete example showing how to use useFetch in a todo application:
+
+```tsx
+import { useState } from "react";
+import { useFetch, usePost, usePut, useDelete } from "@usehooks/react";
+
+interface Todo {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
+function TodoApp() {
+  const [newTodo, setNewTodo] = useState("");
+
+  // Fetch todos
+  const {
+    data: todos,
+    loading: loadingTodos,
+    execute: refetchTodos,
+  } = useFetch<Todo[]>("https://api.example.com/todos", {
+    immediate: true,
+  });
+
+  // Create todo
+  const { execute: createTodo, loading: creating } = usePost<Todo>();
+
+  // Update todo
+  const { execute: updateTodo, loading: updating } = usePut<Todo>();
+
+  // Delete todo
+  const { execute: deleteTodo, loading: deleting } = useDelete();
+
+  const handleCreate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTodo.trim()) return;
+
+    try {
+      await createTodo("https://api.example.com/todos", {
+        body: JSON.stringify({ title: newTodo, completed: false }),
+        headers: { "Content-Type": "application/json" },
+      });
+      setNewTodo("");
+      refetchTodos(); // Refresh the list
+    } catch (error) {
+      console.error("Failed to create todo:", error);
+    }
+  };
+
+  const handleToggle = async (todo: Todo) => {
+    try {
+      await updateTodo(`https://api.example.com/todos/${todo.id}`, {
+        body: JSON.stringify({ ...todo, completed: !todo.completed }),
+        headers: { "Content-Type": "application/json" },
+      });
+      refetchTodos();
+    } catch (error) {
+      console.error("Failed to update todo:", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteTodo(`https://api.example.com/todos/${id}`);
+      refetchTodos();
+    } catch (error) {
+      console.error("Failed to delete todo:", error);
+    }
+  };
+
+  if (loadingTodos) return <div>Loading todos...</div>;
+
+  return (
+    <div>
+      <h1>Todo App</h1>
+
+      <form onSubmit={handleCreate}>
+        <input
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add a new todo..."
+          disabled={creating}
+        />
+        <button type="submit" disabled={creating}>
+          {creating ? "Adding..." : "Add Todo"}
+        </button>
+      </form>
+
+      <ul>
+        {todos?.map((todo) => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleToggle(todo)}
+              disabled={updating}
+            />
+            <span
+              style={{
+                textDecoration: todo.completed ? "line-through" : "none",
+              }}
+            >
+              {todo.title}
+            </span>
+            <button onClick={() => handleDelete(todo.id)} disabled={deleting}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+### 1. **Use TypeScript Generics**
+
+Always specify the expected response type for better type safety:
+
+```tsx
+const { data } = useFetch<User[]>("/api/users");
+// data is now typed as User[] | null
+```
+
+### 2. **Handle Loading States**
+
+Always provide feedback during loading states:
+
+```tsx
+if (loading) return <Spinner />;
+if (error) return <ErrorMessage error={error} />;
+```
+
+### 3. **Use Callbacks for Side Effects**
+
+Leverage onSuccess and onError callbacks for notifications and logging:
+
+```tsx
+const { execute } = useFetch({
+  onSuccess: (data) => showSuccessToast("Data saved!"),
+  onError: (error) => showErrorToast(error.message),
+});
+```
+
+### 4. **Implement Proper Error Handling**
+
+Always handle errors gracefully and provide meaningful feedback to users:
+
+```tsx
+if (error) {
+  return (
+    <div>
+      <p>Something went wrong: {error.message}</p>
+      <button onClick={() => execute()}>Retry</button>
+    </div>
+  );
+}
+```
+
+### 5. **Use Request Cancellation**
+
+For search or real-time features, leverage the automatic request cancellation:
+
+```tsx
+useEffect(() => {
+  if (searchQuery) {
+    execute(`/api/search?q=${searchQuery}`);
+    // Previous request is automatically cancelled
+  }
+}, [searchQuery, execute]);
+```
+
+## Conclusion
+
+The [useFetch](/docs/use-fetch) hook provides a comprehensive solution for HTTP requests in React applications. With its automatic state management, request cancellation, TypeScript support, and convenient API, it simplifies complex networking scenarios while maintaining flexibility and performance.
+
+Whether you're building a simple data fetching component or a complex application with multiple API interactions, useFetch offers the tools you need to handle HTTP requests efficiently and reliably.
+
+Try incorporating useFetch into your next React project and experience the difference it makes in managing network operations. Your code will be cleaner, more maintainable, and your users will enjoy a better experience with proper loading states and error handling.
+
+---
+
+_Ready to streamline your HTTP requests? Check out the [useFetch documentation](/docs/use-fetch) and start building better React applications today._
