@@ -19,12 +19,14 @@ The [useFetch](/docs/use-fetch) hook is a powerful React hook that wraps the nat
 
 Before diving into the implementation, let's understand the common challenges developers face when making HTTP requests in React:
 
-**1. Manual State Management**: Tracking loading, data, and error states across multiple components
-**2. Race Conditions**: Handling scenarios where multiple requests are made and responses arrive out of order
-**3. Memory Leaks**: Forgetting to cancel requests when components unmount
-**4. Error Handling**: Consistently handling different types of errors (network, HTTP, parsing)
-**5. Response Parsing**: Automatically detecting and parsing different content types
-**6. Request Cancellation**: Implementing proper cleanup to avoid unnecessary network usage
+- **1. Manual State Management**: Tracking loading, data, and error states across multiple components
+- **2. Race Conditions**: Handling scenarios where multiple requests are made and responses arrive out of order
+- **3. Memory Leaks**: Forgetting to cancel requests when components unmount
+- **4. Error Handling**: Consistently handling different types of errors (network, HTTP, parsing)
+- **5. Response Parsing**: Automatically detecting and parsing different content types
+- **6. Request Cancellation**: Automatically cancels previous requests when new ones are made, preventing race conditions and memory leaks
+- **7. HTTP Method Shortcuts**: Provides convenient methods for all common HTTP verbs (GET, POST, PUT, DELETE, etc.)
+- **8. TypeScript Support**: Built with full TypeScript support, providing type safety for your API responses and better development experience
 
 The useFetch hook addresses all these challenges with a single, well-designed API.
 
