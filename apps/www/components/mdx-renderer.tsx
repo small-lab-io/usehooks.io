@@ -1,14 +1,21 @@
-"use client";
-
-import { useMDXComponent } from "next-contentlayer/hooks";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import { MDXComponents } from "./mdx-components";
 
 interface MDXRendererProps {
-  code: string;
+  source: string;
 }
 
-export function MDXRenderer({ code }: MDXRendererProps) {
-  const MDXContent = useMDXComponent(code);
-
-  return <MDXContent components={MDXComponents as any} />;
+export function MDXRenderer({ source }: MDXRendererProps) {
+  return (
+    <MDXRemote
+      source={source}
+      components={MDXComponents as any}
+      options={{
+        mdxOptions: {
+          remarkPlugins: [],
+          rehypePlugins: [],
+        },
+      }}
+    />
+  );
 }

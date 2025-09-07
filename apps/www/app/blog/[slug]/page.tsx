@@ -101,6 +101,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
             </header>
 
             <div className="dark:prose-invert w-full prose-pre:overflow-x-auto ">
+              {/* @ts-ignore */}
               <MDXRenderer code={post.body.code} />
             </div>
 
