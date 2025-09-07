@@ -5,12 +5,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "contentlayer build && next build",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit",
-    "contentlayer": "contentlayer build || true"
+    "contentlayer": "contentlayer build"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
