@@ -34,7 +34,7 @@
     "node": ">=16.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.4",
+    "@modelcontextprotocol/sdk": "^1.17.5",
     "node-fetch": "^3.3.2",
     "zod": "^3.22.4"
   },
