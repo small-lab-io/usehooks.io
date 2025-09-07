@@ -1,0 +1,64 @@
+{
+  "claude_desktop_config": {
+    "description": "Configuration for Claude Desktop (~/.config/claude-desktop/claude_desktop_config.json)",
+    "config": {
+      "mcpServers": {
+        "usehooks": {
+          "command": "mcp-usehooks",
+          "args": []
+        }
+      }
+    }
+  },
+  "vscode_cline_extension": {
+    "description": "Configuration for VSCode Cline extension settings",
+    "config": {
+      "cline.mcpServers": {
+        "usehooks": {
+          "command": "mcp-usehooks",
+          "args": [],
+          "env": {}
+        }
+      }
+    }
+  },
+  "windsurf_ide": {
+    "description": "Configuration for Windsurf IDE MCP settings",
+    "config": {
+      "servers": {
+        "usehooks": {
+          "command": "mcp-usehooks",
+          "args": [],
+          "env": {},
+          "description": "React hooks from usehooks.io"
+        }
+      }
+    }
+  },
+  "local_development": {
+    "description": "Configuration for local development (using source code)",
+    "config": {
+      "usehooks": {
+        "command": "node",
+        "args": ["/path/to/usehooks.io/packages/usehooks-mcp/mcp_usehooks_server.js"],
+        "env": {
+          "DEBUG": "true"
+        }
+      }
+    }
+  },
+  "with_custom_options": {
+    "description": "Configuration with custom environment variables",
+    "config": {
+      "usehooks": {
+        "command": "mcp-usehooks",
+        "args": [],
+        "env": {
+          "DEBUG": "true",
+          "CACHE_TTL": "300",
+          "NODE_ENV": "development"
+        }
+      }
+    }
+  }
+}

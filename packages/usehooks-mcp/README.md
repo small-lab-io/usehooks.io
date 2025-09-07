@@ -14,6 +14,20 @@ A Model Context Protocol (MCP) server for accessing React hooks from usehooks.io
 
 ## Installation
 
+### Quick Install (Recommended)
+
+Use our installation scripts for an automated setup:
+
+**Linux/macOS:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/small-lab-io/usehooks.io/main/packages/usehooks-mcp/scripts/install.sh | bash
+```
+
+**Windows:**
+Download and run `scripts/install.bat` from the repository.
+
+### Manual Installation
+
 ```bash
 npm install -g mcp-usehooks
 ```
@@ -54,7 +68,9 @@ For development with auto-restart on file changes:
 npm run dev
 ```
 
-### Integration with Claude Desktop
+### Integration with IDEs
+
+#### Claude Desktop
 
 To use this MCP server with Claude Desktop:
 
@@ -65,6 +81,28 @@ To use this MCP server with Claude Desktop:
    - Command: `mcp-usehooks`
 
 Once connected, Claude will have access to the hooks through the MCP tools.
+
+#### VSCode and Windsurf IDE
+
+For detailed instructions on integrating with VSCode, Windsurf IDE, and other development environments, see the [IDE Integration Guide](./IDE_INTEGRATION.md).
+
+**Quick Setup for VSCode:**
+1. Install globally: `npm install -g mcp-usehooks`
+2. Install Claude Desktop or Cline extension
+3. Add MCP server configuration:
+   ```json
+   {
+     "usehooks": {
+       "command": "mcp-usehooks",
+       "args": []
+     }
+   }
+   ```
+
+**Quick Setup for Windsurf IDE:**
+1. Install globally: `npm install -g mcp-usehooks`
+2. Go to Settings → Extensions → MCP Servers
+3. Add new server with command: `mcp-usehooks`
 
 ## Available Tools
 
