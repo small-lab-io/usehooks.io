@@ -15,7 +15,7 @@ export default async function HooksPage() {
           enhance your development experience.
         </p>
 
-        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-2">
           {hooks.map((hook) => (
             <div
               className="container mx-auto py-4 sm:py-12 px-0 sm:px-4"
