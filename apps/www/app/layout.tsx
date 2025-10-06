@@ -17,6 +17,7 @@ import { getCliVersion } from "@/lib/get-cli-version";
 import { StructuredData } from "@/components/structured-data";
 import "@workspace/ui/globals.css";
 import { Toaster } from "@workspace/ui/components/sonner";
+import Script from "next/script";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -104,6 +105,12 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_AD_CLIENT_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
         <StructuredData type="website" />
       </head>
       <body
