@@ -1,3 +1,5 @@
+"use client";
+
 import Script from "next/script";
 import {
   Card,
@@ -8,7 +10,7 @@ import {
 
 export default function DocsAside() {
   return (
-    <aside className="sticky top-16 min-w-64 hidden lg:block p-2">
+    <aside className="sticky top-16 w-64 hidden lg:block p-2">
       <Card>
         <CardHeader>
           <CardTitle>Get Started</CardTitle>
@@ -29,6 +31,7 @@ export default function DocsAside() {
           </div>
         </CardContent>
       </Card>
+
       <div className="mt-4">
         <ins
           className="adsbygoogle"
@@ -37,7 +40,8 @@ export default function DocsAside() {
           data-ad-slot="9540285659"
           data-ad-format="auto"
           data-full-width-responsive="true"
-        />
+        ></ins>
+
         <Script
           id="adsense-docs-aside"
           strategy="afterInteractive"
