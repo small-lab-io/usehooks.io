@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import Script from "next/script";
 
 export default function HookAside() {
   return (
@@ -30,39 +31,24 @@ export default function HookAside() {
         </CardContent>
       </Card>
 
-      <Card className="mt-4">
-        <CardHeader>
-          <CardTitle>Popular Hooks</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2 text-sm">
-            <Link
-              href="/docs/use-local-storage"
-              className="block hover:text-blue-500"
-            >
-              useLocalStorage
-            </Link>
-            <Link
-              href="/docs/use-counter"
-              className="block hover:text-blue-500"
-            >
-              useCounter
-            </Link>
-            <Link href="/docs/use-toggle" className="block hover:text-blue-500">
-              useToggle
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="mt-4">
+        <ins
+          className="adsbygoogle"
+          style={{ display: "block", width: 240, height: 400 }}
+          data-ad-client="ca-pub-1640905025052378"
+          data-ad-slot="9540285659"
+          data-ad-format="auto"
+          data-full-width-responsive="true"
+        ></ins>
 
-      <Card className="mt-4">
-        <CardHeader>
-          <CardTitle>Need Help?</CardTitle>
-        </CardHeader>
-        <CardContent className="text-sm">
-          <p>Check out our examples and documentation for each hook.</p>
-        </CardContent>
-      </Card>
+        <Script
+          id="adsense-docs-aside"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: "(adsbygoogle = window.adsbygoogle || []).push({});",
+          }}
+        />
+      </div>
     </aside>
   );
 }

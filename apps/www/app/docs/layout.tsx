@@ -12,7 +12,7 @@ export default function DocsLayout({
     <div className="h-[calc(100vh-64px)] flex container mx-auto">
       <AppSidebar />
       <ScrollArea className="h-[calc(100vh-64px)] container">
-        <>{details}</>
+        {details}
       </ScrollArea>
       <div>{aside}</div>
     </div>
