@@ -10,7 +10,7 @@ export default function IntroductionPage() {
   return (
     <>
       <StructuredData type="website" />
-      <div className="pb-10 sm:pb-20 px-4 sm:px-20 w-full">
+      <div className="pb-10 sm:pb-20 px-4 sm:px-20 w-full space-y-10">
         <Breadcrumbs
           items={[
             { label: "Home", href: "/" },
