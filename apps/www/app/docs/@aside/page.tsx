@@ -35,7 +35,7 @@ export default function DocsAside() {
       <div className="mt-4">
         <ins
           className="adsbygoogle"
-          style={{ display: "block", width: 240, height: 400 }}
+          style={{ display: "block" }}
           data-ad-client="ca-pub-1640905025052378"
           data-ad-slot="9540285659"
           data-ad-format="auto"
