@@ -18,6 +18,7 @@ import { StructuredData } from "@/components/structured-data";
 import "@workspace/ui/globals.css";
 import { Toaster } from "@workspace/ui/components/sonner";
 import Script from "next/script";
+import { BuyMeACoffeeButton } from "@/components/buy-me-a-coffee";
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -166,6 +167,7 @@ export default async function RootLayout({ children }: Readonly<LayoutProps>) {
             </header>
             <main className="flex flex-1 flex-col h-screen">
               {children}
+              <BuyMeACoffeeButton />
               <Analytics />
               <Toaster />
             </main>
