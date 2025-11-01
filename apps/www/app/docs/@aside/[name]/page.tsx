@@ -1,11 +1,12 @@
-import Link from "next/link";
+"use client";
+
+import Script from "next/script";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
-import Script from "next/script";
 
 export default function HookAside() {
   return (
@@ -39,7 +40,7 @@ export default function HookAside() {
           data-ad-slot="9540285659"
           data-ad-format="auto"
           data-full-width-responsive="true"
-        ></ins>
+        />
 
         <Script
           id="adsense-docs-aside"

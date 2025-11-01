@@ -40,7 +40,7 @@ export default function DocsAside() {
           data-ad-slot="9540285659"
           data-ad-format="auto"
           data-full-width-responsive="true"
-        ></ins>
+        />
 
         <Script
           id="adsense-docs-aside"
