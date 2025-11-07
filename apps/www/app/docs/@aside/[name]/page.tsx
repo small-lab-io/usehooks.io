@@ -1,5 +1,3 @@
-"use client";
-
 import Script from "next/script";
 import {
   Card,
@@ -7,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import { AdsenseAd } from "@/components/adsense-ad";
 
 export default function HookAside() {
   return (
@@ -32,24 +31,7 @@ export default function HookAside() {
         </CardContent>
       </Card>
 
-      <div className="mt-4">
-        <ins
-          className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-1640905025052378"
-          data-ad-slot="9540285659"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-
-        <Script
-          id="adsense-docs-aside"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: "(adsbygoogle = window.adsbygoogle || []).push({});",
-          }}
-        />
-      </div>
+      <AdsenseAd adSlot="9540285659" className="mt-4" />
     </aside>
   );
 }
