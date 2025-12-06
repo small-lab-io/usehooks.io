@@ -2,6 +2,7 @@ import { withContentlayer } from "next-contentlayer";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  turbopack: {},
   transpilePackages: ["@workspace/ui"],
 
   // SEO optimizations
