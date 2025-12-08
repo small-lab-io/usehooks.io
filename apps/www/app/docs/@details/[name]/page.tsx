@@ -191,7 +191,7 @@ export default async function HookPage({
           <div className="relative">
             <Terminal>npx usehooks-cli@latest add {hook.name}</Terminal>
             <CopyToClipboard
-              text={`npx usehooks-cli@latest add ${hook.title}`}
+              text={`npx usehooks-cli@latest add ${hook.name}`}
               className="absolute top-2 right-2"
             />
           </div>
