@@ -1,5 +1,11 @@
 # usehooks-cli
 
+## 5.0.0
+
+### Major Changes
+
+- fix bluetooth
+
 ## 4.1.2
 
 ### Patch Changes
