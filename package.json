@@ -22,5 +22,10 @@
   "packageManager": "pnpm@10.24.0",
   "engines": {
     "node": ">=20"
+  },
+  "pnpm": {
+    "overrides": {
+      "remark-gfm": "3.0.1"
+    }
   }
 }

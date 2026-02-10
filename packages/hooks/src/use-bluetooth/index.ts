@@ -2,32 +2,12 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 
-// Extend Navigator interface for Web Bluetooth API
-declare global {
-  interface Navigator {
-    bluetooth?: {
-      requestDevice(options: BluetoothRequestDeviceOptions): Promise<{
-        id: string;
-        name: string | undefined;
-        gatt?: {
-          connect(): Promise<any>;
-          connected: boolean;
-        };
-        addEventListener(
-          type: string,
-          listener: EventListener,
-          options?: boolean | AddEventListenerOptions
-        ): void;
-      }>;
-      getAvailability(): Promise<boolean>;
-    };
-  }
-}
+type BluetoothServiceUUID = number | string;
 
-interface BluetoothRequestDeviceOptions {
-  filters?: BluetoothLEScanFilter[];
-  optionalServices?: BluetoothServiceUUID[];
-  acceptAllDevices?: boolean;
+interface BluetoothManufacturerDataFilter {
+  companyIdentifier: number;
+  dataPrefix?: BufferSource;
+  mask?: BufferSource;
 }
 
 interface BluetoothLEScanFilter {
@@ -37,13 +17,69 @@ interface BluetoothLEScanFilter {
   manufacturerData?: BluetoothManufacturerDataFilter[];
 }
 
-interface BluetoothManufacturerDataFilter {
-  companyIdentifier: number;
-  dataPrefix?: BufferSource;
-  mask?: BufferSource;
+type BluetoothRequestDeviceOptions =
+  | {
+      filters: BluetoothLEScanFilter[];
+      optionalServices?: BluetoothServiceUUID[];
+      acceptAllDevices?: false;
+    }
+  | {
+      acceptAllDevices: boolean;
+      optionalServices?: BluetoothServiceUUID[];
+      filters?: undefined;
+    };
+
+interface BluetoothRemoteGATTCharacteristic {
+  value?: DataView | null;
+  readValue(): Promise<DataView>;
+  writeValue(value: BufferSource): Promise<void>;
+  startNotifications(): Promise<BluetoothRemoteGATTCharacteristic>;
+  stopNotifications(): Promise<BluetoothRemoteGATTCharacteristic>;
+  addEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions
+  ): void;
 }
 
-type BluetoothServiceUUID = number | string;
+interface BluetoothRemoteGATTService {
+  getCharacteristic(
+    characteristicUuid: BluetoothServiceUUID
+  ): Promise<BluetoothRemoteGATTCharacteristic>;
+}
+
+interface BluetoothRemoteGATTServer {
+  connected: boolean;
+  disconnect(): void;
+  getPrimaryService(
+    serviceUuid: BluetoothServiceUUID
+  ): Promise<BluetoothRemoteGATTService>;
+}
+
+interface BluetoothRemoteGATT {
+  connected: boolean;
+  connect(): Promise<BluetoothRemoteGATTServer>;
+}
+
+interface BluetoothDevice {
+  id: string;
+  name?: string;
+  gatt?: BluetoothRemoteGATT;
+  addEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions
+  ): void;
+}
+
+interface BluetoothAPI {
+  requestDevice(options: BluetoothRequestDeviceOptions): Promise<BluetoothDevice>;
+  getAvailability?(): Promise<boolean>;
+}
+
+type NavigatorWithBluetooth = Navigator & {
+  bluetooth?: BluetoothAPI;
+};
 
 interface BluetoothDeviceInfo {
   id: string;
@@ -96,30 +132,25 @@ export const useBluetooth = (
   const [isConnecting, setIsConnecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const deviceRef = useRef<{
-    id: string;
-    name: string | undefined;
-    gatt?: {
-      connect(): Promise<any>;
-      connected: boolean;
-    };
-    addEventListener(
-      type: string,
-      listener: EventListener,
-      options?: boolean | AddEventListenerOptions
-    ): void;
-  } | null>(null);
-  const serverRef = useRef<any | null>(null);
-  const characteristicsRef = useRef<Map<string, any>>(new Map());
+  const deviceRef = useRef<BluetoothDevice | null>(null);
+  const serverRef = useRef<BluetoothRemoteGATTServer | null>(null);
+  const characteristicsRef =
+    useRef<Map<string, BluetoothRemoteGATTCharacteristic>>(new Map());
 
   // Check if Web Bluetooth API is supported
   const isSupported =
-    typeof navigator !== "undefined" && "bluetooth" in navigator;
+    typeof navigator !== "undefined" &&
+    typeof (navigator as NavigatorWithBluetooth).bluetooth !== "undefined";
 
   // Check Bluetooth availability
   useEffect(() => {
-    if (isSupported && navigator.bluetooth?.getAvailability) {
-      navigator.bluetooth
+    const bluetooth =
+      typeof navigator === "undefined"
+        ? undefined
+        : (navigator as NavigatorWithBluetooth).bluetooth;
+
+    if (isSupported && bluetooth?.getAvailability) {
+      bluetooth
         .getAvailability()
         .then(setIsAvailable)
         .catch(() => setIsAvailable(false));
@@ -133,31 +164,37 @@ export const useBluetooth = (
     async (
       requestOptions?: BluetoothRequestDeviceOptions
     ): Promise<BluetoothDeviceInfo | null> => {
-      if (!isSupported || !navigator.bluetooth) {
+      if (!isSupported) {
+        setError("Web Bluetooth API is not supported");
+        return null;
+      }
+
+      const bluetooth = (navigator as NavigatorWithBluetooth).bluetooth;
+      if (!bluetooth) {
         setError("Web Bluetooth API is not supported");
         return null;
       }
 
       try {
         setError(null);
-        const deviceOptions = requestOptions || {
-          filters: options.filters,
-          optionalServices: options.optionalServices,
-          acceptAllDevices: options.acceptAllDevices,
-        };
+        const deviceOptions: BluetoothRequestDeviceOptions = requestOptions
+          ? requestOptions
+          : options.filters && options.filters.length > 0
+            ? {
+                filters: options.filters,
+                optionalServices: options.optionalServices,
+              }
+            : {
+                acceptAllDevices: options.acceptAllDevices ?? true,
+                optionalServices: options.optionalServices,
+              };
 
-        // Ensure we have either filters or acceptAllDevices
-        if (!deviceOptions.filters && !deviceOptions.acceptAllDevices) {
-          deviceOptions.acceptAllDevices = true;
-        }
-
-        const bluetoothDevice =
-          await navigator.bluetooth.requestDevice(deviceOptions);
+        const bluetoothDevice = await bluetooth.requestDevice(deviceOptions);
 
         deviceRef.current = bluetoothDevice;
         const deviceInfo: BluetoothDeviceInfo = {
           id: bluetoothDevice.id,
-          name: bluetoothDevice.name,
+          name: bluetoothDevice.name ?? undefined,
           connected: bluetoothDevice.gatt?.connected || false,
         };
 
@@ -226,7 +263,7 @@ export const useBluetooth = (
     async (
       serviceUuid: BluetoothServiceUUID,
       characteristicUuid: BluetoothServiceUUID
-    ): Promise<any | null> => {
+    ): Promise<BluetoothRemoteGATTCharacteristic | null> => {
       if (!serverRef.current) {
         setError("Not connected to device");
         return null;
@@ -325,8 +362,8 @@ export const useBluetooth = (
         await characteristic.startNotifications();
 
         const handleNotification = (event: Event) => {
-          const target = event.target as { value?: DataView };
-          if (target.value) {
+          const target = event.target as BluetoothRemoteGATTCharacteristic | null;
+          if (target?.value) {
             callback(target.value);
           }
         };
