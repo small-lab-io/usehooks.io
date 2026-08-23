@@ -33,6 +33,13 @@ declare global {
   }
 }
 
+// Check if DeviceOrientationEvent is supported
+export const isDeviceOrientationSupported = 
+  typeof globalThis !== 'undefined' && 'DeviceOrientationEvent' in globalThis;
+
+// Backwards-compatible alias used internally (keeps existing name)
+const isSupported = isDeviceOrientationSupported;
+
 export const useDeviceOrientation = (
   options: UseDeviceOrientationOptions = {}
 ): UseDeviceOrientationReturn => {
@@ -41,10 +48,6 @@ export const useDeviceOrientation = (
   );
   const [isListening, setIsListening] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Check if DeviceOrientationEvent is supported
-  const isSupported =
-    typeof window !== "undefined" && "DeviceOrientationEvent" in window;
 
   // Handle orientation change
   const handleOrientationChange = useCallback(
@@ -95,7 +98,7 @@ export const useDeviceOrientation = (
       setError(errorMessage);
       return false;
     }
-  }, [isSupported]);
+  }, []);
 
   // Start listening to orientation changes
   const startListening = useCallback(() => {
@@ -114,7 +117,7 @@ export const useDeviceOrientation = (
         err instanceof Error ? err.message : "Failed to start listening";
       setError(errorMessage);
     }
-  }, [isSupported, isListening, handleOrientationChange]);
+  }, [isListening, handleOrientationChange]);
 
   // Stop listening to orientation changes
   const stopListening = useCallback(() => {
@@ -133,7 +136,7 @@ export const useDeviceOrientation = (
         err instanceof Error ? err.message : "Failed to stop listening";
       setError(errorMessage);
     }
-  }, [isSupported, isListening, handleOrientationChange]);
+  }, [isListening, handleOrientationChange]);
 
   // Auto-start listening if absolute option is provided
   useEffect(() => {
@@ -153,7 +156,7 @@ export const useDeviceOrientation = (
         stopListening();
       }
     };
-  }, [options.absolute, isSupported, stopListening, isListening, requestPermission, startListening]);
+  }, [options.absolute, stopListening, isListening, requestPermission, startListening]);
 
   // Cleanup on unmount
   useEffect(() => {
