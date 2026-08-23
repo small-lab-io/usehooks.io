@@ -34,8 +34,11 @@ declare global {
 }
 
 // Check if DeviceOrientationEvent is supported
-const isSupported =
-  typeof window !== "undefined" && "DeviceOrientationEvent" in window;
+export const isDeviceOrientationSupported = 
+  typeof globalThis !== 'undefined' && 'DeviceOrientationEvent' in globalThis;
+
+// Backwards-compatible alias used internally (keeps existing name)
+const isSupported = isDeviceOrientationSupported;
 
 export const useDeviceOrientation = (
   options: UseDeviceOrientationOptions = {}
